@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.env
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (large files)
+*.csv.gz
+*.parquet
+*.h5
+*.hdf5
+
+# Models (large files)
+*.pkl
+*.joblib
+*.h5
+*.pb
+*.pt
+*.pth
+
+# Secrets
+.env
+*.key
+credentials.json
+
+# Streamlit
+.streamlit/secrets.toml
