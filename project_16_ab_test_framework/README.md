@@ -198,5 +198,5 @@ Built as part of the [Calgary Data Portfolio](https://guydev42.github.io/calgary
 <div align="center">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer" width="100%"/>
 
-**[Ola G](https://github.com/guydev42)**
+**[Ola K.](https://github.com/guydev42)**
 </div>
