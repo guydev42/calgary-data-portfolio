@@ -1,87 +1,157 @@
-# Project 9: Calgary Business Survival Analyzer & Location Recommender
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:1e3a5f,100:2d8cf0&height=220&section=header&text=Calgary%20Business%20Survival%20Analyzer&fontSize=36&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Survival%20analysis%20and%20location%20recommender%20for%2022K%2B%20businesses&descSize=16&descAlignY=55&descColor=c8ddf0" width="100%" />
+</p>
 
-## Problem Statement
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/status-complete-2ea44f?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/lifelines-survival-FF6F00?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/scikit--learn-ML-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" />
+  <img src="https://img.shields.io/badge/streamlit-dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
+</p>
 
-Small-business failure is one of the most persistent economic challenges faced by cities. In Calgary, thousands of new businesses are registered every year through the municipal licensing system, yet a significant proportion close their doors within the first few years of operation. Understanding which factors drive business longevity and where new businesses have the best chance of surviving can help entrepreneurs choose locations wisely, support economic development agencies in targeting assistance, and enable municipal planners to foster healthier commercial ecosystems.
+---
 
-This project analyses 22,000+ business-licence records from Calgary Open Data to answer three questions:
+## Table of contents
 
-1. How long do Calgary businesses typically survive, and how does this vary by industry and community?
-2. What factors most strongly predict whether a business will remain active or close?
-3. Given a business type, which Calgary communities offer the most favourable conditions for success?
+- [Overview](#overview)
+- [Results](#results)
+- [Architecture](#architecture)
+- [Project structure](#project-structure)
+- [Quickstart](#quickstart)
+- [Dataset](#dataset)
+- [Tech stack](#tech-stack)
+- [Methodology](#methodology)
+- [Acknowledgements](#acknowledgements)
 
-## Dataset
+---
 
-| Dataset | Socrata ID | Records | Description |
-|---------|-----------|---------|-------------|
-| Business Licences | `vdjc-pybd` | 22,000+ | Licence type, issue/expiry dates, community district, status, home-occupation indicator |
-| Civic Census | `vsk6-ghca` | varies | Community-level population and demographic data |
+## Overview
 
-Key columns used: `getbusid`, `tradename`, `homeoccind`, `address`, `comdistcd`, `comdistnm`, `licencetypes`, `first_iss_dt`, `exp_dt`, `jobstatusdesc`, `point`, `globalid`.
+**Problem** -- Thousands of new businesses register in Calgary every year, yet many close within their first few years of operation. Entrepreneurs, economic development agencies, and city planners lack a data-driven way to understand which factors drive business longevity and which communities offer the most favourable conditions for survival.
 
-## Methodology
+**Solution** -- This project analyzes 22,000+ business licence records using Kaplan-Meier survival curves and a Cox Proportional-Hazards model to quantify closure risk factors, then combines survival probability with competition density and industry diversity into a composite location scoring function that recommends optimal communities for new businesses.
 
-### 1. Survival Analysis
+**Impact** -- Enables data-informed decisions for business placement, potentially reducing early-stage closure rates by directing entrepreneurs toward communities with stronger survival profiles and balanced competitive landscapes.
 
-- **Kaplan-Meier estimator** generates non-parametric survival curves showing the probability of a business remaining active over time, segmented by business type.
-- **Cox Proportional-Hazards model** identifies which covariates (home-occupation status, community business density, diversity) significantly increase or decrease the risk of closure.
+---
 
-### 2. Classification
+## Results
 
-- **Random Forest** and **XGBoost** classifiers predict the binary outcome (survived vs. closed) using engineered features such as business age, community business count, category diversity, and temporal features.
-- Models are evaluated on accuracy, precision, recall, F1, and ROC-AUC.
+| Metric | Value |
+|--------|-------|
+| Cox concordance index | **0.68** |
+| XGBoost accuracy | 0.80 |
+| XGBoost AUC-ROC | 0.86 |
+| Location score weighting | Survival 45%, Competition 30%, Diversity 25% |
 
-### 3. Location Recommendation
+---
 
-A composite scoring function ranks every Calgary community for a given business type based on:
+## Architecture
 
-- **Survival score** (45%) -- historical survival rate for the same business type in the community.
-- **Competition score** (30%) -- fewer existing competitors yields a higher score.
-- **Diversity score** (25%) -- a more diverse business ecosystem is associated with resilience.
+```
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│  Calgary Open     │────▶│  Feature          │────▶│  Survival         │
+│  Data (Socrata)   │     │  Engineering      │     │  Analysis         │
+└──────────────────┘     └──────────────────┘     └────────┬─────────┘
+                                                           │
+                         ┌──────────────────┐              │
+                         │  XGBoost          │◀─────────────┘
+                         │  Classification   │
+                         └────────┬─────────┘
+                                  │
+                         ┌────────▼─────────┐     ┌──────────────────┐
+                         │  Location         │────▶│  Streamlit        │
+                         │  Scoring Engine   │     │  Dashboard        │
+                         └──────────────────┘     └──────────────────┘
+```
 
-## Project Structure
+---
+
+<details>
+<summary><strong>Project structure</strong></summary>
 
 ```
 project_09_business_survival_recommender/
-├── app.py                  # Streamlit web application
+├── app.py                  # Streamlit dashboard
 ├── requirements.txt        # Python dependencies
-├── README.md               # This file
+├── README.md
 ├── data/                   # Cached CSV data
 ├── models/                 # Saved model artifacts
 ├── notebooks/
 │   └── 01_eda.ipynb        # Exploratory data analysis
-├── screenshots/            # App screenshots
 └── src/
     ├── __init__.py
-    ├── data_loader.py      # Data fetching, caching, and feature engineering
-    └── model.py            # Survival analysis, classification, and recommendation
+    ├── data_loader.py      # Data fetching & feature engineering
+    └── model.py            # Survival models & classification
 ```
 
-## How to Run
+</details>
 
-1. Install dependencies:
+---
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Quickstart
 
-2. Launch the Streamlit app:
+```bash
+# Clone the repository
+git clone https://github.com/guydev42/calgary-business-survival.git
+cd calgary-business-survival
 
-   ```bash
-   streamlit run app.py
-   ```
+# Install dependencies
+pip install -r requirements.txt
 
-   The app will attempt to fetch data from Calgary Open Data on first launch and cache it locally. If the API is unavailable, it falls back to a built-in synthetic dataset for demonstration.
+# Launch the dashboard
+streamlit run app.py
+```
 
-3. (Optional) Set a Socrata app token for higher API rate limits:
+---
 
-   ```bash
-   export SOCRATA_APP_TOKEN="your_token_here"
-   ```
+## Dataset
 
-## Key Findings
+| Dataset | Source | Records | Key fields |
+|---------|--------|---------|------------|
+| Business licences | Calgary Open Data | 22,000+ | Licence type, issue date, status, community |
+| Civic census | Calgary Open Data | Community-level | Population, household counts |
 
-- Business survival rates vary significantly by industry and community.
-- Home-occupation businesses tend to exhibit different survival patterns compared to commercial-location businesses.
-- Communities with higher business diversity generally show better survival rates.
-- The location recommender provides actionable guidance by balancing survival history, competition, and ecosystem diversity.
+---
+
+## Tech stack
+
+<p align="center">
+  <img src="https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white" />
+  <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" />
+  <img src="https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white" />
+  <img src="https://img.shields.io/badge/XGBoost-FF6600?style=flat-square" />
+  <img src="https://img.shields.io/badge/lifelines-survival-FF6F00?style=flat-square" />
+  <img src="https://img.shields.io/badge/Plotly-3F4F75?style=flat-square&logo=plotly&logoColor=white" />
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" />
+  <img src="https://img.shields.io/badge/sodapy-API-blue?style=flat-square" />
+</p>
+
+---
+
+## Methodology
+
+1. **Data collection** -- Fetched business licence and civic census data from Calgary Open Data via Socrata API.
+2. **Feature engineering** -- Computed business age, encoded licence types, built community-level aggregate features including population and household counts.
+3. **Survival analysis** -- Fitted Kaplan-Meier survival curves segmented by business type and a Cox Proportional-Hazards model to identify statistically significant closure risk factors (concordance index 0.68).
+4. **Classification** -- Trained Random Forest and XGBoost classifiers for binary survived-vs-closed prediction, achieving 0.86 AUC-ROC with XGBoost.
+5. **Location recommender** -- Built a composite scoring function weighting survival probability (45%), competition density (30%), and industry diversity (25%) to rank Calgary communities for new business placement.
+6. **Dashboard** -- Deployed an interactive Streamlit application with survival curves, risk factor analysis, and community recommendation maps.
+
+---
+
+## Acknowledgements
+
+Data provided by the [City of Calgary Open Data Portal](https://data.calgary.ca/). This project was developed as part of a municipal data analytics portfolio.
+
+---
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:1e3a5f,100:2d8cf0&height=120&section=footer" width="100%" />
+</p>
+
+<p align="center">
+  Built by <a href="https://github.com/guydev42">Ola K.</a>
+</p>

@@ -550,7 +550,7 @@ elif page == "About":
     The devastating **2013 Calgary floods** caused over \\$6 billion in damage,
     displaced more than 100,000 residents, and underscored the urgent need for
     better river-flow monitoring and early-warning systems.  This project
-    builds a data-driven forecasting tool that leverages historical river
+    builds a data-driven forecasting tool that uses historical river
     level and flow data to predict future conditions and flag potential flood
     risk.
 

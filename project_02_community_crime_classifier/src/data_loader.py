@@ -1,9 +1,12 @@
 """Data loading and preprocessing for Calgary Community Crime Statistics."""
 
 import os
+import logging
 import pandas as pd
 import numpy as np
 from sodapy import Socrata
+
+logger = logging.getLogger(__name__)
 
 DOMAIN = "data.calgary.ca"
 CRIME_DATASET_ID = "78gh-n26t"
@@ -12,41 +15,75 @@ CENSUS_DATASET_ID = "vsk6-ghca"
 
 def fetch_crime_data(limit=100000):
     """Fetch community crime statistics from Calgary Open Data API."""
-    client = Socrata(DOMAIN, None)
-    results = client.get(CRIME_DATASET_ID, limit=limit)
-    client.close()
-    return pd.DataFrame.from_records(results)
+    logger.info("Fetching crime data from Socrata API (dataset %s)...", CRIME_DATASET_ID)
+    try:
+        client = Socrata(DOMAIN, None, timeout=60)
+        results = client.get(CRIME_DATASET_ID, limit=limit)
+        client.close()
+        logger.info("Fetched %d crime records from API.", len(results))
+        return pd.DataFrame.from_records(results)
+    except Exception as exc:
+        logger.error("Failed to fetch crime data from Socrata API: %s", exc)
+        raise
 
 
 def fetch_census_data(limit=100000):
     """Fetch civic census demographics data."""
-    client = Socrata(DOMAIN, None)
-    results = client.get(CENSUS_DATASET_ID, limit=limit)
-    client.close()
-    return pd.DataFrame.from_records(results)
+    logger.info("Fetching census data from Socrata API (dataset %s)...", CENSUS_DATASET_ID)
+    try:
+        client = Socrata(DOMAIN, None, timeout=60)
+        results = client.get(CENSUS_DATASET_ID, limit=limit)
+        client.close()
+        logger.info("Fetched %d census records from API.", len(results))
+        return pd.DataFrame.from_records(results)
+    except Exception as exc:
+        logger.error("Failed to fetch census data from Socrata API: %s", exc)
+        raise
 
 
-def load_or_fetch_crime_data(data_dir, limit=100000):
+def load_or_fetch_crime_data(data_dir, limit=100000, force_refresh=False):
     """Load crime data from local CSV or fetch from API."""
     csv_path = os.path.join(data_dir, "crime_statistics.csv")
-    if os.path.exists(csv_path):
+    if os.path.exists(csv_path) and not force_refresh:
+        logger.info("Loading cached crime data from %s", csv_path)
         df = pd.read_csv(csv_path, low_memory=False)
-    else:
+        logger.info("Loaded %d records from cache.", len(df))
+        return df
+
+    try:
         df = fetch_crime_data(limit=limit)
         os.makedirs(data_dir, exist_ok=True)
         df.to_csv(csv_path, index=False)
+        logger.info("Cached %d crime records to %s", len(df), csv_path)
+    except Exception as exc:
+        logger.error("API fetch failed: %s", exc)
+        if os.path.exists(csv_path):
+            logger.warning("Falling back to cached crime data.")
+            return pd.read_csv(csv_path, low_memory=False)
+        raise
     return df
 
 
-def load_or_fetch_census_data(data_dir, limit=100000):
+def load_or_fetch_census_data(data_dir, limit=100000, force_refresh=False):
     """Load census data from local CSV or fetch from API."""
     csv_path = os.path.join(data_dir, "census_demographics.csv")
-    if os.path.exists(csv_path):
+    if os.path.exists(csv_path) and not force_refresh:
+        logger.info("Loading cached census data from %s", csv_path)
         df = pd.read_csv(csv_path, low_memory=False)
-    else:
+        logger.info("Loaded %d records from cache.", len(df))
+        return df
+
+    try:
         df = fetch_census_data(limit=limit)
         os.makedirs(data_dir, exist_ok=True)
         df.to_csv(csv_path, index=False)
+        logger.info("Cached %d census records to %s", len(df), csv_path)
+    except Exception as exc:
+        logger.error("API fetch failed: %s", exc)
+        if os.path.exists(csv_path):
+            logger.warning("Falling back to cached census data.")
+            return pd.read_csv(csv_path, low_memory=False)
+        raise
     return df
 
 

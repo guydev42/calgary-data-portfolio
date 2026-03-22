@@ -1,0 +1,38 @@
+How to Deploy the Hugo Portfolio to GitHub Pages
+=================================================
+
+Prerequisites:
+- Git installed
+- A GitHub account (guydev42)
+- The repository: https://github.com/guydev42/calgary-data-portfolio
+
+Steps:
+
+1. INITIALIZE GIT (if not already done)
+   cd calgary-data-portfolio
+   git init
+   git remote add origin https://github.com/guydev42/calgary-data-portfolio.git
+
+2. ENABLE GITHUB PAGES IN REPO SETTINGS
+   - Go to https://github.com/guydev42/calgary-data-portfolio/settings/pages
+   - Under "Build and deployment" > "Source", select "GitHub Actions"
+   - Click Save
+
+3. COMMIT AND PUSH ALL FILES
+   git add .
+   git commit -m "Add Hugo portfolio site"
+   git push -u origin master
+
+4. WAIT FOR DEPLOYMENT
+   - The push triggers the GitHub Actions workflow (.github/workflows/hugo.yml)
+   - Go to https://github.com/guydev42/calgary-data-portfolio/actions to monitor progress
+   - The workflow installs Hugo, builds the site, and deploys to GitHub Pages
+   - First deployment takes about 1-2 minutes
+
+5. VIEW YOUR LIVE SITE
+   https://guydev42.github.io/calgary-data-portfolio/
+
+Troubleshooting:
+- If the workflow fails, check the Actions tab for error logs
+- Make sure the branch name in hugo.yml matches your default branch (master)
+- If you use "main" instead of "master", edit .github/workflows/hugo.yml and change "master" to "main"

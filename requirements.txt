@@ -36,3 +36,9 @@ openpyxl>=3.1.0
 
 # Survival Analysis (Project 9)
 lifelines>=0.27.0
+
+# Explainability (Project 12)
+shap>=0.43.0
+
+# Network Analysis (Project 13)
+networkx>=3.0

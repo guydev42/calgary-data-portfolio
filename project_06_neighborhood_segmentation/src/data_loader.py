@@ -86,7 +86,7 @@ def _fetch_dataset(resource_id: str, limit: int = 50000) -> pd.DataFrame:
     pd.DataFrame
         Raw dataframe returned by the API.
     """
-    client = Socrata(DOMAIN, app_token=None)
+    client = Socrata(DOMAIN, app_token=None, timeout=60)
     results = client.get(resource_id, limit=limit)
     client.close()
     return pd.DataFrame.from_records(results)
@@ -115,11 +115,18 @@ def fetch_and_cache(name: str, force_refresh: bool = False) -> pd.DataFrame:
         return pd.read_csv(filepath)
 
     logger.info("Fetching %s (resource %s) from API ...", name, meta["resource_id"])
-    df = _fetch_dataset(meta["resource_id"], limit=meta["limit"])
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    df.to_csv(filepath, index=False)
-    logger.info("Saved %s (%d rows) to %s", name, len(df), filepath)
-    return df
+    try:
+        df = _fetch_dataset(meta["resource_id"], limit=meta["limit"])
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        df.to_csv(filepath, index=False)
+        logger.info("Fetched and cached %s (%d rows) to %s", name, len(df), filepath)
+        return df
+    except Exception as exc:
+        logger.error("Failed to fetch %s from Socrata API: %s", name, exc)
+        if filepath.exists():
+            logger.warning("Falling back to cached %s data.", name)
+            return pd.read_csv(filepath)
+        raise
 
 
 def load_all_datasets(force_refresh: bool = False) -> dict:
@@ -384,22 +391,30 @@ def build_feature_matrix(
         if col not in merged.columns:
             merged[col] = np.nan
 
+    # Remove any duplicate column names that may arise from outer merges
+    merged = merged.loc[:, ~merged.columns.duplicated()]
+
     # Keep only communities that have a non-null name
     merged = merged.dropna(subset=["community"])
     merged = merged[merged["community"] != ""]
     merged = merged.drop_duplicates(subset=["community"]).reset_index(drop=True)
 
     # ---- Imputation (median) ------------------------------------------------
-    imputer = SimpleImputer(strategy="median")
+    # keep_empty_features=True prevents dropping all-NaN columns so the
+    # output always has the same number of columns as FEATURE_COLUMNS.
+    imputer = SimpleImputer(strategy="median", keep_empty_features=True)
     feature_vals = imputer.fit_transform(merged[FEATURE_COLUMNS])
     raw_df = merged[["community"]].copy()
-    raw_df[FEATURE_COLUMNS] = feature_vals
+    # Assign each column individually to avoid shape mismatches
+    for i, col in enumerate(FEATURE_COLUMNS):
+        raw_df[col] = feature_vals[:, i]
 
     # ---- Standardisation -----------------------------------------------------
     scaler = StandardScaler()
     scaled_vals = scaler.fit_transform(raw_df[FEATURE_COLUMNS])
     scaled_df = raw_df[["community"]].copy()
-    scaled_df[FEATURE_COLUMNS] = scaled_vals
+    for i, col in enumerate(FEATURE_COLUMNS):
+        scaled_df[col] = scaled_vals[:, i]
 
     # Persist the ready-to-use matrix
     output_path = DATA_DIR / "community_feature_matrix.csv"

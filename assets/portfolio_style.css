@@ -1,0 +1,316 @@
+/* ── Portfolio Index App – Custom Styles ───────────────────────────────────── */
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 3rem 2rem;
+    border-radius: 1rem;
+    color: white;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.hero-section h1 {
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.hero-section p {
+    font-size: 1.15rem;
+    opacity: 0.92;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* KPI metric cards */
+.kpi-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1.2rem 1rem;
+    border-radius: 0.8rem;
+    color: white;
+    text-align: center;
+}
+.kpi-card .kpi-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.kpi-card .kpi-label {
+    font-size: 0.85rem;
+    opacity: 0.88;
+    margin-top: 0.25rem;
+}
+
+/* Project cards */
+.project-card {
+    background: #ffffff;
+    border: 1px solid #e8ecf1;
+    border-radius: 0.75rem;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.18);
+}
+.project-card .project-number {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+.project-card h3 {
+    display: inline;
+    font-size: 1.15rem;
+    color: #1E3A5F;
+    vertical-align: middle;
+}
+.project-card .tagline {
+    color: #6B7B8D;
+    font-size: 0.9rem;
+    margin: 0.5rem 0 0.75rem 0;
+}
+.project-card .dataset-info {
+    font-size: 0.8rem;
+    color: #6B7B8D;
+    margin-top: 0.5rem;
+}
+
+/* Category badges (coloured pills) */
+.category-badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    margin-right: 0.35rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Tech stack pills */
+.tech-pill {
+    display: inline-block;
+    background: #f0f2f6;
+    color: #1E3A5F;
+    padding: 0.18rem 0.55rem;
+    border-radius: 0.8rem;
+    font-size: 0.72rem;
+    margin-right: 0.3rem;
+    margin-bottom: 0.25rem;
+    border: 1px solid #e0e3e8;
+}
+
+/* Skill badges */
+.skill-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.3rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin: 0.2rem;
+}
+
+/* Section headers */
+.section-header {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1E3A5F;
+    margin-bottom: 0.3rem;
+}
+.section-sub {
+    font-size: 1rem;
+    color: #6B7B8D;
+    margin-bottom: 1.5rem;
+}
+
+/* Featured project card (larger, for Home page) */
+.featured-card {
+    background: #ffffff;
+    border: 1px solid #e8ecf1;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    height: 100%;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.featured-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.18);
+}
+.featured-card h4 {
+    color: #1E3A5F;
+    margin-bottom: 0.4rem;
+}
+.featured-card p {
+    color: #6B7B8D;
+    font-size: 0.88rem;
+}
+
+/* Tools grid card */
+.tool-card {
+    background: #f8f9fc;
+    border: 1px solid #e8ecf1;
+    border-radius: 0.6rem;
+    padding: 1rem;
+    text-align: center;
+}
+.tool-card h4 {
+    color: #1E3A5F;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+}
+.tool-card p {
+    color: #6B7B8D;
+    font-size: 0.82rem;
+    margin: 0;
+}
+
+/* Domain card */
+.domain-card {
+    background: #ffffff;
+    border: 1px solid #e8ecf1;
+    border-radius: 0.6rem;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.6rem;
+}
+.domain-card .domain-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+.domain-card .domain-name {
+    font-weight: 600;
+    color: #1E3A5F;
+    vertical-align: middle;
+}
+.domain-card .domain-projects {
+    color: #6B7B8D;
+    font-size: 0.82rem;
+    margin-top: 0.25rem;
+}
+
+/* Quick-nav category buttons */
+.cat-nav {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border-radius: 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: white;
+    margin: 0.2rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Tech ribbon */
+.tech-ribbon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 1rem 0;
+}
+.tech-ribbon-item {
+    background: #f0f2f6;
+    border: 1px solid #e0e3e8;
+    border-radius: 0.6rem;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.82rem;
+    color: #1E3A5F;
+    font-weight: 500;
+}
+
+/* Detail page info table */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.info-table td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #f0f2f6;
+    font-size: 0.9rem;
+}
+.info-table td:first-child {
+    font-weight: 600;
+    color: #1E3A5F;
+    width: 35%;
+}
+.info-table td:last-child {
+    color: #6B7B8D;
+}
+
+/* Link buttons */
+.link-btn {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: opacity 0.15s ease;
+}
+.link-btn:hover {
+    opacity: 0.88;
+}
+.link-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+.link-btn-secondary {
+    background: #f0f2f6;
+    color: #1E3A5F;
+    border: 1px solid #e0e3e8;
+}
+.link-btn-disabled {
+    background: #e9ecef;
+    color: #adb5bd;
+    cursor: not-allowed;
+}
+
+/* Methodology list */
+.method-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.method-list li {
+    padding: 0.4rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #4a5568;
+    font-size: 0.9rem;
+}
+.method-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.65rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Page list */
+.page-chip {
+    display: inline-block;
+    background: #f0f2f6;
+    color: #1E3A5F;
+    padding: 0.25rem 0.7rem;
+    border-radius: 0.5rem;
+    font-size: 0.78rem;
+    margin: 0.15rem;
+    border: 1px solid #e0e3e8;
+}

@@ -77,20 +77,24 @@ def fetch_data(use_cache: bool = True, limit: int = TOTAL_RECORDS + 5000) -> pd.
 
     logger.info("Fetching data from Calgary Open Data (dataset %s)...", DATASET_ID)
     try:
-        client = Socrata(DOMAIN, None)
+        client = Socrata(DOMAIN, None, timeout=60)
         results = client.get(DATASET_ID, limit=limit)
         client.close()
+
+        df = pd.DataFrame.from_records(results)
+        logger.info("Fetched %d records from the API.", len(df))
+
+        # Save to cache
+        df.to_csv(CACHE_FILE, index=False)
+        logger.info("Cached raw data to %s", CACHE_FILE)
     except Exception as exc:
+        logger.error("Failed to fetch data from Socrata API: %s", exc)
+        if CACHE_FILE.exists():
+            logger.warning("Falling back to cached data.")
+            return pd.read_csv(CACHE_FILE)
         raise RuntimeError(
             f"Failed to fetch data from Socrata API: {exc}"
         ) from exc
-
-    df = pd.DataFrame.from_records(results)
-    logger.info("Fetched %d records from the API.", len(df))
-
-    # Save to cache
-    df.to_csv(CACHE_FILE, index=False)
-    logger.info("Cached raw data to %s", CACHE_FILE)
 
     return df
 

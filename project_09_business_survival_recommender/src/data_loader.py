@@ -80,17 +80,22 @@ def fetch_business_licences(limit: int = 50000, force: bool = False) -> pd.DataF
         return pd.read_csv(BUSINESS_LICENCES_CSV, low_memory=False)
 
     logger.info("Fetching business licences from Socrata (%s) ...", BUSINESS_LICENCES_DATASET)
-    client = _get_socrata_client()
     try:
+        client = _get_socrata_client()
         records = client.get(BUSINESS_LICENCES_DATASET, limit=limit)
-    finally:
         client.close()
 
-    df = pd.DataFrame.from_records(records)
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    df.to_csv(BUSINESS_LICENCES_CSV, index=False)
-    logger.info("Saved %d licence records to %s", len(df), BUSINESS_LICENCES_CSV)
-    return df
+        df = pd.DataFrame.from_records(records)
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        df.to_csv(BUSINESS_LICENCES_CSV, index=False)
+        logger.info("Fetched and cached %d licence records to %s", len(df), BUSINESS_LICENCES_CSV)
+        return df
+    except Exception as exc:
+        logger.error("Failed to fetch business licences from Socrata API: %s", exc)
+        if BUSINESS_LICENCES_CSV.exists():
+            logger.warning("Falling back to cached business licence data.")
+            return pd.read_csv(BUSINESS_LICENCES_CSV, low_memory=False)
+        raise
 
 
 def fetch_civic_census(limit: int = 50000, force: bool = False) -> pd.DataFrame:
@@ -113,17 +118,22 @@ def fetch_civic_census(limit: int = 50000, force: bool = False) -> pd.DataFrame:
         return pd.read_csv(CIVIC_CENSUS_CSV, low_memory=False)
 
     logger.info("Fetching civic census from Socrata (%s) ...", CIVIC_CENSUS_DATASET)
-    client = _get_socrata_client()
     try:
+        client = _get_socrata_client()
         records = client.get(CIVIC_CENSUS_DATASET, limit=limit)
-    finally:
         client.close()
 
-    df = pd.DataFrame.from_records(records)
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    df.to_csv(CIVIC_CENSUS_CSV, index=False)
-    logger.info("Saved %d census records to %s", len(df), CIVIC_CENSUS_CSV)
-    return df
+        df = pd.DataFrame.from_records(records)
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        df.to_csv(CIVIC_CENSUS_CSV, index=False)
+        logger.info("Fetched and cached %d census records to %s", len(df), CIVIC_CENSUS_CSV)
+        return df
+    except Exception as exc:
+        logger.error("Failed to fetch civic census from Socrata API: %s", exc)
+        if CIVIC_CENSUS_CSV.exists():
+            logger.warning("Falling back to cached civic census data.")
+            return pd.read_csv(CIVIC_CENSUS_CSV, low_memory=False)
+        raise
 
 
 # ---------------------------------------------------------------------------
@@ -137,8 +147,15 @@ def _parse_dates(df: pd.DataFrame) -> pd.DataFrame:
     df["exp_dt"] = pd.to_datetime(df["exp_dt"], errors="coerce")
 
     # Business age: use expiry date if available, otherwise today
-    reference_date = df["exp_dt"].fillna(pd.Timestamp(datetime.today().date()))
-    df["business_age_days"] = (reference_date - df["first_iss_dt"]).dt.days
+    # Strip timezone info to avoid tz-aware/tz-naive mismatch, then ensure
+    # both sides are proper datetime64 before subtraction.
+    today = pd.Timestamp(datetime.today().date())
+    first_issued = pd.to_datetime(df["first_iss_dt"], utc=True).dt.tz_localize(None)
+    exp_date = pd.to_datetime(df["exp_dt"], utc=True).dt.tz_localize(None)
+    reference_date = exp_date.fillna(today)
+    df["first_iss_dt"] = first_issued
+    df["exp_dt"] = exp_date
+    df["business_age_days"] = (reference_date - first_issued).dt.days
     df["business_age_days"] = df["business_age_days"].clip(lower=0)
 
     # Derived calendar features

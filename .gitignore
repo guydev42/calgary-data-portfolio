@@ -28,6 +28,7 @@ env/
 Thumbs.db
 
 # Data (large files)
+*/data/*.csv
 *.csv.gz
 *.parquet
 *.h5
@@ -48,3 +49,14 @@ credentials.json
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Hugo
+site/
+.hugo_build.lock
+
+# Claude
+.claude/
+
+# Misc
+TODO.txt
+"use github pages.txt"
