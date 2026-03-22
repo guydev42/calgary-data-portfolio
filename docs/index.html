@@ -95,6 +95,19 @@ body::before{
 .container{max-width:var(--max-w);margin:0 auto;padding:0 32px}
 section{padding:160px 0}
 
+/* ── Scroll progress bar ──────────────────────────────── */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;z-index:200;
+  background:linear-gradient(90deg,var(--navy),var(--gold));
+  width:0%;transition:width .1s linear;
+  pointer-events:none;
+}
+
+/* ── Particle canvas ──────────────────────────────────── */
+#particle-canvas{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+}
+
 /* ── Navigation ────────────────────────────────────────── */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
@@ -733,6 +746,7 @@ section{padding:160px 0}
 <!-- ═══════════════════════════════════════════════════════
      Navigation
      ═══════════════════════════════════════════════════════ -->
+<div class="scroll-progress" id="scroll-progress"></div>
 <nav class="nav" role="navigation" aria-label="Main navigation">
   <div class="nav-inner">
     <div class="nav-brand"><strong>Ola K.</strong> / data science</div>
@@ -756,6 +770,7 @@ section{padding:160px 0}
      Hero
      ═══════════════════════════════════════════════════════ -->
 <section class="hero" id="hero">
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
   <div class="hero-bg-text" aria-hidden="true">16</div>
   <div class="container">
     <div class="hero-inner">
@@ -765,12 +780,16 @@ section{padding:160px 0}
         <p class="hero-sub fade-up">A machine learning portfolio built on Calgary Open Data, customer analytics, and statistical experimentation.</p>
         <div class="hero-stats fade-up">
           <div>
-            <div class="hero-stat-val">16</div>
+            <div class="hero-stat-val" data-count="16" data-suffix="">0</div>
             <div class="hero-stat-label">Projects</div>
           </div>
           <div>
-            <div class="hero-stat-val">800K+</div>
+            <div class="hero-stat-val" data-count="800" data-suffix="K+">0</div>
             <div class="hero-stat-label">Data points</div>
+          </div>
+          <div>
+            <div class="hero-stat-val" data-count="7" data-suffix="">0</div>
+            <div class="hero-stat-label">Domains</div>
           </div>
         </div>
         <a href="#featured" class="hero-cta fade-up">
@@ -1763,6 +1782,114 @@ section{padding:160px 0}
       }
     });
   });
+
+  /* ── Scroll progress bar ─────────────────────────── */
+  var progressBar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll',function(){
+    var h = document.documentElement;
+    var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progressBar.style.width = pct + '%';
+  },{passive:true});
+
+  /* ── Counter animation ───────────────────────────── */
+  var counters = document.querySelectorAll('[data-count]');
+  var counted = false;
+  function animateCounters(){
+    if(counted) return;
+    counted = true;
+    counters.forEach(function(el){
+      var target = parseInt(el.getAttribute('data-count'),10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1600;
+      var start = performance.now();
+      function tick(now){
+        var elapsed = now - start;
+        var progress = Math.min(elapsed / duration, 1);
+        // ease-out cubic
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.round(eased * target);
+        el.textContent = current + suffix;
+        if(progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+  // Trigger when hero stats scroll into view
+  if(counters.length){
+    var counterObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting) animateCounters();
+      });
+    },{threshold:0.5});
+    counters.forEach(function(el){ counterObs.observe(el); });
+  }
+
+  /* ── Particle constellation (hero background) ────── */
+  var canvas = document.getElementById('particle-canvas');
+  if(canvas && canvas.getContext){
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    var numParticles = 60;
+    var maxDist = 140;
+    var w, h;
+
+    function resize(){
+      var hero = canvas.parentElement;
+      w = canvas.width = hero.offsetWidth;
+      h = canvas.height = hero.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    for(var i=0; i<numParticles; i++){
+      particles.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        vx: (Math.random()-0.5)*0.4,
+        vy: (Math.random()-0.5)*0.4,
+        r: Math.random()*2+1
+      });
+    }
+
+    var goldRGB = '232,194,48';
+    var navyRGB = '59,111,212';
+
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      // Lines
+      for(var i=0;i<particles.length;i++){
+        for(var j=i+1;j<particles.length;j++){
+          var dx = particles[i].x - particles[j].x;
+          var dy = particles[i].y - particles[j].y;
+          var dist = Math.sqrt(dx*dx+dy*dy);
+          if(dist < maxDist){
+            var alpha = (1 - dist/maxDist) * 0.15;
+            ctx.strokeStyle = 'rgba('+navyRGB+','+alpha+')';
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      // Dots
+      for(var k=0;k<particles.length;k++){
+        var p = particles[k];
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = k%3===0 ? 'rgba('+goldRGB+',0.35)' : 'rgba('+navyRGB+',0.25)';
+        ctx.fill();
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+        if(p.x<0||p.x>w) p.vx*=-1;
+        if(p.y<0||p.y>h) p.vy*=-1;
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
 
 })();
 </script>
