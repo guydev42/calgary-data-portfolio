@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data science and machine learning portfolio</title>
 <meta name="description" content="16 end-to-end machine learning projects built on Calgary Open Data, customer analytics, and statistical experimentation.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23162240'/><path d='M8 22 L12 12 L16 18 L20 8 L24 14' stroke='%23E8C230' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='12' cy='12' r='2' fill='%233B6FD4'/><circle cx='16' cy='18' r='2' fill='%233B6FD4'/><circle cx='20' cy='8' r='2' fill='%233B6FD4'/></svg>">
+<meta property="og:title" content="Ola Kowale — Data science portfolio">
+<meta property="og:description" content="16 end-to-end ML projects on Calgary Open Data, customer analytics, and experimentation.">
+<meta property="og:image" content="https://capsule-render.vercel.app/api?type=rect&color=162240&height=200&text=Calgary%20Data%20Portfolio&fontSize=30&fontColor=E8C230&desc=Ola%20Kowale%20%E2%80%94%2016%20ML%20Projects&descColor=3B6FD4">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -400,6 +406,16 @@ section{padding:160px 0}
   letter-spacing:.03em;text-transform:uppercase;
   background:var(--navy-dim);
 }
+
+/* ── Section header icons ─────────────────────────────── */
+.section-label::before{
+  display:inline-block;margin-right:6px;opacity:.7;
+}
+#featured .section-label::before{content:'★ '}
+#projects .section-label::before{content:'◆ '}
+#skills .section-label::before{content:'⚙ '}
+#about .section-label::before{content:'○ '}
+#process .section-label::before{content:'▸ '}
 .pc-size{
   font-family:var(--font-mono);font-size:10px;color:var(--navy-bright);
   background:var(--navy-dim);padding:3px 9px;border-radius:2px;
@@ -442,34 +458,70 @@ section{padding:160px 0}
 
 /* ── How I work — ML workflow pipeline ─────────────────── */
 .workflow-section{padding:160px 0}
-.workflow-pipeline{
-  display:flex;align-items:center;gap:0;
-  overflow-x:auto;padding-bottom:8px;
+
+/* ── How I work — visual flow diagram ─────────────────── */
+.workflow-flow{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:32px;margin-top:56px;position:relative;
 }
-.workflow-step{
-  flex:0 0 auto;
-  background:var(--bg-card);border:1px solid var(--border);border-radius:3px;
-  padding:20px 24px;text-align:center;
-  min-width:140px;
-  transition:border-color .3s;
+.wf-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:8px;
+  padding:32px 28px 28px;position:relative;overflow:hidden;
+  transition:border-color .4s,transform .4s var(--ease),box-shadow .4s;
 }
-.workflow-step:hover{border-color:var(--border-hover)}
-.workflow-step-num{
-  font-family:var(--font-mono);font-size:9px;color:var(--text-dim);
-  letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;
+.wf-card:hover{
+  border-color:var(--gold);transform:translateY(-4px);
+  box-shadow:0 12px 40px rgba(232,194,48,.08);
 }
-.workflow-step-label{
-  font-family:var(--font-mono);font-size:12px;color:var(--text);
-  letter-spacing:.02em;font-weight:400;
+.wf-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--navy),var(--gold));
+  opacity:0;transition:opacity .4s;
 }
-.workflow-connector{
-  flex:0 0 32px;height:1px;background:var(--gold);position:relative;
+.wf-card:hover::before{opacity:1}
+.wf-icon{
+  width:48px;height:48px;border-radius:12px;
+  background:var(--navy-dim);display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
 }
-.workflow-connector::after{
-  content:'';position:absolute;right:-1px;top:-3px;
-  width:0;height:0;
-  border-top:3px solid transparent;border-bottom:3px solid transparent;
-  border-left:5px solid var(--gold);
+.wf-icon svg{width:24px;height:24px;stroke:var(--gold);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.wf-num{
+  position:absolute;top:16px;right:20px;
+  font-family:var(--font-mono);font-size:11px;color:var(--text-dim);
+  letter-spacing:.08em;
+}
+.wf-title{
+  font-family:var(--font-sans);font-size:16px;font-weight:600;
+  color:var(--text);margin-bottom:8px;
+}
+.wf-desc{
+  font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:16px;
+}
+.wf-tools{display:flex;flex-wrap:wrap;gap:6px}
+.wf-tool{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--gold);background:var(--gold-dim);
+  padding:3px 10px;border-radius:20px;letter-spacing:.03em;
+}
+
+/* ── Arrow connectors between cards ───────────────────── */
+.wf-arrow{
+  display:none;align-items:center;justify-content:center;
+}
+.wf-arrow svg{width:32px;height:32px;stroke:var(--gold);fill:none;stroke-width:1.5}
+
+/* ── Flow summary diagram (SVG) ───────────────────────── */
+.workflow-diagram{
+  margin-top:56px;padding:40px 0;text-align:center;
+}
+.workflow-diagram svg{max-width:100%;height:auto}
+
+@media(min-width:900px){
+  .workflow-flow{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:600px){
+  .workflow-flow{grid-template-columns:1fr}
+  .wf-card{padding:24px 20px 20px}
 }
 
 /* ── Skills ────────────────────────────────────────────── */
@@ -626,8 +678,8 @@ section{padding:160px 0}
   .skills-layout{grid-template-columns:1fr}
   .hero-inner{grid-template-columns:1fr}
   .hero-deco{display:none}
-  .workflow-pipeline{flex-wrap:wrap;gap:8px;justify-content:center}
-  .workflow-connector{flex:0 0 24px}
+  .workflow-flow{grid-template-columns:repeat(2,1fr)}
+  .workflow-diagram svg{max-width:100%;overflow-x:auto}
 }
 @media(max-width:768px){
   section{padding:100px 0}
@@ -643,14 +695,8 @@ section{padding:160px 0}
   .about-detail{max-width:100%}
   .hero h1{font-size:clamp(40px,10vw,64px)}
   .skills-ticker{margin-top:48px}
-  .workflow-pipeline{flex-direction:column;align-items:stretch}
-  .workflow-step{min-width:auto}
-  .workflow-connector{width:1px;height:24px;flex:0 0 24px;margin:0 auto}
-  .workflow-connector::after{
-    right:auto;top:auto;bottom:-1px;left:-3px;
-    border-left:3px solid transparent;border-right:3px solid transparent;
-    border-top:5px solid var(--gold);border-bottom:none;
-  }
+  .workflow-flow{grid-template-columns:1fr}
+  .workflow-diagram{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .domain-coverage{gap:6px}
 }
 
@@ -686,6 +732,7 @@ section{padding:160px 0}
     <div class="nav-brand"><strong>Ola K.</strong> / data science</div>
     <div class="nav-links">
       <a href="#projects">Projects</a>
+      <a href="#process">Process</a>
       <a href="#skills">Skills</a>
       <a href="#about">About</a>
     </div>
@@ -1270,49 +1317,158 @@ section{padding:160px 0}
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
-     How I work — ML workflow pipeline
+     How I work — visual flow diagram
      ═══════════════════════════════════════════════════════ -->
-<section class="workflow-section">
+<section class="workflow-section" id="process">
   <div class="container">
     <div class="section-label fade-up">Process</div>
     <h2 class="section-title fade-up">How I work</h2>
-    <p class="section-desc fade-up">Every project follows a disciplined end-to-end pipeline, from raw data through production-ready models.</p>
+    <p class="section-desc fade-up">Every project follows a disciplined end-to-end pipeline, from raw data through production-ready models and business insight.</p>
 
-    <div class="workflow-pipeline fade-up">
-      <div class="workflow-step">
-        <div class="workflow-step-num">01</div>
-        <div class="workflow-step-label">Data collection</div>
+    <!-- Inline SVG flow summary -->
+    <div class="workflow-diagram fade-up">
+      <svg viewBox="0 0 960 80" xmlns="http://www.w3.org/2000/svg" style="max-width:920px">
+        <!-- connecting line -->
+        <line x1="60" y1="40" x2="900" y2="40" stroke="#3B6FD4" stroke-width="2" stroke-dasharray="6 4" opacity=".4"/>
+        <!-- nodes -->
+        <g>
+          <circle cx="60" cy="40" r="18" fill="#243868" stroke="#E8C230" stroke-width="2"/>
+          <text x="60" y="44" text-anchor="middle" fill="#E8C230" font-family="IBM Plex Mono" font-size="11" font-weight="500">1</text>
+          <text x="60" y="72" text-anchor="middle" fill="#A0A8BC" font-family="IBM Plex Sans" font-size="10">Ingest</text>
+        </g>
+        <g>
+          <circle cx="200" cy="40" r="18" fill="#243868" stroke="#E8C230" stroke-width="2"/>
+          <text x="200" y="44" text-anchor="middle" fill="#E8C230" font-family="IBM Plex Mono" font-size="11" font-weight="500">2</text>
+          <text x="200" y="72" text-anchor="middle" fill="#A0A8BC" font-family="IBM Plex Sans" font-size="10">Explore</text>
+        </g>
+        <g>
+          <circle cx="340" cy="40" r="18" fill="#243868" stroke="#E8C230" stroke-width="2"/>
+          <text x="340" y="44" text-anchor="middle" fill="#E8C230" font-family="IBM Plex Mono" font-size="11" font-weight="500">3</text>
+          <text x="340" y="72" text-anchor="middle" fill="#A0A8BC" font-family="IBM Plex Sans" font-size="10">Engineer</text>
+        </g>
+        <g>
+          <circle cx="480" cy="40" r="18" fill="#243868" stroke="#E8C230" stroke-width="2"/>
+          <text x="480" y="44" text-anchor="middle" fill="#E8C230" font-family="IBM Plex Mono" font-size="11" font-weight="500">4</text>
+          <text x="480" y="72" text-anchor="middle" fill="#A0A8BC" font-family="IBM Plex Sans" font-size="10">Model</text>
+        </g>
+        <g>
+          <circle cx="620" cy="40" r="18" fill="#243868" stroke="#E8C230" stroke-width="2"/>
+          <text x="620" y="44" text-anchor="middle" fill="#E8C230" font-family="IBM Plex Mono" font-size="11" font-weight="500">5</text>
+          <text x="620" y="72" text-anchor="middle" fill="#A0A8BC" font-family="IBM Plex Sans" font-size="10">Evaluate</text>
+        </g>
+        <g>
+          <circle cx="760" cy="40" r="18" fill="#243868" stroke="#E8C230" stroke-width="2"/>
+          <text x="760" y="44" text-anchor="middle" fill="#E8C230" font-family="IBM Plex Mono" font-size="11" font-weight="500">6</text>
+          <text x="760" y="72" text-anchor="middle" fill="#A0A8BC" font-family="IBM Plex Sans" font-size="10">Deploy</text>
+        </g>
+        <g>
+          <circle cx="900" cy="40" r="18" fill="#243868" stroke="#E8C230" stroke-width="2"/>
+          <text x="900" y="44" text-anchor="middle" fill="#E8C230" font-family="IBM Plex Mono" font-size="11" font-weight="500">7</text>
+          <text x="900" y="72" text-anchor="middle" fill="#A0A8BC" font-family="IBM Plex Sans" font-size="10">Monitor</text>
+        </g>
+        <!-- arrow tips -->
+        <polygon points="126,40 118,35 118,45" fill="#3B6FD4" opacity=".6"/>
+        <polygon points="266,40 258,35 258,45" fill="#3B6FD4" opacity=".6"/>
+        <polygon points="406,40 398,35 398,45" fill="#3B6FD4" opacity=".6"/>
+        <polygon points="546,40 538,35 538,45" fill="#3B6FD4" opacity=".6"/>
+        <polygon points="686,40 678,35 678,45" fill="#3B6FD4" opacity=".6"/>
+        <polygon points="826,40 818,35 818,45" fill="#3B6FD4" opacity=".6"/>
+      </svg>
+    </div>
+
+    <!-- Detailed cards -->
+    <div class="workflow-flow">
+
+      <!-- 01 — Data collection -->
+      <div class="wf-card fade-up">
+        <span class="wf-num">01</span>
+        <div class="wf-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 4.02 2 6.5v11C2 19.98 6.48 22 12 22s10-2.02 10-4.5v-11C22 4.02 17.52 2 12 2z" stroke-width="1.5" fill="none"/><ellipse cx="12" cy="6.5" rx="10" ry="4.5" fill="none"/><path d="M2 11.5c0 2.49 4.48 4.5 10 4.5s10-2.01 10-4.5"/></svg>
+        </div>
+        <div class="wf-title">Data ingestion</div>
+        <div class="wf-desc">Pull raw data from Calgary Open Data (Socrata API), public datasets, or synthetic generators. Validate schemas, handle encoding, and store clean parquet snapshots.</div>
+        <div class="wf-tools">
+          <span class="wf-tool">Socrata API</span>
+          <span class="wf-tool">pandas</span>
+          <span class="wf-tool">requests</span>
+        </div>
       </div>
-      <div class="workflow-connector"></div>
-      <div class="workflow-step">
-        <div class="workflow-step-num">02</div>
-        <div class="workflow-step-label">EDA</div>
+
+      <!-- 02 — EDA -->
+      <div class="wf-card fade-up">
+        <span class="wf-num">02</span>
+        <div class="wf-icon">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M8 8l2 4 2-2 2 3"/></svg>
+        </div>
+        <div class="wf-title">Exploratory analysis</div>
+        <div class="wf-desc">Profile distributions, detect outliers, test correlations, and surface domain-specific patterns. Every notebook starts with a statistical summary and visual audit.</div>
+        <div class="wf-tools">
+          <span class="wf-tool">matplotlib</span>
+          <span class="wf-tool">seaborn</span>
+          <span class="wf-tool">plotly</span>
+        </div>
       </div>
-      <div class="workflow-connector"></div>
-      <div class="workflow-step">
-        <div class="workflow-step-num">03</div>
-        <div class="workflow-step-label">Feature engineering</div>
+
+      <!-- 03 — Feature engineering -->
+      <div class="wf-card fade-up">
+        <span class="wf-num">03</span>
+        <div class="wf-icon">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div class="wf-title">Feature engineering</div>
+        <div class="wf-desc">Transform raw columns into predictive signals — lag features, rolling statistics, target encoding, interaction terms, and domain-specific ratios.</div>
+        <div class="wf-tools">
+          <span class="wf-tool">scikit-learn</span>
+          <span class="wf-tool">NumPy</span>
+          <span class="wf-tool">category_encoders</span>
+        </div>
       </div>
-      <div class="workflow-connector"></div>
-      <div class="workflow-step">
-        <div class="workflow-step-num">04</div>
-        <div class="workflow-step-label">Modeling</div>
+
+      <!-- 04 — Modeling -->
+      <div class="wf-card fade-up">
+        <span class="wf-num">04</span>
+        <div class="wf-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="wf-title">Model training</div>
+        <div class="wf-desc">Train multiple candidates with cross-validation. Hyperparameter search via Optuna or grid search. Compare baselines against gradient boosting, neural nets, and ensembles.</div>
+        <div class="wf-tools">
+          <span class="wf-tool">XGBoost</span>
+          <span class="wf-tool">LightGBM</span>
+          <span class="wf-tool">TensorFlow</span>
+        </div>
       </div>
-      <div class="workflow-connector"></div>
-      <div class="workflow-step">
-        <div class="workflow-step-num">05</div>
-        <div class="workflow-step-label">Evaluation</div>
+
+      <!-- 05 — Evaluation -->
+      <div class="wf-card fade-up">
+        <span class="wf-num">05</span>
+        <div class="wf-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="wf-title">Evaluation and explainability</div>
+        <div class="wf-desc">Score on held-out data with business-relevant metrics. Generate SHAP explanations, calibration curves, and cost-benefit matrices to justify model decisions.</div>
+        <div class="wf-tools">
+          <span class="wf-tool">SHAP</span>
+          <span class="wf-tool">SciPy</span>
+          <span class="wf-tool">calibration</span>
+        </div>
       </div>
-      <div class="workflow-connector"></div>
-      <div class="workflow-step">
-        <div class="workflow-step-num">06</div>
-        <div class="workflow-step-label">Deployment</div>
+
+      <!-- 06 — Deployment -->
+      <div class="wf-card fade-up">
+        <span class="wf-num">06</span>
+        <div class="wf-icon">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </div>
+        <div class="wf-title">Deployment and monitoring</div>
+        <div class="wf-desc">Ship interactive Streamlit dashboards with live predictions. Package models as reproducible pipelines. Track data drift and retrain triggers for production stability.</div>
+        <div class="wf-tools">
+          <span class="wf-tool">Streamlit</span>
+          <span class="wf-tool">Docker</span>
+          <span class="wf-tool">GitHub Actions</span>
+        </div>
       </div>
-      <div class="workflow-connector"></div>
-      <div class="workflow-step">
-        <div class="workflow-step-num">07</div>
-        <div class="workflow-step-label">Monitoring</div>
-      </div>
+
     </div>
   </div>
 </section>
