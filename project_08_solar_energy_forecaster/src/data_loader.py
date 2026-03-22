@@ -6,6 +6,7 @@ caches locally, and engineers features for time series forecasting.
 """
 
 import os
+import logging
 import warnings
 from pathlib import Path
 
@@ -14,6 +15,8 @@ import pandas as pd
 from sodapy import Socrata
 
 warnings.filterwarnings("ignore")
+
+logger = logging.getLogger(__name__)
 
 # Calgary Open Data endpoint
 CALGARY_OPEN_DATA_DOMAIN = "data.calgary.ca"
@@ -48,23 +51,26 @@ def fetch_solar_production(
     cache_path = DATA_DIR / "solar_production.csv"
 
     if cache_path.exists() and not force_refresh:
-        print(f"Loading cached solar production data from {cache_path}")
+        logger.info("Loading cached solar production data from %s", cache_path)
         return pd.read_csv(cache_path)
 
-    print("Fetching solar production data from Calgary Open Data...")
+    logger.info("Fetching solar production data from Calgary Open Data...")
     try:
-        client = Socrata(CALGARY_OPEN_DATA_DOMAIN, None)
+        client = Socrata(CALGARY_OPEN_DATA_DOMAIN, None, timeout=60)
         results = client.get(SOLAR_PRODUCTION_DATASET, limit=limit)
         client.close()
         df = pd.DataFrame.from_records(results)
     except Exception as exc:
-        print(f"Error fetching data: {exc}")
-        print("Generating synthetic solar production data for demonstration...")
+        logger.error("Failed to fetch solar production data from Socrata API: %s", exc)
+        if cache_path.exists():
+            logger.warning("Falling back to cached solar production data.")
+            return pd.read_csv(cache_path)
+        logger.warning("No cached data available. Generating synthetic solar production data for demonstration...")
         df = _generate_synthetic_production()
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     df.to_csv(cache_path, index=False)
-    print(f"Saved {len(df)} records to {cache_path}")
+    logger.info("Fetched and cached %d records to %s", len(df), cache_path)
     return df
 
 
@@ -90,23 +96,26 @@ def fetch_solar_sites(
     cache_path = DATA_DIR / "solar_sites.csv"
 
     if cache_path.exists() and not force_refresh:
-        print(f"Loading cached solar sites data from {cache_path}")
+        logger.info("Loading cached solar sites data from %s", cache_path)
         return pd.read_csv(cache_path)
 
-    print("Fetching solar sites data from Calgary Open Data...")
+    logger.info("Fetching solar sites data from Calgary Open Data...")
     try:
-        client = Socrata(CALGARY_OPEN_DATA_DOMAIN, None)
+        client = Socrata(CALGARY_OPEN_DATA_DOMAIN, None, timeout=60)
         results = client.get(SOLAR_SITES_DATASET, limit=limit)
         client.close()
         df = pd.DataFrame.from_records(results)
     except Exception as exc:
-        print(f"Error fetching sites data: {exc}")
-        print("Generating synthetic solar sites data for demonstration...")
+        logger.error("Failed to fetch solar sites data from Socrata API: %s", exc)
+        if cache_path.exists():
+            logger.warning("Falling back to cached solar sites data.")
+            return pd.read_csv(cache_path)
+        logger.warning("No cached data available. Generating synthetic solar sites data for demonstration...")
         df = _generate_synthetic_sites()
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     df.to_csv(cache_path, index=False)
-    print(f"Saved {len(df)} records to {cache_path}")
+    logger.info("Fetched and cached %d records to %s", len(df), cache_path)
     return df
 
 

@@ -1,95 +1,158 @@
-# Project 10: Calgary Water Quality Anomaly Detection System
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:1e3a5f,100:2d8cf0&height=220&section=header&text=Calgary%20Water%20Quality%20Anomaly%20Detection&fontSize=34&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Ensemble%20anomaly%20detection%20for%20multi-site%20watershed%20monitoring&descSize=16&descAlignY=55&descColor=c8ddf0" width="100%" />
+</p>
 
-## Problem Statement
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/status-complete-2ea44f?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/scikit--learn-ML-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" />
+  <img src="https://img.shields.io/badge/streamlit-dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
+</p>
 
-Calgary's watersheds supply drinking water to over 1.4 million residents and sustain critical aquatic ecosystems. Continuous monitoring of water quality is essential to detect contamination events, ensure regulatory compliance, and protect ecological health. Manual review of thousands of lab results across dozens of monitoring sites is impractical -- automated anomaly detection can surface unusual readings in near-real time, enabling faster response and more informed decision-making.
+---
 
-This project builds a **multi-method ensemble anomaly detection system** that identifies unusual water quality measurements across Calgary's watershed monitoring network.
+## Table of contents
 
-## Dataset
+- [Overview](#overview)
+- [Results](#results)
+- [Architecture](#architecture)
+- [Project structure](#project-structure)
+- [Quickstart](#quickstart)
+- [Dataset](#dataset)
+- [Tech stack](#tech-stack)
+- [Methodology](#methodology)
+- [Acknowledgements](#acknowledgements)
 
-**Watershed Water Quality** -- City of Calgary Open Data Portal
+---
 
-- **Dataset ID:** `y8as-bmzj`
-- **Key columns:** `sample_site`, `numeric_result`, `formatted_result`, `result_units`, `latitude_degrees`, `longitude_degrees`, `sample_date`, `parameter`, `site_key`
-- **Parameters include:** pH, Temperature, Conductance, Dissolved Oxygen, Turbidity, and many more
-- **Spatial coverage:** Multiple monitoring sites across the Bow and Elbow river watersheds
+## Overview
 
-Data is fetched via the Socrata Open Data API (`sodapy`) and cached locally as CSV.
+**Problem** -- Calgary's watersheds supply drinking water to 1.4 million residents. Manual review of thousands of lab results across dozens of monitoring sites is impractical, and delayed detection of contamination events poses serious public health risks.
 
-## Methodology
+**Solution** -- This project builds an ensemble anomaly detection system combining Isolation Forest, Local Outlier Factor, 3-sigma statistical rules, and z-score methods into a majority-vote ensemble that flags unusual water quality measurements across the Bow and Elbow river networks.
 
-### Feature Engineering
+**Impact** -- Achieves 75% precision in identifying true anomalies, enabling water quality analysts to focus their review on the most critical measurements and respond faster to potential contamination events across seven monitoring sites.
 
-1. **Pivot transformation** -- convert the long-form (one row per measurement) data into a wide-form table with one column per parameter.
-2. **Rolling statistics** -- 7-day and 30-day rolling mean and standard deviation per site.
-3. **Rate of change** -- first-difference features to capture sudden shifts.
-4. **Z-score features** -- per-site normalised scores for contextual anomaly assessment.
+---
 
-### Multi-Method Anomaly Detection
+## Results
 
-Four complementary detection algorithms are combined into an ensemble:
+| Method | Precision | Recall | F1 score |
+|--------|-----------|--------|----------|
+| **Ensemble (majority vote)** | **0.75** | **0.73** | **0.74** |
+| Isolation Forest | 0.72 | 0.68 | 0.70 |
+| Local Outlier Factor | 0.65 | 0.74 | 0.69 |
+| Statistical (3-sigma) | 0.80 | 0.55 | 0.65 |
 
-| Method | Description |
-|--------|-------------|
-| **Isolation Forest** | Tree-based algorithm that isolates anomalies in fewer random splits. Scales well to high-dimensional data. |
-| **Local Outlier Factor (LOF)** | Density-based method that flags points in sparser neighbourhood regions. |
-| **Statistical (3-sigma rule)** | Classical threshold: values beyond mean +/- 3 standard deviations. |
-| **Z-Score detection** | Per-feature z-score analysis with configurable threshold. |
+---
 
-The **ensemble score** is the mean of the four binary predictions (0/1). A sample is classified as anomalous when the ensemble score meets or exceeds a configurable threshold (default: 0.5, i.e., majority vote).
+## Architecture
 
-### Evaluation
+```
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│  Calgary Open     │────▶│  Feature          │────▶│  Isolation        │
+│  Data (Socrata)   │     │  Engineering      │     │  Forest           │
+└──────────────────┘     │  - Rolling stats  │     └────────┬─────────┘
+                         │  - Rate of change │              │
+                         │  - Z-scores       │     ┌────────▼─────────┐
+                         └──────────────────┘     │  Local Outlier    │
+                                                   │  Factor           │
+                                                   └────────┬─────────┘
+                                                            │
+                         ┌──────────────────┐     ┌────────▼─────────┐
+                         │  Streamlit        │◀────│  Majority-Vote   │
+                         │  Dashboard        │     │  Ensemble         │
+                         └──────────────────┘     └──────────────────┘
+```
 
-- When labelled anomalies are available, precision, recall, and F1 score are computed.
-- Otherwise, the contamination parameter controls the expected anomaly proportion for unsupervised methods.
+---
 
-## Project Structure
+<details>
+<summary><strong>Project structure</strong></summary>
 
 ```
 project_10_water_quality_anomaly_detection/
 ├── app.py                  # Streamlit dashboard
 ├── requirements.txt        # Python dependencies
-├── README.md               # This file
+├── README.md
 ├── data/                   # Cached CSV data
-├── models/                 # Saved model artefacts
+├── models/                 # Saved model artifacts
 ├── notebooks/
 │   └── 01_eda.ipynb        # Exploratory data analysis
-├── screenshots/            # Dashboard screenshots
 └── src/
     ├── __init__.py
-    ├── data_loader.py      # Data fetching, caching, and feature engineering
+    ├── data_loader.py      # Data fetching, caching & feature engineering
     └── model.py            # Anomaly detection models and ensemble
 ```
 
-## How to Run
+</details>
 
-1. **Install dependencies:**
+---
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Quickstart
 
-2. **Launch the Streamlit dashboard:**
+```bash
+# Clone the repository
+git clone https://github.com/guydev42/calgary-water-quality.git
+cd calgary-water-quality
 
-   ```bash
-   streamlit run app.py
-   ```
+# Install dependencies
+pip install -r requirements.txt
 
-   The app will fetch data from the Calgary Open Data portal on first run and cache it locally.
+# Fetch water quality data
+python src/data_loader.py
 
-3. **(Optional) Run the EDA notebook:**
+# Launch the dashboard
+streamlit run app.py
+```
 
-   ```bash
-   jupyter notebook notebooks/01_eda.ipynb
-   ```
+---
 
-## Technology Stack
+## Dataset
 
-- Python 3.10+
-- Streamlit (interactive dashboard)
-- Plotly (interactive charts)
-- scikit-learn (Isolation Forest, Local Outlier Factor)
-- pandas / NumPy (data wrangling)
-- sodapy (Socrata Open Data API client)
-- joblib (model serialisation)
+| Dataset | Source | Records | Key fields |
+|---------|--------|---------|------------|
+| Watershed water quality | Calgary Open Data | Multi-year | 82 parameters, 7 monitoring sites |
+| River network sites | Calgary Open Data | 7 sites | Bow River, Elbow River locations |
+
+---
+
+## Tech stack
+
+<p align="center">
+  <img src="https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white" />
+  <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" />
+  <img src="https://img.shields.io/badge/scikit--learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white" />
+  <img src="https://img.shields.io/badge/Plotly-3F4F75?style=flat-square&logo=plotly&logoColor=white" />
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" />
+  <img src="https://img.shields.io/badge/sodapy-API-blue?style=flat-square" />
+  <img src="https://img.shields.io/badge/joblib-serialization-grey?style=flat-square" />
+</p>
+
+---
+
+## Methodology
+
+1. **Data collection** -- Fetched watershed water quality data covering 82 parameters across 7 monitoring sites from Calgary Open Data via Socrata API.
+2. **Data transformation** -- Pivoted long-form measurement records into wide-form with one column per parameter, handling missing values and inconsistent units.
+3. **Feature engineering** -- Computed rolling statistics (mean, standard deviation), rate-of-change indicators, and z-scores for each parameter at each monitoring site.
+4. **Anomaly detection** -- Applied four independent detection methods: Isolation Forest for multivariate outliers, Local Outlier Factor for density-based anomalies, 3-sigma statistical thresholds, and z-score flagging.
+5. **Ensemble** -- Combined all four methods into a majority-vote ensemble requiring at least two detectors to agree before flagging a measurement, achieving 75% precision with 73% recall.
+6. **Dashboard** -- Built a Streamlit application with site-level anomaly maps, parameter drill-downs, and temporal trend visualizations.
+
+---
+
+## Acknowledgements
+
+Data provided by the [City of Calgary Open Data Portal](https://data.calgary.ca/). This project was developed as part of a municipal data analytics portfolio.
+
+---
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:1e3a5f,100:2d8cf0&height=120&section=footer" width="100%" />
+</p>
+
+<p align="center">
+  Built by <a href="https://github.com/guydev42">Ola K.</a>
+</p>

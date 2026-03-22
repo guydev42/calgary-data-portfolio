@@ -71,23 +71,26 @@ def fetch_water_quality_data(limit: int = 50_000, force_refresh: bool = False) -
 
     logger.info("Fetching data from Calgary Open Data portal (dataset %s)...", DATASET_ID)
     try:
-        client = Socrata(DOMAIN, app_token=None)
+        client = Socrata(DOMAIN, app_token=None, timeout=60)
         records = client.get(DATASET_ID, limit=limit)
         client.close()
+
+        df = pd.DataFrame.from_records(records)
+
+        # Keep only the columns we need (others may exist in the dataset)
+        available = [c for c in COLUMNS if c in df.columns]
+        df = df[available]
+
+        # Ensure data directory exists and cache
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        df.to_csv(CACHE_FILE, index=False)
+        logger.info("Fetched and cached %d records to %s", len(df), CACHE_FILE)
     except Exception as exc:
-        logger.error("Failed to fetch data from API: %s", exc)
+        logger.error("Failed to fetch data from Socrata API: %s", exc)
+        if CACHE_FILE.exists():
+            logger.warning("Falling back to cached data.")
+            return pd.read_csv(CACHE_FILE)
         raise
-
-    df = pd.DataFrame.from_records(records)
-
-    # Keep only the columns we need (others may exist in the dataset)
-    available = [c for c in COLUMNS if c in df.columns]
-    df = df[available]
-
-    # Ensure data directory exists and cache
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    df.to_csv(CACHE_FILE, index=False)
-    logger.info("Cached %d records to %s", len(df), CACHE_FILE)
 
     return df
 

@@ -63,15 +63,23 @@ def fetch_data(use_cache: bool = True) -> pd.DataFrame:
         return pd.read_csv(CACHE_FILE, low_memory=False)
 
     logger.info("Fetching data from Calgary Open Data (dataset %s)...", DATASET_ID)
-    client = Socrata(SOCRATA_DOMAIN, None)
-    results = client.get(DATASET_ID, limit=RECORD_LIMIT)
-    df = pd.DataFrame.from_records(results)
+    try:
+        client = Socrata(SOCRATA_DOMAIN, None, timeout=60)
+        results = client.get(DATASET_ID, limit=RECORD_LIMIT)
+        client.close()
+        df = pd.DataFrame.from_records(results)
 
-    # Ensure data/ directory exists
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    df.to_csv(CACHE_FILE, index=False)
-    logger.info("Saved %d records to %s", len(df), CACHE_FILE)
-    return df
+        # Ensure data/ directory exists
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        df.to_csv(CACHE_FILE, index=False)
+        logger.info("Fetched and cached %d records to %s", len(df), CACHE_FILE)
+        return df
+    except Exception as exc:
+        logger.error("Failed to fetch data from Socrata API: %s", exc)
+        if CACHE_FILE.exists():
+            logger.warning("Falling back to cached data.")
+            return pd.read_csv(CACHE_FILE, low_memory=False)
+        raise
 
 
 # ---------------------------------------------------------------------------

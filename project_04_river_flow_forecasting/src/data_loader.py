@@ -61,16 +61,19 @@ def fetch_river_data(limit: int = DEFAULT_LIMIT, force: bool = False) -> pd.Data
     )
 
     try:
-        client = Socrata(DOMAIN, None)  # No app token required for public data
+        client = Socrata(DOMAIN, None, timeout=60)
         results = client.get(DATASET_ID, limit=limit, order="timestamp DESC")
         client.close()
+
+        df = pd.DataFrame.from_records(results)
+        df.to_csv(CACHE_FILE, index=False)
+        logger.info("Fetched and cached %s rows to %s", f"{len(df):,}", CACHE_FILE)
     except Exception as exc:
         logger.error("Failed to fetch data from Socrata API: %s", exc)
+        if CACHE_FILE.exists():
+            logger.warning("Falling back to cached data.")
+            return pd.read_csv(CACHE_FILE)
         raise
-
-    df = pd.DataFrame.from_records(results)
-    df.to_csv(CACHE_FILE, index=False)
-    logger.info("Saved %s rows to %s", f"{len(df):,}", CACHE_FILE)
     return df
 
 

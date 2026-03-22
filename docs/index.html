@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data science and machine learning portfolio</title>
+<meta name="description" content="16 end-to-end machine learning projects built on Calgary Open Data, customer analytics, and statistical experimentation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ─────────────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;font-weight:300;line-height:1.6;color:var(--text);background:var(--bg);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+img{max-width:100%;display:block}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ── Design tokens ─────────────────────────────────────── */
+:root{
+  --bg:#162240;
+  --bg-elevated:#1D2D52;
+  --bg-card:#243868;
+  --bg-card-hover:#2C4478;
+  --border:#385588;
+  --border-hover:#4A6CAA;
+  --text:#EDE9E2;
+  --text-muted:#A0A8BC;
+  --text-dim:#6A7590;
+  --navy:#3B6FD4;
+  --navy-bright:#5588EE;
+  --navy-dim:rgba(59,111,212,0.25);
+  --gold:#E8C230;
+  --gold-bright:#F5D44A;
+  --gold-dim:rgba(232,194,48,0.18);
+  --gold-glow:rgba(232,194,48,0.10);
+  --font-serif:'Instrument Serif',Georgia,serif;
+  --font-sans:'IBM Plex Sans',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono','Fira Code',monospace;
+  --max-w:1280px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+/* ── Light mode tokens ─────────────────────────────────── */
+[data-theme="light"]{
+  --bg:#F5F3EE;
+  --bg-elevated:#EDEAE4;
+  --bg-card:#FFFFFF;
+  --bg-card-hover:#F8F6F2;
+  --border:#D8D4CC;
+  --border-hover:#C0BAB0;
+  --text:#1A1A1A;
+  --text-muted:#555555;
+  --text-dim:#888888;
+  --navy:#1B3A6B;
+  --navy-bright:#2456A4;
+  --navy-dim:rgba(27,58,107,0.1);
+  --gold:#B8960A;
+  --gold-bright:#D4AA10;
+  --gold-dim:rgba(184,150,10,0.1);
+  --gold-glow:rgba(184,150,10,0.05);
+}
+
+/* ── SVG grain overlay ─────────────────────────────────── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  opacity:.025;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-theme="light"] body::before{opacity:.015}
+
+/* ── Scroll reveal ─────────────────────────────────────── */
+.fade-up{
+  opacity:0;transform:translateY(28px);
+  transition:opacity .8s var(--ease),transform .8s var(--ease);
+}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* ── Stagger delays for hero ───────────────────────────── */
+.hero .fade-up:nth-child(1){transition-delay:0s}
+.hero .fade-up:nth-child(2){transition-delay:.1s}
+.hero .fade-up:nth-child(3){transition-delay:.2s}
+.hero .fade-up:nth-child(4){transition-delay:.3s}
+.hero .fade-up:nth-child(5){transition-delay:.4s}
+
+/* ── Layout ────────────────────────────────────────────── */
+.container{max-width:var(--max-w);margin:0 auto;padding:0 32px}
+section{padding:160px 0}
+
+/* ── Navigation ────────────────────────────────────────── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(22,34,64,.92);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+[data-theme="light"] .nav{
+  background:rgba(245,243,238,.92);
+}
+.nav-inner{
+  max-width:var(--max-w);margin:0 auto;padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;
+}
+.nav-brand{
+  font-family:var(--font-mono);font-size:11px;font-weight:500;
+  color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;
+}
+.nav-brand strong{color:var(--gold);font-weight:500}
+.nav-links{display:flex;gap:36px}
+.nav-links a{
+  font-family:var(--font-mono);font-size:11px;font-weight:400;
+  color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase;
+  transition:color .3s;
+  position:relative;
+}
+.nav-links a:hover{color:var(--navy-bright)}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;
+  background:var(--navy-bright);transform:scaleX(0);
+  transition:transform .3s var(--ease);transform-origin:left;
+}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+/* ── Nav right group (toggle + CV) ─────────────────────── */
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-cv{
+  font-family:var(--font-mono);font-size:10px;font-weight:500;
+  color:var(--gold);letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--gold);padding:6px 16px;border-radius:2px;
+  transition:background .3s,color .3s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.nav-cv:hover{background:var(--gold-dim)}
+
+/* ── Theme toggle ──────────────────────────────────────── */
+.theme-toggle{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);
+  background:var(--bg-elevated);
+  transition:border-color .3s,background .3s;
+  cursor:pointer;
+}
+.theme-toggle:hover{border-color:var(--border-hover)}
+.theme-toggle svg{width:14px;height:14px;color:var(--text-muted)}
+.theme-toggle .icon-sun{display:none}
+.theme-toggle .icon-moon{display:block}
+[data-theme="light"] .theme-toggle .icon-sun{display:block}
+[data-theme="light"] .theme-toggle .icon-moon{display:none}
+
+/* ── Hero ──────────────────────────────────────────────── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  padding-top:60px;
+}
+.hero-bg-text{
+  position:absolute;top:50%;right:-4%;transform:translateY(-55%);
+  font-family:var(--font-serif);font-size:clamp(300px,40vw,560px);
+  font-weight:400;color:var(--text);opacity:.018;
+  line-height:.8;letter-spacing:-.04em;pointer-events:none;
+  user-select:none;white-space:nowrap;
+}
+[data-theme="light"] .hero-bg-text{display:none}
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+  position:relative;z-index:1;width:100%;
+}
+.hero-content{max-width:640px}
+.hero-label{
+  font-family:var(--font-mono);font-size:11px;color:var(--gold);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:32px;
+}
+.hero h1{
+  font-family:var(--font-serif);font-weight:400;
+  font-size:clamp(48px,6.5vw,80px);line-height:1.02;
+  letter-spacing:-.03em;margin-bottom:28px;
+}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{
+  font-size:17px;font-weight:300;color:var(--text-muted);
+  max-width:480px;line-height:1.8;margin-bottom:56px;
+}
+.hero-stats{display:flex;gap:56px;margin-bottom:56px}
+.hero-stat-val{
+  font-family:var(--font-serif);font-size:48px;letter-spacing:-.03em;
+  line-height:1;color:var(--text);
+}
+.hero-stat-label{
+  font-family:var(--font-mono);font-size:10px;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.1em;margin-top:8px;
+}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--gold);letter-spacing:.08em;text-transform:uppercase;
+  padding:14px 0;border-bottom:1px solid var(--gold);
+  transition:gap .3s var(--ease);
+}
+.hero-cta:hover{gap:16px}
+.hero-cta svg{width:14px;height:14px;transition:transform .3s var(--ease)}
+.hero-cta:hover svg{transform:translateX(4px)}
+
+/* Hero decorative right */
+.hero-deco{
+  display:flex;flex-direction:column;align-items:flex-end;
+  gap:24px;opacity:.5;
+}
+.hero-deco-line{
+  font-family:var(--font-mono);font-size:10px;color:var(--text-dim);
+  letter-spacing:.08em;text-transform:uppercase;text-align:right;
+}
+.hero-deco-line span{color:var(--gold);opacity:.6}
+.hero-deco-bar{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--navy),var(--navy-bright),var(--navy),transparent);
+}
+
+/* ── Key results ticker ────────────────────────────────── */
+.results-ticker{
+  background:var(--bg-card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  overflow:hidden;position:relative;padding:14px 0;
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.results-ticker-track{
+  display:flex;gap:48px;
+  animation:results-scroll 50s linear infinite;
+  width:max-content;
+}
+.results-ticker-item{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;
+  white-space:nowrap;color:var(--text-muted);
+}
+.results-ticker-item strong{color:var(--gold);font-weight:500}
+@keyframes results-scroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+/* ── Section headers ───────────────────────────────────── */
+.section-label{
+  font-family:var(--font-mono);font-size:10px;color:var(--gold);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;
+}
+.section-title{
+  font-family:var(--font-serif);font-size:clamp(36px,4.5vw,56px);
+  font-weight:400;letter-spacing:-.025em;line-height:1.05;
+  margin-bottom:20px;
+}
+.section-desc{
+  font-size:16px;font-weight:300;color:var(--text-muted);
+  max-width:520px;line-height:1.8;margin-bottom:72px;
+}
+
+/* ── Featured cards — asymmetric layout ────────────────── */
+.featured-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:20px;
+}
+.featured-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:3px;padding:40px 36px;
+  position:relative;overflow:hidden;
+  transition:border-color .3s ease,transform .3s ease;
+}
+.featured-card:hover{
+  border-color:var(--border-hover);
+  transform:translateY(-2px);
+}
+.featured-card:first-child{
+  grid-row:1 / -1;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:56px 48px;
+}
+.featured-card:first-child .fc-title{
+  font-size:clamp(26px,2.5vw,32px);
+}
+.featured-card:first-child .fc-result{
+  font-size:15px;max-width:400px;
+}
+.fc-number{
+  font-family:var(--font-serif);font-size:72px;line-height:1;
+  color:var(--text);opacity:.04;position:absolute;top:20px;right:24px;
+}
+.featured-card:first-child .fc-number{font-size:120px;top:24px;right:32px}
+.fc-badge{
+  display:inline-block;font-family:var(--font-mono);font-size:10px;
+  color:var(--gold);background:var(--gold-dim);
+  padding:4px 12px;border-radius:2px;letter-spacing:.08em;
+  text-transform:uppercase;margin-bottom:20px;
+  border:1px solid rgba(196,154,46,0.15);
+}
+.fc-title{
+  font-family:var(--font-serif);font-size:22px;font-weight:400;
+  letter-spacing:-.01em;margin-bottom:14px;line-height:1.25;
+}
+.fc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.fc-tag{
+  font-family:var(--font-mono);font-size:10px;color:var(--text-dim);
+  border:1px solid var(--border);padding:3px 10px;border-radius:2px;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.fc-result{
+  font-size:14px;color:var(--text-muted);line-height:1.7;
+  margin-bottom:24px;
+}
+.fc-result strong{color:var(--gold-bright);font-weight:500}
+.fc-link{
+  font-family:var(--font-mono);font-size:11px;color:var(--gold);
+  letter-spacing:.06em;display:inline-flex;align-items:center;gap:6px;
+  text-transform:uppercase;
+  transition:gap .2s;
+}
+.fc-link:hover{gap:12px}
+.fc-link svg{width:12px;height:12px}
+
+/* ── Domain coverage pills ─────────────────────────────── */
+.domain-coverage{
+  display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;
+}
+.domain-pill{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;
+  color:var(--text-muted);background:var(--bg-card);
+  border:1px solid var(--border);padding:6px 14px;border-radius:2px;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.domain-pill .dp-count{
+  color:var(--gold);font-weight:500;
+}
+
+/* ── Filter bar — terminal style ──────────────────────── */
+.filter-bar{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px;
+}
+.filter-btn{
+  font-family:var(--font-mono);font-size:11px;
+  color:var(--text-dim);letter-spacing:.04em;text-transform:uppercase;
+  padding:8px 18px;border:1px solid var(--border);border-radius:2px;
+  background:var(--bg-elevated);
+  transition:color .15s,border-color .15s,background .15s;
+}
+.filter-btn:hover{color:var(--text-muted);border-color:var(--border-hover)}
+.filter-btn.active{
+  color:var(--gold);border-color:var(--gold);
+  background:var(--gold-dim);
+}
+
+/* ── Project grid ──────────────────────────────────────── */
+.project-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+  gap:16px;
+}
+.project-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:3px;padding:36px 32px;
+  position:relative;overflow:hidden;
+  border-left:3px solid transparent;
+  transition:transform .3s ease,border-color .3s ease,background .3s ease;
+}
+.project-card:hover{
+  border-color:var(--border-hover);
+  border-left-color:var(--gold);
+  background:var(--bg-card-hover);
+  transform:translateY(-2px);
+}
+.project-card.is-new::after{
+  content:'new';position:absolute;top:14px;right:14px;
+  font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gold);background:var(--gold-dim);
+  padding:3px 10px;border-radius:2px;
+  border:1px solid rgba(196,154,46,0.15);
+}
+.pc-number{
+  font-family:var(--font-serif);font-size:56px;line-height:1;
+  color:var(--text);opacity:.04;margin-bottom:4px;
+}
+.pc-title{
+  font-family:var(--font-sans);font-size:16px;font-weight:500;
+  letter-spacing:-.01em;margin-bottom:10px;line-height:1.3;
+}
+.pc-desc{
+  font-size:14px;color:var(--text-muted);line-height:1.7;
+  margin-bottom:18px;font-weight:300;
+}
+.pc-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.pc-tag{
+  font-family:var(--font-mono);font-size:10px;color:var(--text-dim);
+  border:1px solid var(--border);padding:3px 9px;border-radius:2px;
+  letter-spacing:.03em;text-transform:uppercase;
+}
+.pc-domain{
+  font-family:var(--font-mono);font-size:10px;color:var(--navy-bright);
+  border:1px solid var(--navy-dim);padding:3px 9px;border-radius:2px;
+  letter-spacing:.03em;text-transform:uppercase;
+  background:var(--navy-dim);
+}
+.pc-size{
+  font-family:var(--font-mono);font-size:10px;color:var(--navy-bright);
+  background:var(--navy-dim);padding:3px 9px;border-radius:2px;
+  letter-spacing:.03em;text-transform:uppercase;
+}
+.filter-btn.domain{
+  color:var(--text-dim);border-color:var(--navy-dim);
+}
+.filter-btn.domain:hover{color:var(--navy-bright);border-color:var(--navy)}
+.filter-btn.domain.active{
+  color:var(--navy-bright);border-color:var(--navy-bright);
+  background:var(--navy-dim);
+}
+.pc-link{
+  font-family:var(--font-mono);font-size:11px;color:var(--gold);
+  display:inline-flex;align-items:center;gap:6px;
+  letter-spacing:.04em;text-transform:uppercase;transition:gap .2s;
+}
+.pc-link:hover{gap:10px}
+.pc-link svg{width:11px;height:11px}
+
+/* ── Result badges on project cards ────────────────────── */
+.pc-result{
+  position:absolute;
+  top:14px;
+  right:14px;
+  font-family:var(--font-mono);
+  font-size:9px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--gold);
+  background:var(--navy-dim);
+  border:1px solid var(--navy);
+  padding:3px 10px;
+  border-radius:2px;
+}
+.is-new .pc-result{
+  top:36px;
+}
+
+/* ── How I work — ML workflow pipeline ─────────────────── */
+.workflow-section{padding:160px 0}
+.workflow-pipeline{
+  display:flex;align-items:center;gap:0;
+  overflow-x:auto;padding-bottom:8px;
+}
+.workflow-step{
+  flex:0 0 auto;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:3px;
+  padding:20px 24px;text-align:center;
+  min-width:140px;
+  transition:border-color .3s;
+}
+.workflow-step:hover{border-color:var(--border-hover)}
+.workflow-step-num{
+  font-family:var(--font-mono);font-size:9px;color:var(--text-dim);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;
+}
+.workflow-step-label{
+  font-family:var(--font-mono);font-size:12px;color:var(--text);
+  letter-spacing:.02em;font-weight:400;
+}
+.workflow-connector{
+  flex:0 0 32px;height:1px;background:var(--gold);position:relative;
+}
+.workflow-connector::after{
+  content:'';position:absolute;right:-1px;top:-3px;
+  width:0;height:0;
+  border-top:3px solid transparent;border-bottom:3px solid transparent;
+  border-left:5px solid var(--gold);
+}
+
+/* ── Skills ────────────────────────────────────────────── */
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px}
+
+/* Technical skills — left col */
+.skills-tech h3{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--gold);letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:32px;
+}
+.skill-group{margin-bottom:28px}
+.skill-group-label{
+  font-family:var(--font-mono);font-size:10px;color:var(--text-dim);
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;
+}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.skill-tag{
+  font-family:var(--font-mono);font-size:11px;color:var(--text-muted);
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:6px 14px;border-radius:2px;
+  transition:border-color .3s ease,color .3s ease;
+}
+.skill-tag:hover{border-color:var(--border-hover);color:var(--text)}
+
+/* Domain expertise — right col, navy-bordered cards */
+.skills-domain h3{
+  font-family:var(--font-mono);font-size:10px;
+  color:var(--gold);letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:32px;
+}
+.domain-card{
+  padding:20px 24px;
+  border:1px solid var(--border);
+  border-left:3px solid var(--navy-bright);
+  border-radius:3px;
+  background:var(--bg-elevated);
+  margin-bottom:12px;
+  display:flex;align-items:baseline;justify-content:space-between;
+  transition:border-color .3s ease;
+}
+.domain-card:hover{border-color:var(--border-hover);border-left-color:var(--navy-bright)}
+.domain-card:last-child{margin-bottom:0}
+.domain-name{font-size:14px;font-weight:400;color:var(--text)}
+.domain-note{
+  font-family:var(--font-mono);font-size:10px;color:var(--text-dim);
+  letter-spacing:.04em;text-transform:uppercase;
+}
+
+/* ── Skills ticker — horizontal scroll ─────────────────── */
+.skills-ticker{
+  margin-top:72px;overflow:hidden;position:relative;
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+}
+.skills-ticker-track{
+  display:flex;gap:32px;
+  animation:ticker 40s linear infinite;
+  width:max-content;
+}
+.skills-ticker-track span{
+  font-family:var(--font-mono);font-size:11px;color:var(--text-dim);
+  letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
+  padding:8px 0;
+}
+.skills-ticker-track span::before{
+  content:'';display:inline-block;width:4px;height:4px;
+  background:var(--gold);border-radius:1px;margin-right:12px;
+  vertical-align:middle;opacity:.5;
+}
+@keyframes ticker{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+/* ── About ─────────────────────────────────────────────── */
+.about-content{max-width:680px}
+.about-content p{
+  font-size:16px;color:var(--text-muted);line-height:1.85;
+  margin-bottom:20px;font-weight:300;
+}
+.about-content p strong{color:var(--text);font-weight:500}
+
+/* ── Looking-for callout ───────────────────────────────── */
+.about-callout{
+  border-left:3px solid var(--gold);
+  background:var(--bg-card);
+  padding:20px 28px;
+  margin-bottom:28px;
+  border-radius:0 3px 3px 0;
+}
+.about-callout p{
+  font-size:17px;color:var(--text);line-height:1.7;
+  margin-bottom:0;font-weight:300;
+}
+
+/* ── About CV button ───────────────────────────────────── */
+.about-cv{
+  font-family:var(--font-mono);font-size:10px;font-weight:500;
+  color:var(--gold);letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--gold);padding:10px 22px;border-radius:2px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:background .3s,color .3s;
+  margin-bottom:28px;
+}
+.about-cv:hover{background:var(--gold-dim)}
+
+.about-detail{
+  margin-top:48px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:3px;padding:36px 40px;
+  max-width:480px;
+}
+.about-detail h3{
+  font-family:var(--font-mono);font-size:10px;color:var(--gold);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:24px;
+}
+.about-detail-item{
+  padding:12px 0;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;
+  font-size:14px;
+}
+.about-detail-item:last-child{border-bottom:none}
+.about-detail-item .label{color:var(--text-dim);font-weight:300}
+.about-detail-item .value{color:var(--text);font-weight:400;text-align:right}
+
+.about-links{
+  margin-top:48px;display:flex;gap:32px;flex-wrap:wrap;
+}
+.about-link{
+  font-family:var(--font-mono);font-size:11px;color:var(--text-dim);
+  display:inline-flex;align-items:center;gap:8px;
+  letter-spacing:.04em;
+  padding:10px 0;border-bottom:1px solid var(--border);
+  transition:color .3s,border-color .3s;
+}
+.about-link:hover{color:var(--gold);border-color:var(--gold)}
+.about-link svg{width:14px;height:14px;opacity:.5}
+
+/* ── Footer — barely there ─────────────────────────────── */
+.footer{
+  padding:120px 0 40px;
+  text-align:center;
+}
+.footer p{
+  font-family:var(--font-mono);font-size:10px;color:var(--text-dim);
+  letter-spacing:.08em;text-transform:uppercase;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media(max-width:960px){
+  .featured-grid{grid-template-columns:1fr;grid-template-rows:auto}
+  .featured-card:first-child{grid-row:auto;padding:40px 36px}
+  .skills-layout{grid-template-columns:1fr}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-deco{display:none}
+  .workflow-pipeline{flex-wrap:wrap;gap:8px;justify-content:center}
+  .workflow-connector{flex:0 0 24px}
+}
+@media(max-width:768px){
+  section{padding:100px 0}
+  .workflow-section{padding:100px 0}
+  .container{padding:0 20px}
+  .nav-links{display:none}
+  .nav-cv{display:none}
+  .hero-stats{flex-direction:column;gap:28px}
+  .project-grid{grid-template-columns:1fr}
+  .featured-grid{gap:12px}
+  .filter-bar{gap:6px}
+  .about-links{flex-direction:column;gap:16px}
+  .about-detail{max-width:100%}
+  .hero h1{font-size:clamp(40px,10vw,64px)}
+  .skills-ticker{margin-top:48px}
+  .workflow-pipeline{flex-direction:column;align-items:stretch}
+  .workflow-step{min-width:auto}
+  .workflow-connector{width:1px;height:24px;flex:0 0 24px;margin:0 auto}
+  .workflow-connector::after{
+    right:auto;top:auto;bottom:-1px;left:-3px;
+    border-left:3px solid transparent;border-right:3px solid transparent;
+    border-top:5px solid var(--gold);border-bottom:none;
+  }
+  .domain-coverage{gap:6px}
+}
+
+/* ── Print ─────────────────────────────────────────────── */
+@media print{
+  body::before{display:none}
+  .nav{display:none}
+  body{background:#fff;color:#111}
+  .hero{min-height:auto;padding:40px 0}
+  .hero-bg-text,.hero-deco{display:none}
+  section{padding:40px 0;page-break-inside:avoid}
+  .workflow-section{padding:40px 0;page-break-inside:avoid}
+  .project-card,.featured-card,.about-detail,.domain-card{
+    border-color:#ddd;background:#fafafa;
+    break-inside:avoid;
+  }
+  .fc-tag,.pc-tag,.skill-tag,.filter-btn{border-color:#ccc;color:#333}
+  .section-label,.hero-label,.fc-badge,.fc-link,.pc-link{color:#333}
+  .fc-result strong{color:#333}
+  .pc-size{background:#eee;color:#333}
+  a{color:#111}
+  .skills-ticker,.results-ticker{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     Navigation
+     ═══════════════════════════════════════════════════════ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <div class="nav-brand"><strong>Ola K.</strong> / data science</div>
+    <div class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
+        <svg class="icon-moon" viewBox="0 0 16 16" fill="currentColor"><path d="M6 .278a.768.768 0 01.08.858 7.208 7.208 0 00-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 01.81.316.733.733 0 01-.031.893A8.349 8.349 0 018.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 016 .278z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2A.5.5 0 018 0zm0 13a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2A.5.5 0 018 13zm8-5a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zM3 8a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2A.5.5 0 013 8zm10.657-5.657a.5.5 0 010 .707l-1.414 1.415a.5.5 0 11-.707-.708l1.414-1.414a.5.5 0 01.707 0zm-9.193 9.193a.5.5 0 010 .707L3.05 13.657a.5.5 0 01-.707-.707l1.414-1.414a.5.5 0 01.707 0zm9.193 2.121a.5.5 0 01-.707 0l-1.414-1.414a.5.5 0 01.707-.707l1.414 1.414a.5.5 0 010 .707zM4.464 4.465a.5.5 0 01-.707 0L2.343 3.05a.5.5 0 11.707-.707l1.414 1.414a.5.5 0 010 .708z"/></svg>
+      </button>
+      <!-- CV link removed -->
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     Hero
+     ═══════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg-text" aria-hidden="true">16</div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-label fade-up">Portfolio</div>
+        <h1 class="fade-up">16 projects.<br><em>Real data.</em><br>Real models.</h1>
+        <p class="hero-sub fade-up">A machine learning portfolio built on Calgary Open Data, customer analytics, and statistical experimentation.</p>
+        <div class="hero-stats fade-up">
+          <div>
+            <div class="hero-stat-val">16</div>
+            <div class="hero-stat-label">Projects</div>
+          </div>
+          <div>
+            <div class="hero-stat-val">800K+</div>
+            <div class="hero-stat-label">Data points</div>
+          </div>
+        </div>
+        <a href="#featured" class="hero-cta fade-up">
+          View projects
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="hero-deco" aria-hidden="true">
+        <div class="hero-deco-line">classification <span>/</span> regression <span>/</span> nlp</div>
+        <div class="hero-deco-bar"></div>
+        <div class="hero-deco-line">time-series <span>/</span> clustering <span>/</span> experimentation</div>
+        <div class="hero-deco-bar"></div>
+        <div class="hero-deco-line">xgboost <span>/</span> shap <span>/</span> prophet <span>/</span> lstm</div>
+        <div class="hero-deco-bar"></div>
+        <div class="hero-deco-line">calgary open data <span>/</span> customer analytics</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     Key results ticker
+     ═══════════════════════════════════════════════════════ -->
+<div class="results-ticker" aria-hidden="true">
+  <div class="results-ticker-track">
+    <span class="results-ticker-item"><strong>0.713</strong> AUC — churn model</span>
+    <span class="results-ticker-item"><strong>85%</strong> churners caught</span>
+    <span class="results-ticker-item"><strong>$141K/yr</strong> projected savings</span>
+    <span class="results-ticker-item"><strong>2,155%</strong> campaign ROI</span>
+    <span class="results-ticker-item"><strong>30K</strong> rows A/B tested</span>
+    <span class="results-ticker-item"><strong>P(B>A) = 0.996</strong> — Bayesian test</span>
+    <span class="results-ticker-item"><strong>188K</strong> permits analyzed</span>
+    <span class="results-ticker-item"><strong>9.5M</strong> river flow readings</span>
+    <span class="results-ticker-item"><strong>16</strong> end-to-end projects</span>
+    <span class="results-ticker-item"><strong>0.713</strong> AUC — churn model</span>
+    <span class="results-ticker-item"><strong>85%</strong> churners caught</span>
+    <span class="results-ticker-item"><strong>$141K/yr</strong> projected savings</span>
+    <span class="results-ticker-item"><strong>2,155%</strong> campaign ROI</span>
+    <span class="results-ticker-item"><strong>30K</strong> rows A/B tested</span>
+    <span class="results-ticker-item"><strong>P(B>A) = 0.996</strong> — Bayesian test</span>
+    <span class="results-ticker-item"><strong>188K</strong> permits analyzed</span>
+    <span class="results-ticker-item"><strong>9.5M</strong> river flow readings</span>
+    <span class="results-ticker-item"><strong>16</strong> end-to-end projects</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     Featured projects — asymmetric grid
+     ═══════════════════════════════════════════════════════ -->
+<section id="featured">
+  <div class="container">
+    <div class="section-label fade-up">Featured</div>
+    <h2 class="section-title fade-up">Flagship projects</h2>
+    <p class="section-desc fade-up">Customer analytics, propensity modeling, and experimentation frameworks designed for telecom and subscription businesses.</p>
+
+    <div class="featured-grid">
+
+      <!-- Project 14 — large card -->
+      <div class="featured-card fade-up">
+        <span class="fc-number" aria-hidden="true">14</span>
+        <span class="fc-badge">New</span>
+        <h3 class="fc-title">Customer churn prediction</h3>
+        <div class="fc-tags">
+          <span class="fc-tag">Classification</span>
+          <span class="fc-tag">SHAP</span>
+          <span class="fc-tag">XGBoost</span>
+          <span class="fc-tag">LightGBM</span>
+        </div>
+        <p class="fc-result"><strong>85% of churners caught</strong>, $141K/year projected savings from targeted retention interventions.</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+          <a href="case-study-churn.html" class="fc-link" style="color:var(--gold);border-bottom:1px solid var(--gold-dim);padding-bottom:2px">
+            Read case study
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://github.com/guydev42/calgary-churn-prediction" class="fc-link" target="_blank" rel="noopener">
+            View code
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Project 15 — small card top-right -->
+      <div class="featured-card fade-up">
+        <span class="fc-number" aria-hidden="true">15</span>
+        <span class="fc-badge">New</span>
+        <h3 class="fc-title">Propensity and upsell scoring</h3>
+        <div class="fc-tags">
+          <span class="fc-tag">Propensity modeling</span>
+          <span class="fc-tag">Calibration</span>
+          <span class="fc-tag">Decile analysis</span>
+        </div>
+        <p class="fc-result"><strong>Top 3 deciles capture 63% of responders</strong>, 2,155% campaign ROI with targeted outreach.</p>
+        <a href="https://github.com/guydev42/calgary-propensity-scoring" class="fc-link" target="_blank" rel="noopener">
+          View on GitHub
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+
+      <!-- Project 16 — small card bottom-right -->
+      <div class="featured-card fade-up">
+        <span class="fc-number" aria-hidden="true">16</span>
+        <span class="fc-badge">New</span>
+        <h3 class="fc-title">A/B test framework</h3>
+        <div class="fc-tags">
+          <span class="fc-tag">Experimentation</span>
+          <span class="fc-tag">Bayesian</span>
+          <span class="fc-tag">Statistical testing</span>
+        </div>
+        <p class="fc-result"><strong>Frequentist + Bayesian + sequential testing</strong> in one unified analysis framework.</p>
+        <a href="https://github.com/guydev42/calgary-ab-test-framework" class="fc-link" target="_blank" rel="noopener">
+          View on GitHub
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     All projects
+     ═══════════════════════════════════════════════════════ -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label fade-up">All work</div>
+    <h2 class="section-title fade-up">Project catalog</h2>
+    <p class="section-desc fade-up">End-to-end machine learning projects spanning classification, regression, time-series forecasting, NLP, and more.</p>
+
+    <!-- Domain coverage pills -->
+    <div class="domain-coverage fade-up">
+      <span class="domain-pill">Urban planning <span class="dp-count">(5)</span></span>
+      <span class="domain-pill">Telecom &amp; customer analytics <span class="dp-count">(3)</span></span>
+      <span class="domain-pill">Environment &amp; energy <span class="dp-count">(3)</span></span>
+      <span class="domain-pill">Public safety <span class="dp-count">(2)</span></span>
+      <span class="domain-pill">Real estate <span class="dp-count">(1)</span></span>
+      <span class="domain-pill">Social services <span class="dp-count">(1)</span></span>
+      <span class="domain-pill">Business <span class="dp-count">(1)</span></span>
+    </div>
+
+    <!-- Technique filters -->
+    <div class="filter-bar fade-up" style="margin-bottom:8px">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="classification">Classification</button>
+      <button class="filter-btn" data-filter="regression">Regression</button>
+      <button class="filter-btn" data-filter="time-series">Time series</button>
+      <button class="filter-btn" data-filter="clustering">Clustering</button>
+      <button class="filter-btn" data-filter="nlp">NLP</button>
+      <button class="filter-btn" data-filter="anomaly-detection">Anomaly detection</button>
+      <button class="filter-btn" data-filter="experimentation">Experimentation</button>
+    </div>
+    <!-- Domain filters -->
+    <div class="filter-bar fade-up">
+      <button class="filter-btn domain" data-filter="urban-planning">Urban planning</button>
+      <button class="filter-btn domain" data-filter="telecom">Telecom &amp; customer analytics</button>
+      <button class="filter-btn domain" data-filter="environment">Environment &amp; energy</button>
+      <button class="filter-btn domain" data-filter="public-safety">Public safety</button>
+      <button class="filter-btn domain" data-filter="real-estate">Real estate</button>
+      <button class="filter-btn domain" data-filter="social-services">Social services</button>
+      <button class="filter-btn domain" data-filter="business">Business &amp; economics</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="project-grid">
+
+      <!-- 01 -->
+      <article class="project-card fade-up" data-categories="regression" data-domain="urban-planning">
+        <span class="pc-result">R² 0.89</span>
+        <div class="pc-number" aria-hidden="true">01</div>
+        <h3 class="pc-title">Building permit cost predictor</h3>
+        <p class="pc-desc">Predict construction costs from permit features using 484K+ historical Calgary records with XGBoost regression.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Urban planning</span>
+          <span class="pc-tag">Regression</span>
+          <span class="pc-tag">XGBoost</span>
+          <span class="pc-tag">Random Forest</span>
+          <span class="pc-size">484K rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-building-permit-predictor" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-building-permit-predictor/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 02 -->
+      <article class="project-card fade-up" data-categories="classification" data-domain="public-safety">
+        <span class="pc-result">85% accuracy</span>
+        <div class="pc-number" aria-hidden="true">02</div>
+        <h3 class="pc-title">Community crime classifier</h3>
+        <p class="pc-desc">Classify and analyze crime patterns across Calgary communities with demographic integration and risk scoring.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Public safety</span>
+          <span class="pc-tag">Classification</span>
+          <span class="pc-tag">Gradient Boosting</span>
+          <span class="pc-size">77K rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-crime-classifier" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-crime-classifier/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 03 -->
+      <article class="project-card fade-up" data-categories="clustering classification" data-domain="urban-planning">
+        <span class="pc-result">80% accuracy</span>
+        <div class="pc-number" aria-hidden="true">03</div>
+        <h3 class="pc-title">Traffic incident hotspot analyzer</h3>
+        <p class="pc-desc">Spatial clustering and temporal analysis of 60K+ traffic incidents with animated heatmaps and risk scoring.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Urban planning</span>
+          <span class="pc-tag">Clustering</span>
+          <span class="pc-tag">DBSCAN</span>
+          <span class="pc-tag">Classification</span>
+          <span class="pc-size">60K rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-traffic-hotspots" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-traffic-hotspots/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 04 -->
+      <article class="project-card fade-up" data-categories="time-series" data-domain="environment">
+        <span class="pc-result">R² 0.89</span>
+        <div class="pc-number" aria-hidden="true">04</div>
+        <h3 class="pc-title">River flow forecasting</h3>
+        <p class="pc-desc">Forecast Bow River levels with LSTM, Prophet, and ARIMA using 9.5M+ five-minute interval measurements.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Environment</span>
+          <span class="pc-tag">Time series</span>
+          <span class="pc-tag">LSTM</span>
+          <span class="pc-tag">Prophet</span>
+          <span class="pc-size">9.5M rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-river-flow-forecast" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-river-flow-forecast/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 05 -->
+      <article class="project-card fade-up" data-categories="time-series" data-domain="social-services">
+        <span class="pc-result">R² 0.88</span>
+        <div class="pc-number" aria-hidden="true">05</div>
+        <h3 class="pc-title">Shelter occupancy predictor</h3>
+        <p class="pc-desc">Forecast emergency shelter demand using 83K+ daily occupancy records for proactive resource allocation.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Social services</span>
+          <span class="pc-tag">Time series</span>
+          <span class="pc-tag">Prophet</span>
+          <span class="pc-tag">XGBoost</span>
+          <span class="pc-size">83K rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-shelter-occupancy" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-shelter-occupancy/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 06 -->
+      <article class="project-card fade-up" data-categories="clustering" data-domain="urban-planning">
+        <span class="pc-result">Silhouette 0.42</span>
+        <div class="pc-number" aria-hidden="true">06</div>
+        <h3 class="pc-title">Neighborhood segmentation</h3>
+        <p class="pc-desc">Cluster 200+ Calgary communities into livability profiles using census, crime, business, and housing data.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Urban planning</span>
+          <span class="pc-tag">Clustering</span>
+          <span class="pc-tag">PCA</span>
+          <span class="pc-tag">K-Means</span>
+          <span class="pc-size">200+ communities</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-neighborhood-segmentation" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-neighborhood-segmentation/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 07 -->
+      <article class="project-card fade-up" data-categories="nlp classification" data-domain="urban-planning">
+        <span class="pc-result">AUC 0.93</span>
+        <div class="pc-number" aria-hidden="true">07</div>
+        <h3 class="pc-title">Dev permit approval predictor</h3>
+        <p class="pc-desc">Predict development permit approval likelihood with NLP on 189K+ project descriptions.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Urban planning</span>
+          <span class="pc-tag">NLP</span>
+          <span class="pc-tag">TF-IDF</span>
+          <span class="pc-tag">Classification</span>
+          <span class="pc-size">189K rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-dev-permit-predictor" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-dev-permit-predictor/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 08 -->
+      <article class="project-card fade-up" data-categories="time-series" data-domain="environment">
+        <span class="pc-result">R² 0.86</span>
+        <div class="pc-number" aria-hidden="true">08</div>
+        <h3 class="pc-title">Solar energy forecaster</h3>
+        <p class="pc-desc">Forecast solar PV production across city facilities with seasonal decomposition and ROI analysis.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Energy</span>
+          <span class="pc-tag">Time series</span>
+          <span class="pc-tag">Regression</span>
+          <span class="pc-tag">Seasonal</span>
+          <span class="pc-size">Facility records</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-solar-forecaster" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-solar-forecaster/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 09 -->
+      <article class="project-card fade-up" data-categories="classification" data-domain="business">
+        <span class="pc-result">C-index 0.68</span>
+        <div class="pc-number" aria-hidden="true">09</div>
+        <h3 class="pc-title">Business survival recommender</h3>
+        <p class="pc-desc">Survival analysis on 22K+ business licences to identify longevity factors and recommend optimal locations.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Business</span>
+          <span class="pc-tag">Survival analysis</span>
+          <span class="pc-tag">Kaplan-Meier</span>
+          <span class="pc-tag">Cox PH</span>
+          <span class="pc-size">22K rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-business-survival" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-business-survival/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 10 -->
+      <article class="project-card fade-up" data-categories="anomaly-detection" data-domain="environment">
+        <span class="pc-result">75% precision</span>
+        <div class="pc-number" aria-hidden="true">10</div>
+        <h3 class="pc-title">Water quality anomaly detection</h3>
+        <p class="pc-desc">Monitor multi-parameter water quality across Calgary's watershed with Isolation Forest anomaly detection.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Environment</span>
+          <span class="pc-tag">Anomaly detection</span>
+          <span class="pc-tag">Isolation Forest</span>
+          <span class="pc-tag">LOF</span>
+          <span class="pc-size">Multi-site</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-water-quality" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-water-quality/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 11 -->
+      <article class="project-card fade-up" data-categories="nlp classification" data-domain="public-safety">
+        <span class="pc-result">F1 0.79</span>
+        <div class="pc-number" aria-hidden="true">11</div>
+        <h3 class="pc-title">311 service request router</h3>
+        <p class="pc-desc">NLP text classification on 500K+ citizen service requests for automatic department routing.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Public safety</span>
+          <span class="pc-tag">NLP</span>
+          <span class="pc-tag">TF-IDF</span>
+          <span class="pc-tag">Multi-label</span>
+          <span class="pc-size">500K rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-311-router" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-311-router/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 12 -->
+      <article class="project-card fade-up" data-categories="regression" data-domain="real-estate">
+        <span class="pc-result">R² 0.77</span>
+        <div class="pc-number" aria-hidden="true">12</div>
+        <h3 class="pc-title">Property assessment valuator</h3>
+        <p class="pc-desc">Estimate 500K+ property values with XGBoost and SHAP-based explainability for each valuation.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Real estate</span>
+          <span class="pc-tag">Regression</span>
+          <span class="pc-tag">SHAP</span>
+          <span class="pc-tag">XGBoost</span>
+          <span class="pc-size">500K properties</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-property-valuator" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-property-valuator/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 13 -->
+      <article class="project-card fade-up" data-categories="time-series" data-domain="urban-planning">
+        <span class="pc-result">R² 0.80</span>
+        <div class="pc-number" aria-hidden="true">13</div>
+        <h3 class="pc-title">Transit ridership optimizer</h3>
+        <p class="pc-desc">Graph network analysis and demand forecasting for Calgary Transit route optimization.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Urban planning</span>
+          <span class="pc-tag">Time series</span>
+          <span class="pc-tag">NetworkX</span>
+          <span class="pc-tag">Graph analysis</span>
+          <span class="pc-size">Route records</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-transit-optimizer" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-transit-optimizer/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 14 -->
+      <article class="project-card fade-up is-new" data-categories="classification" data-domain="telecom">
+        <span class="pc-result">AUC 0.713</span>
+        <div class="pc-number" aria-hidden="true">14</div>
+        <h3 class="pc-title">Customer churn prediction</h3>
+        <p class="pc-desc">Identify high-risk telecom customers before they cancel, with SHAP explainability and business impact analysis.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Telecom</span>
+          <span class="pc-tag">Classification</span>
+          <span class="pc-tag">SHAP</span>
+          <span class="pc-tag">XGBoost</span>
+          <span class="pc-size">5K customers</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-churn-prediction" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-churn-prediction/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 15 -->
+      <article class="project-card fade-up is-new" data-categories="classification" data-domain="telecom">
+        <span class="pc-result">AUC 0.775</span>
+        <div class="pc-number" aria-hidden="true">15</div>
+        <h3 class="pc-title">Propensity and upsell scoring</h3>
+        <p class="pc-desc">Score customer likelihood to respond to upsell campaigns with calibrated probabilities and decile analysis.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Customer analytics</span>
+          <span class="pc-tag">Propensity</span>
+          <span class="pc-tag">Calibration</span>
+          <span class="pc-tag">XGBoost</span>
+          <span class="pc-size">8K customers</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-propensity-scoring" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-propensity-scoring/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- 16 -->
+      <article class="project-card fade-up is-new" data-categories="experimentation" data-domain="telecom">
+        <span class="pc-result">p &lt; 0.001</span>
+        <div class="pc-number" aria-hidden="true">16</div>
+        <h3 class="pc-title">A/B test framework</h3>
+        <p class="pc-desc">Unified experimentation framework with frequentist, Bayesian, and sequential testing methods.</p>
+        <div class="pc-meta">
+          <span class="pc-domain">Experimentation</span>
+          <span class="pc-tag">Experimentation</span>
+          <span class="pc-tag">Bayesian</span>
+          <span class="pc-tag">Sequential</span>
+          <span class="pc-size">30K rows</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://github.com/guydev42/calgary-ab-test-framework" class="pc-link" target="_blank" rel="noopener">
+            Code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="https://guydev42.github.io/calgary-ab-test-framework/" class="pc-link" style="color:var(--navy-bright)">
+            Details <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     How I work — ML workflow pipeline
+     ═══════════════════════════════════════════════════════ -->
+<section class="workflow-section">
+  <div class="container">
+    <div class="section-label fade-up">Process</div>
+    <h2 class="section-title fade-up">How I work</h2>
+    <p class="section-desc fade-up">Every project follows a disciplined end-to-end pipeline, from raw data through production-ready models.</p>
+
+    <div class="workflow-pipeline fade-up">
+      <div class="workflow-step">
+        <div class="workflow-step-num">01</div>
+        <div class="workflow-step-label">Data collection</div>
+      </div>
+      <div class="workflow-connector"></div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">02</div>
+        <div class="workflow-step-label">EDA</div>
+      </div>
+      <div class="workflow-connector"></div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">03</div>
+        <div class="workflow-step-label">Feature engineering</div>
+      </div>
+      <div class="workflow-connector"></div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">04</div>
+        <div class="workflow-step-label">Modeling</div>
+      </div>
+      <div class="workflow-connector"></div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">05</div>
+        <div class="workflow-step-label">Evaluation</div>
+      </div>
+      <div class="workflow-connector"></div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">06</div>
+        <div class="workflow-step-label">Deployment</div>
+      </div>
+      <div class="workflow-connector"></div>
+      <div class="workflow-step">
+        <div class="workflow-step-num">07</div>
+        <div class="workflow-step-label">Monitoring</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     Skills
+     ═══════════════════════════════════════════════════════ -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label fade-up">Capabilities</div>
+    <h2 class="section-title fade-up">Skills and tools</h2>
+    <p class="section-desc fade-up">Technical depth across the full machine learning lifecycle, from data engineering to model deployment.</p>
+
+    <div class="skills-layout fade-up">
+
+      <!-- Technical skills -->
+      <div class="skills-tech">
+        <h3>Technical</h3>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">Julia</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Machine learning</div>
+          <div class="skill-tags">
+            <span class="skill-tag">scikit-learn</span>
+            <span class="skill-tag">XGBoost</span>
+            <span class="skill-tag">LightGBM</span>
+            <span class="skill-tag">SHAP</span>
+            <span class="skill-tag">Prophet</span>
+            <span class="skill-tag">ARIMA</span>
+            <span class="skill-tag">LSTM</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Data</div>
+          <div class="skill-tags">
+            <span class="skill-tag">pandas</span>
+            <span class="skill-tag">NumPy</span>
+            <span class="skill-tag">SciPy</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Visualization</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Matplotlib</span>
+            <span class="skill-tag">Seaborn</span>
+            <span class="skill-tag">Plotly</span>
+            <span class="skill-tag">Streamlit</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Cloud</div>
+          <div class="skill-tags">
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">GCP</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">Tools</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Jupyter</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Domain expertise — navy-bordered cards -->
+      <div class="skills-domain">
+        <h3>Domain expertise</h3>
+
+        <div class="domain-card">
+          <span class="domain-name">Customer analytics</span>
+          <span class="domain-note">Churn, propensity, CLV</span>
+        </div>
+        <div class="domain-card">
+          <span class="domain-name">Experimentation</span>
+          <span class="domain-note">A/B testing, Bayesian inference</span>
+        </div>
+        <div class="domain-card">
+          <span class="domain-name">Time-series forecasting</span>
+          <span class="domain-note">ARIMA, Prophet, LSTM</span>
+        </div>
+        <div class="domain-card">
+          <span class="domain-name">NLP</span>
+          <span class="domain-note">TF-IDF, text classification</span>
+        </div>
+        <div class="domain-card">
+          <span class="domain-name">Geospatial analysis</span>
+          <span class="domain-note">Clustering, heatmaps</span>
+        </div>
+        <div class="domain-card">
+          <span class="domain-name">MLOps fundamentals</span>
+          <span class="domain-note">Pipelines, versioning</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scrolling ticker -->
+    <div class="skills-ticker fade-up" aria-hidden="true">
+      <div class="skills-ticker-track">
+        <span>Python</span><span>XGBoost</span><span>SHAP</span><span>scikit-learn</span><span>Prophet</span><span>LSTM</span><span>pandas</span><span>SQL</span><span>LightGBM</span><span>Plotly</span><span>Docker</span><span>AWS</span><span>GCP</span><span>Streamlit</span><span>NumPy</span><span>SciPy</span><span>Git</span><span>Jupyter</span><span>Julia</span><span>Matplotlib</span><span>Seaborn</span><span>ARIMA</span>
+        <span>Python</span><span>XGBoost</span><span>SHAP</span><span>scikit-learn</span><span>Prophet</span><span>LSTM</span><span>pandas</span><span>SQL</span><span>LightGBM</span><span>Plotly</span><span>Docker</span><span>AWS</span><span>GCP</span><span>Streamlit</span><span>NumPy</span><span>SciPy</span><span>Git</span><span>Jupyter</span><span>Julia</span><span>Matplotlib</span><span>Seaborn</span><span>ARIMA</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     About
+     ═══════════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="section-label fade-up">Background</div>
+    <h2 class="section-title fade-up">About</h2>
+
+    <div class="about-content fade-up">
+      <p><strong>Ola K.</strong> is a data scientist based in Canada with a background in mathematics, data science, and applied machine learning.</p>
+      <p>This portfolio was built to demonstrate end-to-end ML capabilities on real-world data. The first 13 projects use Calgary Open Data covering urban transportation, public safety, environment, and real estate. Projects 14 through 16 focus on customer analytics and experimentation for telecom and subscription businesses.</p>
+      <p>Core interests include customer analytics, experimentation design, production ML systems, and using statistical rigor to drive business decisions.</p>
+
+      <div class="about-callout">
+        <p>Currently seeking data science roles focused on customer analytics, experimentation, and production ML systems. Open to remote positions across Canada.</p>
+      </div>
+
+      <!-- CV link removed -->
+
+      <div class="about-detail">
+        <h3>At a glance</h3>
+        <div class="about-detail-item">
+          <span class="label">Location</span>
+          <span class="value">Canada (open to remote)</span>
+        </div>
+        <div class="about-detail-item">
+          <span class="label">Focus</span>
+          <span class="value">Applied ML, customer analytics</span>
+        </div>
+        <div class="about-detail-item">
+          <span class="label">Background</span>
+          <span class="value">Mathematics, data science</span>
+        </div>
+        <div class="about-detail-item">
+          <span class="label">Projects</span>
+          <span class="value">16 end-to-end</span>
+        </div>
+        <div class="about-detail-item">
+          <span class="label">Availability</span>
+          <span class="value">Open to opportunities</span>
+        </div>
+      </div>
+
+      <div class="about-links">
+        <a href="https://github.com/guydev42" class="about-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          github.com/guydev42
+        </a>
+        <a href="https://linkedin.com/in/ola-g" class="about-link" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></svg>
+          linkedin.com/in/ola-g
+        </a>
+        <a href="mailto:guydev42@gmail.com" class="about-link">
+          <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V4zm2-1a1 1 0 00-1 1v.217l7 4.2 7-4.2V4a1 1 0 00-1-1H2zm13 2.383l-4.758 2.855L15 11.114V5.383zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 002 13h12a1 1 0 00.966-.739zM1 11.114l4.758-2.876L1 5.383v5.731z"/></svg>
+          guydev42@gmail.com
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     Footer
+     ═══════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <p>Ola K. &middot; 2026 &middot; Built with data</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     Scripts
+     ═══════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  'use strict';
+
+  /* ── Theme toggle ────────────────────────────────────── */
+  var toggle = document.getElementById('theme-toggle');
+  var stored = localStorage.getItem('theme');
+  if(stored === 'light') document.documentElement.setAttribute('data-theme','light');
+
+  toggle.addEventListener('click',function(){
+    var current = document.documentElement.getAttribute('data-theme');
+    var next = current === 'light' ? '' : 'light';
+    document.documentElement.setAttribute('data-theme', next || '');
+    localStorage.setItem('theme', next || 'dark');
+  });
+
+  /* ── Scroll reveal with IntersectionObserver ───────── */
+  var fadeEls = document.querySelectorAll('.fade-up');
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      });
+    },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+    fadeEls.forEach(function(el){obs.observe(el);});
+  } else {
+    fadeEls.forEach(function(el){el.classList.add('visible');});
+  }
+
+  /* ── Filter buttons (technique + domain) ─────────── */
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var cards = document.querySelectorAll('.project-card');
+
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      // Deactivate siblings in the same filter bar
+      var siblings = btn.parentElement.querySelectorAll('.filter-btn');
+      siblings.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+
+      // If "All" is clicked, also deactivate domain filters
+      var f = btn.getAttribute('data-filter');
+      if(f === 'all'){
+        document.querySelectorAll('.filter-btn.domain').forEach(function(b){ b.classList.remove('active'); });
+      }
+
+      // Get active technique and domain filters
+      var techActive = document.querySelector('.filter-bar:first-of-type .filter-btn.active');
+      var domainActive = document.querySelector('.filter-bar:last-of-type .filter-btn.domain.active');
+      var techFilter = techActive ? techActive.getAttribute('data-filter') : 'all';
+      var domainFilter = domainActive ? domainActive.getAttribute('data-filter') : null;
+
+      cards.forEach(function(card){
+        var cats = card.getAttribute('data-categories') || '';
+        var domain = card.getAttribute('data-domain') || '';
+        var techMatch = (techFilter === 'all') || (cats.indexOf(techFilter) !== -1);
+        var domainMatch = !domainFilter || (domain === domainFilter);
+        card.style.display = (techMatch && domainMatch) ? '' : 'none';
+      });
+    });
+  });
+
+  /* ── Smooth scroll for nav links ───────────────────── */
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var target = document.querySelector(this.getAttribute('href'));
+      if(target){
+        e.preventDefault();
+        var offset = 80;
+        var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({top:top,behavior:'smooth'});
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
