@@ -202,5 +202,5 @@ Dataset inspired by the IBM Telco Customer Churn dataset. Built as part of the [
 <div align="center">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer" width="100%"/>
 
-**[Ola G](https://github.com/guydev42)**
+**[Ola K.](https://github.com/guydev42)**
 </div>
