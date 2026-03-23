@@ -33,8 +33,8 @@ button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
   --border:#385588;
   --border-hover:#4A6CAA;
   --text:#EDE9E2;
-  --text-muted:#A0A8BC;
-  --text-dim:#6A7590;
+  --text-muted:#B8BFD0;
+  --text-dim:#8892A8;
   --navy:#3B6FD4;
   --navy-bright:#5588EE;
   --navy-dim:rgba(59,111,212,0.25);
@@ -91,6 +91,14 @@ body::before{
 .hero .fade-up:nth-child(4){transition-delay:.3s}
 .hero .fade-up:nth-child(5){transition-delay:.4s}
 
+/* ── Accessibility: reduced motion ─────────────────────── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}
+  .fade-up{opacity:1;transform:none}
+  #particle-canvas{display:none}
+  .results-ticker-track,.skills-ticker-track{animation:none!important}
+}
+
 /* ── Layout ────────────────────────────────────────────── */
 .container{max-width:var(--max-w);margin:0 auto;padding:0 32px}
 section{padding:160px 0}
@@ -134,14 +142,33 @@ section{padding:160px 0}
   color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase;
   transition:color .3s;
   position:relative;
+  padding:8px 0;min-height:44px;display:flex;align-items:center;
 }
 .nav-links a:hover{color:var(--navy-bright)}
 .nav-links a::after{
-  content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;
+  content:'';position:absolute;bottom:6px;left:0;right:0;height:1px;
   background:var(--navy-bright);transform:scaleX(0);
   transition:transform .3s var(--ease);transform-origin:left;
 }
 .nav-links a:hover::after{transform:scaleX(1)}
+
+/* ── Hamburger menu (mobile) ──────────────────────────── */
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer;z-index:101}
+.hamburger span{width:22px;height:2px;background:var(--text-muted);border-radius:1px;transition:transform .3s,opacity .3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-mobile{
+  display:none;position:fixed;top:60px;left:0;right:0;
+  background:var(--bg);border-bottom:1px solid var(--border);
+  padding:24px 32px;flex-direction:column;gap:20px;z-index:99;
+}
+.nav-mobile.open{display:flex}
+.nav-mobile a{
+  font-family:var(--font-mono);font-size:13px;color:var(--text-muted);
+  letter-spacing:.06em;text-transform:uppercase;padding:12px 0;
+  border-bottom:1px solid var(--border);
+}
 
 /* ── Nav right group (toggle + CV) ─────────────────────── */
 .nav-right{display:flex;align-items:center;gap:16px}
@@ -360,7 +387,7 @@ section{padding:160px 0}
 .filter-btn{
   font-family:var(--font-mono);font-size:11px;
   color:var(--text-dim);letter-spacing:.04em;text-transform:uppercase;
-  padding:8px 18px;border:1px solid var(--border);border-radius:2px;
+  padding:10px 18px;min-height:44px;border:1px solid var(--border);border-radius:2px;
   background:var(--bg-elevated);
   transition:color .15s,border-color .15s,background .15s;
 }
@@ -706,6 +733,7 @@ section{padding:160px 0}
   .container{padding:0 20px}
   .nav-links{display:none}
   .nav-cv{display:none}
+  .hamburger{display:flex}
   .hero-stats{flex-direction:column;gap:28px}
   .project-grid{grid-template-columns:1fr}
   .featured-grid{gap:12px}
@@ -756,6 +784,9 @@ section{padding:160px 0}
       <a href="#skills">Skills</a>
       <a href="about.html">About me</a>
     </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <div class="nav-right">
       <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light and dark mode">
         <svg class="icon-moon" viewBox="0 0 16 16" fill="currentColor"><path d="M6 .278a.768.768 0 01.08.858 7.208 7.208 0 00-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 01.81.316.733.733 0 01-.031.893A8.349 8.349 0 018.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 016 .278z"/></svg>
@@ -765,6 +796,12 @@ section{padding:160px 0}
     </div>
   </div>
 </nav>
+<div class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+  <a href="#projects">Projects</a>
+  <a href="#process">Process</a>
+  <a href="#skills">Skills</a>
+  <a href="about.html">About me</a>
+</div>
 
 <!-- ═══════════════════════════════════════════════════════
      Hero
@@ -2069,6 +2106,24 @@ section{padding:160px 0}
       requestAnimationFrame(draw);
     }
     draw();
+  }
+
+  /* ── Hamburger toggle ──────────────────────────────── */
+  var hamburger = document.getElementById('hamburger');
+  var navMobile = document.getElementById('nav-mobile');
+  if(hamburger && navMobile){
+    hamburger.addEventListener('click', function(){
+      var open = hamburger.classList.toggle('open');
+      navMobile.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open);
+    });
+    navMobile.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        hamburger.classList.remove('open');
+        navMobile.classList.remove('open');
+        hamburger.setAttribute('aria-expanded','false');
+      });
+    });
   }
 
 })();
