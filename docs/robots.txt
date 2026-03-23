@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://guydev42.github.io/calgary-data-portfolio/sitemap.xml
