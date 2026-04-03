@@ -1,6 +1,6 @@
 # Calgary data science and machine learning portfolio
 
-23 end-to-end machine learning projects spanning urban analytics, customer analytics, NLP, fintech, MLOps, and more. Built on Calgary Open Data, synthetic datasets, and real-world industry patterns.
+26 end-to-end machine learning projects spanning urban analytics, customer analytics, NLP, fintech, MLOps, and more. Built on Calgary Open Data, synthetic datasets, and real-world industry patterns.
 
 **Portfolio site:** [guydev42.github.io/calgary-data-portfolio](https://guydev42.github.io/calgary-data-portfolio/)
 

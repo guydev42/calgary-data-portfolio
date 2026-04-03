@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23162240'/><path d='M8 22 L12 12 L16 18 L20 8 L24 14' stroke='%23E8C230' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='12' cy='12' r='2' fill='%233B6FD4'/><circle cx='16' cy='18' r='2' fill='%233B6FD4'/><circle cx='20' cy='8' r='2' fill='%233B6FD4'/></svg>">
+<meta property="og:image" content="https://capsule-render.vercel.app/api?type=rect&color=162240&height=200&text=Calgary%20Data%20Portfolio&fontSize=30&fontColor=E8C230&desc=Ola%20Kowale&descColor=3B6FD4">
+<title>Industry benchmark engine — Calgary data portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #162240;
+  --bg-elevated: #1D2D52;
+  --bg-card: #243868;
+  --border: #385588;
+  --border-hover: #4A6CAA;
+  --text: #EDE9E2;
+  --text-muted: #A0A8BC;
+  --text-dim: #6A7590;
+  --navy: #3B6FD4;
+  --navy-bright: #5588EE;
+  --gold: #E8C230;
+  --gold-dim: rgba(232,194,48,0.18);
+}
+
+[data-theme="light"] {
+  --bg: #F4F1EC;
+  --bg-elevated: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --border: #D4CFC6;
+  --border-hover: #B0A998;
+  --text: #1A1A1A;
+  --text-muted: #5A5A5A;
+  --text-dim: #8A8A8A;
+  --navy: #3B6FD4;
+  --navy-bright: #2A5BC0;
+  --gold: #C4A020;
+  --gold-dim: rgba(196,160,32,0.14);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+
+/* Nav */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+nav a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--gold); }
+.nav-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--text-muted);
+  padding: 0.35rem 0.65rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.theme-toggle:hover { border-color: var(--border-hover); color: var(--text); }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.6s ease forwards;
+}
+.fade-up:nth-child(2) { animation-delay: 0.08s; }
+.fade-up:nth-child(3) { animation-delay: 0.16s; }
+.fade-up:nth-child(4) { animation-delay: 0.24s; }
+
+/* Hero */
+.hero { padding: 4rem 0 3rem; position: relative; }
+.hero-number {
+  font-family: 'Instrument Serif', serif;
+  font-size: 7rem;
+  color: var(--text-dim);
+  opacity: 0.18;
+  line-height: 1;
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+}
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.8rem;
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+  max-width: 600px;
+}
+.hero-desc {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 540px;
+  margin-bottom: 1.5rem;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+.tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+.tag--gold { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+.tag--navy { border-color: var(--navy); color: var(--navy-bright); }
+.hero-metric {
+  display: inline-block;
+  padding: 1.25rem 2rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--bg-elevated);
+}
+.hero-metric-value {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.6rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.hero-metric-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-top: 0.3rem;
+  letter-spacing: 0.03em;
+}
+
+/* Sections */
+section { padding: 3rem 0; border-top: 1px solid var(--border); }
+section h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.7rem;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+}
+section .section-sub {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+/* App preview */
+.app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+.app-card {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--bg-elevated);
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+.app-card:hover { border-color: var(--border-hover); }
+.app-card-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+}
+.app-card ul {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+.app-card li {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding: 0.15rem 0;
+}
+.app-card li::before {
+  content: '\2014\00a0';
+  color: var(--text-dim);
+}
+.mock { border-radius: 2px; overflow: hidden; }
+
+/* Chart mocks */
+.mock-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 56px;
+  padding: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.mock-bar {
+  flex: 1;
+  border-radius: 1px 1px 0 0;
+  min-width: 6px;
+}
+.mock-bar--navy { background: var(--navy); }
+.mock-bar--gold { background: var(--gold); }
+.mock-bar--dim { background: var(--text-dim); opacity: 0.5; }
+
+.mock-heatmap {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  padding: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.mock-cell {
+  height: 14px;
+  border-radius: 1px;
+}
+
+.mock-scatter {
+  position: relative;
+  height: 56px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.mock-dot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--navy-bright);
+  opacity: 0.7;
+}
+
+.mock-waterfall {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 56px;
+  padding: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.mock-wf-bar {
+  flex: 1;
+  border-radius: 1px;
+}
+
+.mock-radar {
+  position: relative;
+  height: 56px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mock-radar-shape {
+  width: 40px;
+  height: 40px;
+  background: rgba(59, 111, 212, 0.2);
+  border: 2px solid var(--navy);
+  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+}
+
+.btn-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.btn {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  padding: 0.65rem 1.5rem;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.btn--gold {
+  background: var(--gold);
+  color: #162240;
+  border-color: var(--gold);
+}
+.btn--gold:hover { background: #D4B02A; }
+.btn--outline {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+.btn--outline:hover { border-color: var(--border-hover); color: var(--text); }
+.code-block {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.78rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1rem 1.25rem;
+  margin-top: 1.5rem;
+  color: var(--text-muted);
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.7;
+}
+.code-block .prompt { color: var(--gold); }
+
+/* Metric cards */
+.metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.metric-card {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1.25rem;
+  background: var(--bg-elevated);
+  text-align: center;
+  transition: border-color 0.2s;
+}
+.metric-card:hover { border-color: var(--border-hover); }
+.metric-value {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2rem;
+  color: var(--gold);
+  line-height: 1.1;
+}
+.metric-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  margin-top: 0.35rem;
+  letter-spacing: 0.03em;
+}
+
+/* Methodology */
+.method-text {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  max-width: 640px;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+.pipeline::before {
+  content: '';
+  position: absolute;
+  top: 1.4rem;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: var(--border);
+}
+.pipeline-step { text-align: center; position: relative; }
+.pipeline-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--navy);
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+  margin: 0 auto 0.6rem;
+  position: relative;
+  z-index: 1;
+}
+.pipeline-step:last-child .pipeline-dot { background: var(--gold); }
+.pipeline-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.pipeline-detail {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-top: 0.2rem;
+}
+
+/* Links */
+.links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--bg-elevated);
+  transition: border-color 0.2s;
+}
+.link-card:hover { border-color: var(--border-hover); }
+.link-icon {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--navy-bright);
+  flex-shrink: 0;
+  width: 2rem;
+  text-align: center;
+}
+.link-text-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+.link-text-sub {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 0;
+  margin-top: 1rem;
+  text-align: center;
+}
+footer p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+footer a { color: var(--text-muted); text-decoration: none; }
+footer a:hover { color: var(--gold); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2rem; }
+  .hero-number { font-size: 4.5rem; }
+  .app-grid { grid-template-columns: 1fr; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .pipeline { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .pipeline::before { display: none; }
+  .links-grid { grid-template-columns: 1fr; }
+  nav { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 1.7rem; }
+  .hero-number { font-size: 3.5rem; top: 1rem; }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .pipeline { grid-template-columns: 1fr; }
+}
+
+/* Print */
+@media print {
+  body { background: #fff; color: #111; }
+  body::before { display: none; }
+  nav, .theme-toggle, .btn-row, .code-block { display: none; }
+  .hero-number { opacity: 0.08; }
+  section { border-top-color: #ccc; }
+  .app-card, .metric-card, .link-card {
+    border-color: #ccc;
+    background: #fafafa;
+  }
+  .hero-metric-value, .metric-value { color: #333; }
+  .mock-bars, .mock-scatter, .mock-heatmap, .mock-waterfall, .mock-radar {
+    border-color: #ccc;
+    background: #f5f5f5;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Nav -->
+<nav class="fade-up">
+  <a href="https://guydev42.github.io/calgary-data-portfolio/">Back to portfolio</a>
+  <span class="nav-title">Industry benchmark engine</span>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">Light</button>
+</nav>
+
+<!-- Hero -->
+<header class="hero fade-up">
+  <span class="hero-number">26</span>
+  <h1>Industry benchmark engine</h1>
+  <p class="hero-desc">Benchmarking recognition program KPIs across 8 industries with percentile-based peer comparison, gap analysis, and custom report generation for 500 companies.</p>
+  <div class="tags">
+    <span class="tag tag--gold">Percentile engine</span>
+    <span class="tag tag--gold">Gap analysis</span>
+    <span class="tag tag--navy">Benchmarking</span>
+    <span class="tag tag--navy">Peer comparison</span>
+    <span class="tag">HR tech</span>
+    <span class="tag">8 Industries</span>
+  </div>
+  <div class="hero-metric">
+    <div class="hero-metric-value">500</div>
+    <div class="hero-metric-label">Companies benchmarked across 12 KPIs</div>
+  </div>
+</header>
+
+<!-- App preview -->
+<section class="fade-up">
+  <h2>Interactive dashboard</h2>
+  <p class="section-sub">Five-page Streamlit application for industry benchmarking and peer comparison</p>
+  <div class="app-grid">
+
+    <div class="app-card">
+      <div class="app-card-name">Industry Overview</div>
+      <ul>
+        <li>KPI comparison across 8 industries</li>
+        <li>Cross-industry normalized heatmap</li>
+        <li>Filterable industry summary statistics</li>
+      </ul>
+      <div class="mock mock-heatmap">
+        <div class="mock-cell" style="background:var(--navy);opacity:0.9"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.5"></div>
+        <div class="mock-cell" style="background:var(--gold);opacity:0.3"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.4"></div>
+        <div class="mock-cell" style="background:var(--gold);opacity:0.6"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.5"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.85"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.6"></div>
+        <div class="mock-cell" style="background:var(--gold);opacity:0.4"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.35"></div>
+        <div class="mock-cell" style="background:var(--gold);opacity:0.3"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.6"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.7"></div>
+        <div class="mock-cell" style="background:var(--gold);opacity:0.5"></div>
+        <div class="mock-cell" style="background:var(--navy);opacity:0.9"></div>
+      </div>
+    </div>
+
+    <div class="app-card">
+      <div class="app-card-name">Company Benchmarker</div>
+      <ul>
+        <li>Peer comparison with configurable filters</li>
+        <li>Percentile radar chart visualization</li>
+        <li>Color-coded favorable/unfavorable gaps</li>
+      </ul>
+      <div class="mock mock-radar">
+        <div class="mock-radar-shape"></div>
+      </div>
+    </div>
+
+    <div class="app-card">
+      <div class="app-card-name">Percentile Rankings</div>
+      <ul>
+        <li>Company-level rankings by any KPI</li>
+        <li>Distribution histograms by industry</li>
+        <li>Industry-level ranking tables</li>
+      </ul>
+      <div class="mock mock-bars">
+        <div class="mock-bar mock-bar--gold" style="height:95%"></div>
+        <div class="mock-bar mock-bar--gold" style="height:85%"></div>
+        <div class="mock-bar mock-bar--navy" style="height:72%"></div>
+        <div class="mock-bar mock-bar--navy" style="height:65%"></div>
+        <div class="mock-bar mock-bar--navy" style="height:55%"></div>
+        <div class="mock-bar mock-bar--dim" style="height:42%"></div>
+        <div class="mock-bar mock-bar--dim" style="height:30%"></div>
+        <div class="mock-bar mock-bar--dim" style="height:18%"></div>
+      </div>
+    </div>
+
+    <div class="app-card">
+      <div class="app-card-name">Trend Analysis</div>
+      <ul>
+        <li>Scatter plots with OLS trendlines</li>
+        <li>Full KPI correlation matrix</li>
+        <li>Box plot distributions by industry</li>
+      </ul>
+      <div class="mock mock-scatter">
+        <div class="mock-dot" style="left:12%;top:65%"></div>
+        <div class="mock-dot" style="left:22%;top:52%"></div>
+        <div class="mock-dot" style="left:30%;top:58%;background:var(--gold)"></div>
+        <div class="mock-dot" style="left:38%;top:40%"></div>
+        <div class="mock-dot" style="left:48%;top:35%;background:var(--gold)"></div>
+        <div class="mock-dot" style="left:55%;top:28%"></div>
+        <div class="mock-dot" style="left:65%;top:22%;background:var(--gold)"></div>
+        <div class="mock-dot" style="left:72%;top:18%"></div>
+        <div class="mock-dot" style="left:82%;top:12%"></div>
+        <div class="mock-dot" style="left:88%;top:15%;background:var(--gold)"></div>
+      </div>
+    </div>
+
+    <div class="app-card" style="grid-column: 1 / -1;">
+      <div class="app-card-name">Custom Report Generator</div>
+      <ul>
+        <li>Gap analysis against configurable target percentile (P50-P95)</li>
+        <li>Priority-ranked improvement roadmap with High/Medium/On-track classification</li>
+        <li>Full percentile card and downloadable CSV export for any company</li>
+      </ul>
+      <div class="mock mock-waterfall">
+        <div class="mock-wf-bar" style="height:38px;background:var(--navy);opacity:0.8"></div>
+        <div class="mock-wf-bar" style="height:30px;background:var(--navy);opacity:0.6"></div>
+        <div class="mock-wf-bar" style="height:20px;background:var(--gold);opacity:0.7"></div>
+        <div class="mock-wf-bar" style="height:14px;background:var(--navy);opacity:0.4"></div>
+        <div class="mock-wf-bar" style="height:10px;background:var(--gold);opacity:0.5"></div>
+        <div class="mock-wf-bar" style="height:7px;background:var(--navy);opacity:0.3"></div>
+        <div class="mock-wf-bar" style="height:5px;background:var(--gold);opacity:0.3"></div>
+        <div class="mock-wf-bar" style="height:42px;background:var(--gold);opacity:0.9"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="btn-row">
+    <a href="https://calgary-benchmark.streamlit.app/" class="btn btn--gold" target="_blank" rel="noopener">Launch live app</a>
+    <a href="https://github.com/guydev42/calgary-data-portfolio/tree/main/project_26_industry_benchmark_engine" class="btn btn--outline" target="_blank" rel="noopener">View source</a>
+  </div>
+
+  <div class="code-block"><span class="prompt">$</span> pip install -r requirements.txt && python generate_data.py && streamlit run app.py</div>
+</section>
+
+<!-- Key results -->
+<section class="fade-up">
+  <h2>Key results</h2>
+  <p class="section-sub">Benchmarking 500 companies across 8 industries with 12 KPIs</p>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-value">8</div>
+      <div class="metric-label">Industries covered</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">500</div>
+      <div class="metric-label">Companies benchmarked</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">12</div>
+      <div class="metric-label">KPIs tracked</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">P75</div>
+      <div class="metric-label">Default target percentile</div>
+    </div>
+  </div>
+</section>
+
+<!-- Methodology -->
+<section class="fade-up">
+  <h2>Methodology</h2>
+  <p class="method-text">
+    Built on 500 company records across 8 industries with 12 KPIs covering recognition programs, employee engagement, HR metrics, and financial performance. The percentile engine computes rankings within configurable peer groups (industry, size, region). Gap analysis identifies priority improvement areas against any target percentile. Custom reports are exportable as CSV for client delivery.
+  </p>
+  <div class="pipeline">
+    <div class="pipeline-step">
+      <div class="pipeline-dot"></div>
+      <div class="pipeline-label">Data ingestion</div>
+      <div class="pipeline-detail">500 companies, 12 KPIs</div>
+    </div>
+    <div class="pipeline-step">
+      <div class="pipeline-dot"></div>
+      <div class="pipeline-label">Peer filtering</div>
+      <div class="pipeline-detail">Industry, size, region</div>
+    </div>
+    <div class="pipeline-step">
+      <div class="pipeline-dot"></div>
+      <div class="pipeline-label">Percentile engine</div>
+      <div class="pipeline-detail">Rankings and gap analysis</div>
+    </div>
+    <div class="pipeline-step">
+      <div class="pipeline-dot"></div>
+      <div class="pipeline-label">Report generation</div>
+      <div class="pipeline-detail">Dashboard and CSV export</div>
+    </div>
+  </div>
+</section>
+
+<!-- Links -->
+<section class="fade-up">
+  <h2>Links</h2>
+  <div class="links-grid">
+    <a href="https://github.com/guydev42/calgary-data-portfolio/tree/main/project_26_industry_benchmark_engine" class="link-card" target="_blank" rel="noopener">
+      <span class="link-icon">{}</span>
+      <div>
+        <div class="link-text-title">View code on GitHub</div>
+        <div class="link-text-sub">Source, notebooks, and benchmark engine</div>
+      </div>
+    </a>
+    <a href="https://github.com/guydev42/calgary-data-portfolio/tree/main/project_26_industry_benchmark_engine/notebooks" target="_blank" rel="noopener" class="link-card">
+      <span class="link-icon">nb</span>
+      <div>
+        <div class="link-text-title">View notebooks</div>
+        <div class="link-text-sub">EDA, benchmark analysis, segmentation</div>
+      </div>
+    </a>
+    <a href="https://guydev42.github.io/calgary-data-portfolio/" class="link-card">
+      <span class="link-icon">&larr;</span>
+      <div>
+        <div class="link-text-title">Back to portfolio</div>
+        <div class="link-text-sub">All projects</div>
+      </div>
+    </a>
+    <a href="https://calgary-benchmark.streamlit.app/" class="link-card" target="_blank" rel="noopener">
+      <span class="link-icon">&nearr;</span>
+      <div>
+        <div class="link-text-title">Launch app</div>
+        <div class="link-text-sub">Interactive Streamlit dashboard</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>Part of the <a href="https://guydev42.github.io/calgary-data-portfolio/" style="color:var(--gold,#E8C230);text-decoration:none;border-bottom:1px solid">Calgary data portfolio</a>. Data: Synthetic industry benchmark dataset.</p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const toggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+  const stored = localStorage.getItem('theme');
+  if (stored === 'light') {
+    html.setAttribute('data-theme', 'light');
+    toggle.textContent = 'Dark';
+  }
+  toggle.addEventListener('click', function() {
+    const isLight = html.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      html.removeAttribute('data-theme');
+      toggle.textContent = 'Light';
+      localStorage.setItem('theme', 'dark');
+    } else {
+      html.setAttribute('data-theme', 'light');
+      toggle.textContent = 'Dark';
+      localStorage.setItem('theme', 'light');
+    }
+  });
+})();
+</script>
+</body>
+</html>
