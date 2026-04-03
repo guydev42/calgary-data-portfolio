@@ -29,6 +29,20 @@ Thumbs.db
 
 # Data (large files)
 */data/*.csv
+# Allow synthetic data for projects 14+
+!project_14_*/data/*.csv
+!project_15_*/data/*.csv
+!project_16_*/data/*.csv
+!project_17_*/data/*.csv
+!project_18_*/data/*.csv
+!project_19_*/data/*.csv
+!project_20_*/data/*.csv
+!project_21_*/data/*.csv
+!project_22_*/data/*.csv
+!project_23_*/data/*.csv
+!project_24_*/data/*.csv
+!project_25_*/data/*.csv
+!project_26_*/data/*.csv
 *.csv.gz
 *.parquet
 *.h5
