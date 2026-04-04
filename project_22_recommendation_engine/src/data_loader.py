@@ -3,15 +3,20 @@ Data loading and preprocessing for the hybrid recommendation engine.
 Loads users, items, and ratings; builds sparse user-item matrix.
 """
 
+import os
 import numpy as np
 import pandas as pd
 from scipy.sparse import csr_matrix
 
+# Resolve paths relative to the project root (parent of src/)
+_PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_DATA_DIR = os.path.join(_PROJECT_DIR, "data")
+
 
 def load_data(
-    users_path="data/users.csv",
-    items_path="data/items.csv",
-    ratings_path="data/ratings.csv",
+    users_path=None,
+    items_path=None,
+    ratings_path=None,
 ):
     """
     Load all three CSVs and return DataFrames.
@@ -19,6 +24,13 @@ def load_data(
     Returns:
         users, items, ratings DataFrames
     """
+    if users_path is None:
+        users_path = os.path.join(_DATA_DIR, "users.csv")
+    if items_path is None:
+        items_path = os.path.join(_DATA_DIR, "items.csv")
+    if ratings_path is None:
+        ratings_path = os.path.join(_DATA_DIR, "ratings.csv")
+
     users = pd.read_csv(users_path)
     items = pd.read_csv(items_path)
     ratings = pd.read_csv(ratings_path)

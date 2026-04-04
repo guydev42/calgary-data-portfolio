@@ -4,7 +4,7 @@ scikit-learn
 xgboost
 lightgbm
 shap
-imbalanced-learn
+imbalanced-learn>=0.14.0
 plotly
 streamlit
 matplotlib

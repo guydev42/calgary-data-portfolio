@@ -71,7 +71,7 @@ def train_classifiers(X, y, random_state=42):
 
     models = {
         "Logistic Regression": LogisticRegression(
-            max_iter=1000, random_state=random_state, multi_class="multinomial",
+            max_iter=1000, random_state=random_state,
         ),
         "Decision Tree": DecisionTreeClassifier(
             max_depth=10, random_state=random_state,

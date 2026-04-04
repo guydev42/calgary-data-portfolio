@@ -184,7 +184,14 @@ def resample_daily(df: pd.DataFrame) -> pd.DataFrame:
     daily["month"] = daily.index.month
     daily["year"] = daily.index.year
 
-    daily.dropna(inplace=True)
+    # Only drop rows that are missing the shortest lag (lag_1d); fill longer
+    # lags with the column mean so we retain enough data for modelling.
+    shortest_lag_cols = [f"{col}_lag_1d" for col in numeric_cols if f"{col}_lag_1d" in daily.columns]
+    daily.dropna(subset=shortest_lag_cols, inplace=True)
+
+    # Forward-fill then back-fill remaining NaN lags so the dataset is usable
+    lag_and_rolling = [c for c in daily.columns if "lag_" in c or "rolling_" in c]
+    daily[lag_and_rolling] = daily[lag_and_rolling].ffill().bfill()
     daily.reset_index(inplace=True)
     daily.rename(columns={"timestamp": "date"}, inplace=True)
 

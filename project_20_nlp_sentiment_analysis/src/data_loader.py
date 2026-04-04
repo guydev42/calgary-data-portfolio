@@ -43,6 +43,10 @@ def load_and_prepare(filepath="data/product_reviews.csv", test_size=0.2, random_
     """
     df = pd.read_csv(filepath)
 
+    # The CSV column is 'text'; rename to 'review_text' for clarity
+    if "text" in df.columns and "review_text" not in df.columns:
+        df = df.rename(columns={"text": "review_text"})
+
     # Clean text
     df["clean_text"] = df["review_text"].apply(clean_text)
 

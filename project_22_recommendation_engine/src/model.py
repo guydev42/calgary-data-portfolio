@@ -127,7 +127,7 @@ def item_based_cf(train_matrix, user_idx, n_neighbors=20, top_n=10):
 
 def build_content_similarity(items_df):
     """
-    Build item-item similarity matrix from TF-IDF on item descriptions.
+    Build item-item similarity matrix from TF-IDF on item categories.
 
     Returns:
         tfidf_matrix: sparse TF-IDF matrix
@@ -139,7 +139,7 @@ def build_content_similarity(items_df):
         ngram_range=(1, 2),
         stop_words="english",
     )
-    tfidf_matrix = tfidf.fit_transform(items_df["description"].fillna(""))
+    tfidf_matrix = tfidf.fit_transform(items_df["category"].fillna(""))
     content_sim = cosine_similarity(tfidf_matrix)
 
     print(f"TF-IDF matrix shape: {tfidf_matrix.shape}")
@@ -334,6 +334,9 @@ def cold_start_recommend(items_df, content_sim, category=None, top_n=10):
 
     # Score by popularity (num_ratings * avg_rating)
     candidates = candidates.copy()
+    if "num_ratings" not in candidates.columns or "avg_rating" not in candidates.columns:
+        # Fallback: return first top_n items if popularity columns are missing
+        return candidates["item_id"].head(top_n).tolist()
     candidates["popularity_score"] = candidates["num_ratings"] * candidates["avg_rating"]
     top_items = candidates.nlargest(top_n, "popularity_score")
 

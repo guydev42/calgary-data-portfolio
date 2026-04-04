@@ -41,7 +41,7 @@ def _get_models():
     """Return model instances for comparison."""
     return {
         "Logistic Regression": LogisticRegression(
-            random_state=RANDOM_STATE, max_iter=1000, C=1.0, multi_class="multinomial"
+            random_state=RANDOM_STATE, max_iter=1000, C=1.0
         ),
         "SVM (LinearSVC)": LinearSVC(
             random_state=RANDOM_STATE, max_iter=2000, C=1.0
