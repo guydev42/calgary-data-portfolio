@@ -88,11 +88,11 @@ def train_models(X, y, random_state=42):
             max_depth=15, min_samples_split=10, random_state=random_state,
         ),
         "Random Forest": RandomForestClassifier(
-            n_estimators=200, max_depth=15, min_samples_split=10,
+            n_estimators=80, max_depth=12, min_samples_split=10,
             random_state=random_state, n_jobs=-1,
         ),
         "Gradient Boosting": GradientBoostingClassifier(
-            n_estimators=200, max_depth=6, learning_rate=0.1,
+            n_estimators=80, max_depth=4, learning_rate=0.1,
             random_state=random_state,
         ),
     }
