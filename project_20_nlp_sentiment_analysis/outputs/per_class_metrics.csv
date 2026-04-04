@@ -1,0 +1,10 @@
+model,class,precision,recall,f1
+Logistic Regression,negative,1.0,1.0,1.0
+Logistic Regression,neutral,1.0,1.0,1.0
+Logistic Regression,positive,1.0,1.0,1.0
+SVM (LinearSVC),negative,1.0,1.0,1.0
+SVM (LinearSVC),neutral,1.0,1.0,1.0
+SVM (LinearSVC),positive,1.0,1.0,1.0
+Random Forest,negative,1.0,1.0,1.0
+Random Forest,neutral,1.0,1.0,1.0
+Random Forest,positive,1.0,1.0,1.0

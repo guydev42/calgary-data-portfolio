@@ -1,0 +1,17 @@
+name: project_26_industry_benchmark_engine
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - numpy
+    - pandas
+    - scikit-learn
+    - scipy
+    - matplotlib
+    - seaborn
+    - streamlit
+    - plotly
+    - openpyxl

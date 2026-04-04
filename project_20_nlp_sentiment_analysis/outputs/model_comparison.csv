@@ -1,0 +1,4 @@
+,accuracy,macro_f1,macro_precision,macro_recall,cv_f1_mean
+Logistic Regression,1.0,1.0,1.0,1.0,1.0
+SVM (LinearSVC),1.0,1.0,1.0,1.0,1.0
+Random Forest,1.0,1.0,1.0,1.0,1.0

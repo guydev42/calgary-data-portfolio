@@ -1,0 +1,16 @@
+name: project_22_recommendation_engine
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - pandas
+    - numpy
+    - scikit-learn
+    - scipy
+    - plotly
+    - streamlit
+    - matplotlib
+    - seaborn

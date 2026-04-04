@@ -1,0 +1,46 @@
+class,rank,word,coefficient
+negative,1,bad,0.7119
+negative,2,waste,0.6001
+negative,3,terrible,0.5981
+negative,4,product bad,0.4648
+negative,5,horrible,0.4464
+negative,6,awful,0.3676
+negative,7,product okay,-0.2034
+negative,8,fine,-0.2164
+negative,9,quality,-0.2223
+negative,10,okay average,-0.2267
+negative,11,decent,-0.266
+negative,12,amazing,-0.3118
+negative,13,average,-0.3564
+negative,14,okay,-0.3564
+negative,15,love,-0.3601
+neutral,1,okay,0.7016
+neutral,2,average,0.7016
+neutral,3,decent,0.5238
+neutral,4,okay average,0.4462
+neutral,5,fine,0.426
+neutral,6,product okay,0.4005
+neutral,7,awful,-0.1859
+neutral,8,quality,-0.2207
+neutral,9,horrible,-0.2259
+neutral,10,product bad,-0.2352
+neutral,11,terrible,-0.3026
+neutral,12,waste,-0.3036
+neutral,13,amazing,-0.3094
+neutral,14,love,-0.3573
+neutral,15,bad,-0.3602
+positive,1,great,0.8655
+positive,2,love,0.7174
+positive,3,amazing,0.6212
+positive,4,quality,0.443
+positive,5,awful,-0.1817
+positive,6,product okay,-0.1971
+positive,7,fine,-0.2097
+positive,8,okay average,-0.2196
+positive,9,horrible,-0.2205
+positive,10,product bad,-0.2296
+positive,11,decent,-0.2578
+positive,12,terrible,-0.2955
+positive,13,waste,-0.2965
+positive,14,okay,-0.3453
+positive,15,average,-0.3453

@@ -1,0 +1,19 @@
+name: project_23_geospatial_demand_forecast
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - pandas
+    - numpy
+    - scikit-learn
+    - xgboost
+    - lightgbm
+    - plotly
+    - streamlit
+    - matplotlib
+    - seaborn
+    - folium
+    - streamlit-folium

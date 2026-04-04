@@ -1,0 +1,19 @@
+name: project_25_saas_usage_analytics
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - numpy
+    - pandas
+    - scikit-learn
+    - xgboost
+    - lightgbm
+    - shap
+    - matplotlib
+    - seaborn
+    - streamlit
+    - plotly
+    - joblib

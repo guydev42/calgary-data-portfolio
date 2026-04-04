@@ -1,0 +1,19 @@
+# Configuration for Property Assessment Valuator
+project:
+  name: "Property Assessment Valuator"
+  version: "1.0.0"
+
+data:
+  raw_dir: "data/"
+  processed_dir: "data/"
+  test_size: 0.2
+  random_state: 42
+
+model:
+  cv_folds: 5
+  scoring: "accuracy"
+  save_dir: "models/"
+
+app:
+  port: 8501
+  title: "Property Assessment Valuator"

@@ -1,0 +1,19 @@
+name: project_14_customer_churn_prediction
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - numpy
+    - pandas
+    - scikit-learn
+    - xgboost
+    - lightgbm
+    - shap
+    - matplotlib
+    - seaborn
+    - streamlit
+    - plotly
+    - joblib

@@ -1,0 +1,18 @@
+{
+  "version": "v1_baseline",
+  "timestamp": "2026-04-04T20:08:27.295336",
+  "metrics": {
+    "accuracy": 0.7273333333333334,
+    "precision": 0.39436619718309857,
+    "recall": 0.14775725593667546,
+    "f1": 0.21497120921305182,
+    "roc_auc": 0.6035108118222752
+  },
+  "model_params": {
+    "n_estimators": 200,
+    "max_depth": 5,
+    "learning_rate": 0.1,
+    "subsample": 0.8,
+    "random_state": 42
+  }
+}

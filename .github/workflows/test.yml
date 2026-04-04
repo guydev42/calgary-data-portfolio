@@ -1,0 +1,61 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project:
+          - project_01_building_permit_cost_predictor
+          - project_02_community_crime_classifier
+          - project_03_traffic_incident_hotspots
+          - project_04_river_flow_forecasting
+          - project_05_shelter_occupancy_predictor
+          - project_06_neighborhood_segmentation
+          - project_07_dev_permit_approval_predictor
+          - project_08_solar_energy_forecaster
+          - project_09_business_survival_recommender
+          - project_10_water_quality_anomaly_detection
+          - project_11_311_service_request_router
+          - project_12_property_assessment_valuator
+          - project_13_transit_ridership_optimizer
+          - project_14_customer_churn_prediction
+          - project_15_propensity_upsell_scoring
+          - project_16_ab_test_framework
+          - project_17_fraud_detection
+          - project_18_rag_document_qa
+          - project_19_mlops_pipeline
+          - project_20_nlp_sentiment_analysis
+          - project_21_predictive_maintenance
+          - project_22_recommendation_engine
+          - project_23_geospatial_demand_forecast
+          - project_24_employee_engagement_analyzer
+          - project_25_saas_usage_analytics
+          - project_26_industry_benchmark_engine
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pytest
+          pip install -r requirements.txt
+          if [ -f ${{ matrix.project }}/requirements.txt ]; then
+            pip install -r ${{ matrix.project }}/requirements.txt
+          fi
+
+      - name: Run tests
+        working-directory: ${{ matrix.project }}
+        run: python -m pytest tests/ -v --tb=short

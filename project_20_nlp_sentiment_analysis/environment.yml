@@ -1,0 +1,17 @@
+name: project_20_nlp_sentiment_analysis
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - pandas
+    - numpy
+    - scikit-learn
+    - nltk
+    - plotly
+    - streamlit
+    - matplotlib
+    - seaborn
+    - wordcloud
