@@ -71,6 +71,9 @@ site/
 # Claude
 .claude/
 
+# Utility scripts
+save_all_models.py
+
 # Misc
 TODO.txt
 "use github pages.txt"
