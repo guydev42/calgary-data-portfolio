@@ -5,7 +5,7 @@
 <p>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/Retention-78%25-22c55e?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/AUC-0.81-9558B2?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/AUC-0.87-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/MAU-2.4K-f59e0b?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Status-Active-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge"/>
@@ -33,8 +33,8 @@ SaaS companies lose revenue when users silently disengage before cancelling. Thi
 
 ```
 Problem   →  At-risk accounts go undetected until cancellation
-Solution  →  ML model with engagement signals ranks accounts by churn risk
-Impact    →  78% retention, AUC 0.81, 2.4K monthly active users tracked
+Solution  →  Logistic Regression model with engagement signals ranks accounts by churn risk
+Impact    →  78% retention, AUC 0.87, 2.4K monthly active users tracked
 ```
 
 ---
@@ -43,7 +43,7 @@ Impact    →  78% retention, AUC 0.81, 2.4K monthly active users tracked
 
 | Metric | Value |
 |--------|-------|
-| Best model | LightGBM (AUC 0.81) |
+| Best model | Logistic Regression (AUC 0.87) |
 | Retention rate | 78% |
 | Monthly active users | 2,400 |
 | Top churn predictor | Low daily logins (< 3/day) |

@@ -5,8 +5,8 @@
 <p>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
   <img src="https://img.shields.io/badge/Documents-15-9558B2?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/MRR-0.82-22c55e?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Precision@3-0.89-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/MRR-0.97-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Precision@3-0.33-f59e0b?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Status-Active-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge"/>
 </p>
@@ -33,7 +33,7 @@ When organizations accumulate policy documents, bylaws, and operational guides, 
 ```
 Problem   →  Finding answers in a growing corpus of municipal policy documents
 Solution  →  TF-IDF and BM25 retrieval with term-overlap re-ranking
-Impact    →  MRR 0.82, Precision@3 0.89 across 30 evaluation questions on 15 documents
+Impact    →  MRR 0.97, Precision@3 0.33 across 30 evaluation questions on 15 documents
 ```
 
 ---
@@ -42,10 +42,10 @@ Impact    →  MRR 0.82, Precision@3 0.89 across 30 evaluation questions on 15 d
 
 | Metric | TF-IDF | BM25 |
 |--------|--------|------|
-| MRR | 0.82 | 0.80 |
-| Precision@1 | 0.77 | 0.73 |
-| Precision@3 | 0.89 | 0.87 |
-| Recall@5 | 0.93 | 0.90 |
+| MRR | 0.97 | 0.95 |
+| Precision@1 | 0.93 | 0.90 |
+| Precision@3 | 0.33 | 0.32 |
+| Recall@5 | 0.97 | 0.93 |
 
 ---
 

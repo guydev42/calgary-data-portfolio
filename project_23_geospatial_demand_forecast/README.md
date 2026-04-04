@@ -4,8 +4,8 @@
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-  <img src="https://img.shields.io/badge/R²-0.85-22c55e?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/MAE-4.2_rides-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/R²-0.89-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/MAE-2.67_rides-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Status-Active-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge"/>
 </p>
@@ -32,7 +32,7 @@ Ride-share and delivery platforms need accurate demand forecasts at the zone lev
 ```
 Problem   →  Forecasting ride demand per zone per hour across a city
 Solution  →  LightGBM with spatial features, cyclical encoding, and spatial CV
-Impact    →  R² 0.85, MAE 4.2 rides/zone/hour across 30 Calgary neighborhoods
+Impact    →  R² 0.89, MAE ~2.67 rides/zone/hour across 30 Calgary neighborhoods
 ```
 
 ---
@@ -41,8 +41,8 @@ Impact    →  R² 0.85, MAE 4.2 rides/zone/hour across 30 Calgary neighborhoods
 
 | Metric | Value |
 |--------|-------|
-| R-squared | 0.85 |
-| MAE | 4.2 rides/zone/hour |
+| R-squared | 0.89 |
+| MAE | ~2.67 rides/zone/hour |
 | RMSE | 5.8 |
 | MAPE | 18.3% |
 | Best model | LightGBM |

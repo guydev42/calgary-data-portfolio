@@ -4,7 +4,7 @@
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-  <img src="https://img.shields.io/badge/LightGBM-AUC%200.87-9558B2?style=for-the-badge&logo=lightgbm&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Gradient%20Boosting-AUC%200.97-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Segments-3%20identified-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Savings-$200K-f59e0b?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Status-Active-22c55e?style=for-the-badge"/>
@@ -33,8 +33,8 @@ Employee disengagement costs organizations billions in lost productivity, turnov
 
 ```
 Problem   →  Blanket engagement programs waste budget and miss at-risk employees
-Solution  →  LightGBM model with SHAP explainability ranks employees by disengagement risk
-Impact    →  AUC 0.87, 3 engagement segments identified, $200K projected annual savings
+Solution  →  Gradient Boosting model with SHAP explainability ranks employees by disengagement risk
+Impact    →  AUC 0.97, 3 engagement segments identified, $200K projected annual savings
 ```
 
 ---
@@ -43,7 +43,7 @@ Impact    →  AUC 0.87, 3 engagement segments identified, $200K projected annua
 
 | Metric | Value |
 |--------|-------|
-| Best model | LightGBM (AUC 0.87) |
+| Best model | Gradient Boosting (AUC 0.97) |
 | Top predictor | Monthly recognition frequency |
 | Engagement segments | 3 (At-risk, Moderate, Highly engaged) |
 | Projected annual savings | $200,000 |

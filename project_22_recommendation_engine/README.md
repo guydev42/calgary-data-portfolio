@@ -4,8 +4,8 @@
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-  <img src="https://img.shields.io/badge/NDCG%4010-0.78-9558B2?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/RMSE-0.91-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/NDCG%4010-0.04-ef4444?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/RMSE-1.50-f59e0b?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Ratings-50K-f59e0b?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Status-Active-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge"/>
@@ -26,14 +26,14 @@
 
 ## Overview
 
-> **A hybrid recommendation engine combining collaborative filtering, content-based filtering, and matrix factorization to achieve 0.78 NDCG@10 across 500 items.**
+> **A hybrid recommendation engine combining collaborative filtering, content-based filtering, and matrix factorization evaluated on NDCG@10 and RMSE across 500 items.**
 
 Recommendation systems are central to e-commerce, streaming, and content platforms. This project builds a hybrid engine that combines three approaches -- user-based/item-based collaborative filtering (cosine similarity on sparse matrices), content-based filtering (TF-IDF on item descriptions), and matrix factorization (truncated SVD) -- into a weighted hybrid that outperforms any single method. The system handles cold-start users through popularity-based fallback and provides "because you liked X" explanations for every recommendation.
 
 ```
 Problem   →  Users face information overload when choosing from 500+ items
-Solution  →  Hybrid engine (CF + content + SVD) ranks items with 0.78 NDCG@10
-Impact    →  0.91 RMSE on rating prediction, with explainable recommendations
+Solution  →  Hybrid engine (CF + content + SVD) ranks items with 0.04 NDCG@10
+Impact    →  1.50 RMSE on rating prediction, with explainable recommendations
 ```
 
 ---
@@ -43,8 +43,8 @@ Impact    →  0.91 RMSE on rating prediction, with explainable recommendations
 | Metric | Value |
 |--------|-------|
 | Best method | Hybrid (CF + content + SVD) |
-| NDCG@10 | 0.78 |
-| RMSE | 0.91 |
+| NDCG@10 | 0.04 |
+| RMSE | 1.50 |
 | Users | 2,000 |
 | Items | 500 |
 | Ratings | ~50,000 |
@@ -53,7 +53,7 @@ Impact    →  0.91 RMSE on rating prediction, with explainable recommendations
 **Key findings**
 
 - **The hybrid model outperforms every individual method** on NDCG@10, confirming that combining collaborative and content signals produces better ranking
-- **SVD with 50 latent factors provides the best single-method RMSE** at 0.91, capturing the dominant patterns in the rating matrix
+- **SVD with 50 latent factors provides the best single-method RMSE** at 1.50, capturing the dominant patterns in the rating matrix
 - **Optimal hybrid weights are 40% CF + 20% content + 40% SVD** -- collaborative signals dominate but content adds measurable value
 - **Cold-start users receive reasonable recommendations** through popularity-based fallback filtered by category preference
 - **Item-based CF is more stable than user-based CF** on this dataset, consistent with item profiles changing less frequently than user profiles

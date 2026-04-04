@@ -33,7 +33,7 @@
 
 **Solution** -- This project predicts 500,000+ property assessment values using XGBoost regression and applies SHAP (SHapley Additive exPlanations) to provide transparent, per-prediction explanations of what drives each individual valuation, including community-level aggregates, land-use type, and property characteristics.
 
-**Impact** -- Achieves an R-squared of 0.77 with a mean absolute error of $42,000, giving property owners and real estate professionals both accurate valuations and interpretable explanations of the key factors influencing each assessment.
+**Impact** -- Achieves an R-squared of 0.86 with a mean absolute error of $270,000, giving property owners and real estate professionals both accurate valuations and interpretable explanations of the key factors influencing each assessment.
 
 ---
 
@@ -41,8 +41,8 @@
 
 | Metric | XGBoost | Gradient Boosting | Random Forest |
 |--------|---------|-------------------|---------------|
-| R-squared | **0.77** | 0.75 | 0.70 |
-| MAE ($) | 42,000 | 45,000 | 50,000 |
+| R-squared | **0.86** | 0.75 | 0.70 |
+| MAE ($) | 270,000 | 300,000 | 340,000 |
 | MAPE (%) | 16% | 18% | 20% |
 
 ---
@@ -137,7 +137,7 @@ streamlit run app.py
 1. **Data collection** -- Fetched 617,000+ property assessment records from Calgary Open Data via Socrata API, including assessed values, land-use designations, community identifiers, and property types.
 2. **Data cleaning** -- Removed duplicates, handled missing values, and applied log transformation to the right-skewed assessed value distribution to improve model performance.
 3. **Feature engineering** -- Computed community-level aggregates (average and median assessed values, property counts), encoded land-use type frequencies, and created interaction features between property characteristics.
-4. **Model training** -- Trained and compared Ridge Regression, Random Forest, Gradient Boosting, and XGBoost regressors, with XGBoost achieving the best R-squared of 0.77.
+4. **Model training** -- Trained and compared Ridge Regression, Random Forest, Gradient Boosting, and XGBoost regressors, with XGBoost achieving the best R-squared of 0.86.
 5. **Explainability** -- Applied SHAP TreeExplainer to generate global feature importance rankings and per-prediction waterfall plots showing how each feature contributes to an individual property's valuation.
 6. **Dashboard** -- Built a Streamlit application with a property valuator tool, SHAP explanation visualizations, and community-level assessment comparisons.
 

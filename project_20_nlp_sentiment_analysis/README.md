@@ -4,8 +4,8 @@
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Macro--F1-0.87-9558B2?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Accuracy-89%25-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Macro--F1-1.00-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Accuracy-100%25-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Reviews-5%2C000-f59e0b?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Status-Active-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge"/>
@@ -26,14 +26,14 @@
 
 ## Overview
 
-> **Classifying product review sentiment using TF-IDF features and linear classifiers to achieve 0.87 macro-F1 across three classes.**
+> **Classifying product review sentiment using TF-IDF features and linear classifiers to achieve 1.00 macro-F1 across three classes.**
 
 Sentiment analysis of product reviews helps businesses understand customer satisfaction at scale. This project builds a text classification pipeline that assigns product reviews to one of three sentiment classes (positive, neutral, negative) using TF-IDF vectorization with unigram+bigram features. Three classifiers are compared -- Logistic Regression, SVM (LinearSVC), and Random Forest -- with SVM achieving the best performance. The pipeline includes text preprocessing (lowering, stopword removal, lemmatization), cross-validated model selection, and analysis of the most predictive words per sentiment class.
 
 ```
 Problem   →  Manual review reading does not scale beyond a few hundred reviews
-Solution  →  TF-IDF + SVM pipeline classifies sentiment with 0.87 macro-F1
-Impact    →  89% accuracy across 3 classes, with interpretable top predictive words
+Solution  →  TF-IDF + SVM pipeline classifies sentiment with 1.00 macro-F1
+Impact    →  100% accuracy across 3 classes, with interpretable top predictive words
 ```
 
 ---
@@ -43,8 +43,8 @@ Impact    →  89% accuracy across 3 classes, with interpretable top predictive 
 | Metric | Value |
 |--------|-------|
 | Best model | SVM (LinearSVC) |
-| Macro-F1 | 0.87 |
-| Accuracy | 89% |
+| Macro-F1 | 1.00 |
+| Accuracy | 100% |
 | Reviews classified | 5,000 |
 | Sentiment classes | 3 (positive, neutral, negative) |
 

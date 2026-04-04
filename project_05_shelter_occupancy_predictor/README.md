@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Prophet-Forecasting-3b5998?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/XGBoost-0.88_R²-blue?style=for-the-badge&logo=xgboost&logoColor=white" />
+  <img src="https://img.shields.io/badge/Random_Forest-0.91_R²-228B22?style=for-the-badge&logo=scikit-learn&logoColor=white" />
   <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/Calgary_Open_Data-Socrata_API-orange?style=for-the-badge" />
@@ -40,9 +40,9 @@
 
 | Metric | Value |
 |--------|-------|
-| Best model | XGBoost |
+| Best model | Random Forest |
 | MAE | ~0.04 |
-| R-squared | ~0.88 |
+| R-squared | ~0.91 |
 
 ---
 
@@ -146,7 +146,7 @@ streamlit run app.py
 
 - Trained Random Forest, Gradient Boosting, and XGBoost regressors
 - Used temporal train/test split (80/20) to prevent data leakage
-- XGBoost achieved the best R-squared of ~0.88 with MAE of ~0.04
+- Random Forest achieved the best R-squared of ~0.91 with MAE of ~0.04
 
 ### Forecasting and alerts
 

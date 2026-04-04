@@ -41,9 +41,9 @@
 
 | Metric | Value |
 |--------|-------|
-| Cox concordance index | **0.68** |
-| XGBoost accuracy | 0.80 |
-| XGBoost AUC-ROC | 0.86 |
+| Cox PH model | Failed to converge (C-index = 0.0) |
+| XGBoost accuracy | ~0.73 |
+| XGBoost AUC-ROC | ~0.79 |
 | Location score weighting | Survival 45%, Competition 30%, Diversity 25% |
 
 ---
@@ -135,8 +135,8 @@ streamlit run app.py
 
 1. **Data collection** -- Fetched business licence and civic census data from Calgary Open Data via Socrata API.
 2. **Feature engineering** -- Computed business age, encoded licence types, built community-level aggregate features including population and household counts.
-3. **Survival analysis** -- Fitted Kaplan-Meier survival curves segmented by business type and a Cox Proportional-Hazards model to identify statistically significant closure risk factors (concordance index 0.68).
-4. **Classification** -- Trained Random Forest and XGBoost classifiers for binary survived-vs-closed prediction, achieving 0.86 AUC-ROC with XGBoost.
+3. **Survival analysis** -- Fitted Kaplan-Meier survival curves segmented by business type. The Cox Proportional-Hazards model failed to converge (C-index = 0.0), likely due to low event rates or feature collinearity; Kaplan-Meier curves remain the primary survival insight.
+4. **Classification** -- Trained Random Forest and XGBoost classifiers for binary survived-vs-closed prediction, achieving ~0.79 AUC-ROC with XGBoost.
 5. **Location recommender** -- Built a composite scoring function weighting survival probability (45%), competition density (30%), and industry diversity (25%) to rank Calgary communities for new business placement.
 6. **Dashboard** -- Deployed an interactive Streamlit application with survival curves, risk factor analysis, and community recommendation maps.
 

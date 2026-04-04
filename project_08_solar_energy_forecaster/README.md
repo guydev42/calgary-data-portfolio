@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/XGBoost-0.86_R²-blue?style=for-the-badge&logo=xgboost&logoColor=white" />
+  <img src="https://img.shields.io/badge/XGBoost-0.98_R²-blue?style=for-the-badge&logo=xgboost&logoColor=white" />
   <img src="https://img.shields.io/badge/scikit--learn-ML_Pipeline-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" />
   <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
@@ -41,8 +41,8 @@
 | Metric | Value |
 |--------|-------|
 | Best model | XGBoost |
-| R-squared | ~0.86 |
-| MAPE | ~20% |
+| R-squared | ~0.98 |
+| MAPE | ~5% |
 
 ---
 
@@ -147,7 +147,7 @@ streamlit run app.py
 
 - Trained Ridge Regression, Random Forest, and XGBoost regressors
 - Used temporal train/test split with MAE, RMSE, R-squared, and MAPE evaluation
-- XGBoost achieved the best R-squared of ~0.86 with MAPE of ~20%
+- XGBoost achieved the best R-squared of ~0.98 with MAPE of ~5%
 
 ### Multi-step forecasting
 

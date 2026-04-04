@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Gradient_Boosting-85%25_Accuracy-blue?style=for-the-badge&logo=scikit-learn&logoColor=white" />
+  <img src="https://img.shields.io/badge/Logistic_Regression-97%25_Accuracy-blue?style=for-the-badge&logo=scikit-learn&logoColor=white" />
   <img src="https://img.shields.io/badge/scikit--learn-ML_Pipeline-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" />
   <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
@@ -40,9 +40,9 @@
 
 | Metric | Value |
 |--------|-------|
-| Best model | Gradient Boosting |
-| Accuracy | ~0.85 |
-| Weighted F1 | ~0.84 |
+| Best model | Logistic Regression |
+| Accuracy | ~0.97 |
+| Weighted F1 | ~0.97 |
 
 ---
 
@@ -52,8 +52,8 @@
 ┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌────────────────┐     ┌─────────────────┐
 │  Calgary Open   │────>│  Crime stats +   │────>│  Per-capita      │────>│  Classifier    │────>│  Streamlit      │
 │  Data (Socrata) │     │  Census data     │     │  rates & risk    │     │  training      │     │  dashboard      │
-│  77K+ records   │     │  Merge & clean   │     │  label creation  │     │  Gradient      │     │  Risk explorer  │
-│                 │     │                  │     │  Category splits │     │  Boosting      │     │  Community map  │
+│  77K+ records   │     │  Merge & clean   │     │  label creation  │     │  Logistic      │     │  Risk explorer  │
+│                 │     │                  │     │  Category splits │     │  Regression    │     │  Community map  │
 └─────────────────┘     └──────────────────┘     └──────────────────┘     └────────────────┘     └─────────────────┘
 ```
 
@@ -144,7 +144,7 @@ streamlit run app.py
 
 - Trained and compared four classifiers: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting
 - Evaluated with accuracy and F1 scores (weighted and macro)
-- Gradient Boosting achieved the best accuracy of ~85% with weighted F1 of ~0.84
+- Logistic Regression achieved the best accuracy of ~97% with weighted F1 of ~0.97
 
 ### Interactive dashboard
 

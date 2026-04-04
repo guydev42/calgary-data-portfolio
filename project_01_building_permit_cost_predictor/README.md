@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/XGBoost-0.89_R²-blue?style=for-the-badge&logo=xgboost&logoColor=white" />
-  <img src="https://img.shields.io/badge/Random_Forest-Ensemble-228B22?style=for-the-badge&logo=scikit-learn&logoColor=white" />
+  <img src="https://img.shields.io/badge/Random_Forest-0.74_R²-228B22?style=for-the-badge&logo=scikit-learn&logoColor=white" />
+  <img src="https://img.shields.io/badge/XGBoost-Ensemble-blue?style=for-the-badge&logo=xgboost&logoColor=white" />
   <img src="https://img.shields.io/badge/Plotly-Interactive-3F4F75?style=for-the-badge&logo=plotly&logoColor=white" />
   <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
@@ -39,11 +39,11 @@
 
 ## Results
 
-| Metric | XGBoost | Gradient Boosting | Random Forest |
-|--------|---------|-------------------|---------------|
-| R-squared | **~0.89** | ~0.85 | ~0.82 |
-| MAE ($) | ~30,000 | ~32,000 | ~35,000 |
-| RMSE ($) | ~80,000 | ~85,000 | ~90,000 |
+| Metric | Random Forest | XGBoost | Gradient Boosting |
+|--------|---------------|---------|-------------------|
+| R-squared | **~0.74** | ~0.70 | ~0.68 |
+| MAE ($) | ~76,500 | ~80,000 | ~83,000 |
+| RMSE ($) | ~286,900 | ~295,000 | ~305,000 |
 
 ---
 
@@ -53,7 +53,7 @@
 ┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌────────────────┐     ┌─────────────────┐
 │  Calgary Open   │────>│  Data ingestion  │────>│  Feature         │────>│  Model         │────>│  Streamlit      │
 │  Data (Socrata) │     │  & cleaning      │     │  engineering     │     │  training      │     │  dashboard      │
-│  484K+ permits  │     │  Log-transform   │     │  Community aggs  │     │  XGBoost       │     │  Cost predictor │
+│  484K+ permits  │     │  Log-transform   │     │  Community aggs  │     │  Random Forest │     │  Cost predictor │
 │                 │     │  Outlier removal  │     │  Temporal feats  │     │  Ridge/RF/GB   │     │  Community view │
 └─────────────────┘     └──────────────────┘     └──────────────────┘     └────────────────┘     └─────────────────┘
 ```
@@ -74,7 +74,7 @@ project_01_building_permit_cost_predictor/
 ├── data/
 │   └── building_permits.csv        # Cached permit data
 ├── models/
-│   ├── best_model.joblib           # Trained XGBoost model
+│   ├── best_model.joblib           # Trained Random Forest model
 │   ├── feature_names.joblib        # Feature name mapping
 │   ├── label_encoders.joblib       # Categorical encoders
 │   └── scaler.joblib               # Feature scaler
@@ -153,7 +153,7 @@ streamlit run app.py
 
 - Trained and compared Ridge Regression, Random Forest, Gradient Boosting, and XGBoost regressors
 - Used 80/20 train-test split with cross-validation for hyperparameter selection
-- Evaluated on R-squared, MAE, and RMSE metrics; XGBoost achieved the best R-squared of ~0.89
+- Evaluated on R-squared, MAE, and RMSE metrics; Random Forest achieved the best R-squared of ~0.74
 
 ### Interactive dashboard
 

@@ -32,7 +32,7 @@
 
 **Solution** -- This project applies NLP-based TF-IDF feature extraction and multi-label classification on 500,000+ historical service requests to automatically predict the responsible department from request descriptions and metadata, enabling faster and more accurate routing across 15 department classes.
 
-**Impact** -- Achieves an F1 score of 0.79 on department prediction, demonstrating the feasibility of automating 311 request triage and reducing the manual routing burden on city staff.
+**Impact** -- Achieves an F1 score of 0.99 on department prediction, demonstrating the feasibility of automating 311 request triage and reducing the manual routing burden on city staff.
 
 ---
 
@@ -41,8 +41,8 @@
 | Metric | Value |
 |--------|-------|
 | Best model | Gradient Boosting |
-| Accuracy | 0.80 |
-| Weighted F1 | **0.79** |
+| Accuracy | 0.99 |
+| Weighted F1 | **0.99** |
 | Department classes | 15 |
 | Training records | 500,000+ |
 
@@ -135,7 +135,7 @@ streamlit run app.py
 2. **Text preprocessing** -- Cleaned request description text, removed stop words, and normalized tokens for NLP feature extraction.
 3. **Feature engineering** -- Applied TF-IDF vectorization to request descriptions, parsed timestamps to extract temporal features (hour, day of week, month), computed resolution times, and encoded community-level service type frequencies.
 4. **Model training** -- Trained and compared Logistic Regression, Decision Tree, Random Forest, and Gradient Boosting classifiers across 15 department classes.
-5. **Evaluation** -- Assessed models using accuracy, weighted F1, and macro F1 metrics, with Gradient Boosting achieving the best performance at 0.79 weighted F1.
+5. **Evaluation** -- Assessed models using accuracy, weighted F1, and macro F1 metrics, with Gradient Boosting achieving the best performance at 0.99 weighted F1.
 6. **Dashboard** -- Built a Streamlit application for interactive request routing prediction, department workload analysis, and resolution time visualization.
 
 ---

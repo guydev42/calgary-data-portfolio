@@ -33,7 +33,7 @@
 
 **Solution** -- This project combines time-series demand forecasting using XGBoost and Prophet with graph network analysis powered by NetworkX to model the transit network topology, compute centrality metrics for every stop, and predict monthly ridership volumes with high accuracy.
 
-**Impact** -- Achieves an R-squared of 0.80 with 8% MAPE on ridership forecasting, while graph analysis identifies bottleneck stops and connectivity gaps that inform service optimization decisions.
+**Impact** -- Achieves an R-squared of 0.98 with 5% MAPE on ridership forecasting, while graph analysis identifies bottleneck stops and connectivity gaps that inform service optimization decisions.
 
 ---
 
@@ -42,8 +42,8 @@
 | Metric | Value |
 |--------|-------|
 | Best model | XGBoost |
-| R-squared | **0.80** |
-| MAPE | 8% |
+| R-squared | **0.98** |
+| MAPE | 5% |
 | Transit stops analyzed | 7,700+ |
 
 ---
@@ -135,7 +135,7 @@ streamlit run app.py
 
 1. **Data collection** -- Fetched monthly ridership volumes and transit stop location data from Calgary Open Data via Socrata API.
 2. **Time-series feature engineering** -- Created lag features (1, 3, and 12-month), rolling mean windows, and year-over-year change metrics to capture seasonal patterns and trends.
-3. **Demand forecasting** -- Trained Ridge Regression, Random Forest, and XGBoost regressors for ridership prediction, with XGBoost achieving 0.80 R-squared and 8% MAPE. Prophet was used for long-horizon seasonal decomposition and trend forecasting.
+3. **Demand forecasting** -- Trained Ridge Regression, Random Forest, and XGBoost regressors for ridership prediction, with XGBoost achieving 0.98 R-squared and 5% MAPE. Prophet was used for long-horizon seasonal decomposition and trend forecasting.
 4. **Graph network analysis** -- Built a transit network graph with NetworkX using 7,700+ stops as nodes and shared routes as edges. Computed degree centrality and betweenness centrality to identify critical transfer hubs and connectivity bottlenecks.
 5. **Optimization insights** -- Identified under-served areas through connectivity analysis and flagged high-centrality stops where service disruptions would have the greatest network-wide impact.
 6. **Dashboard** -- Built a Streamlit application with ridership forecast visualizations, network topology maps, and stop-level centrality rankings.

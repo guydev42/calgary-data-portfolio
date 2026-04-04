@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/XGBoost-AUC_0.93-blue?style=for-the-badge&logo=xgboost&logoColor=white" />
+  <img src="https://img.shields.io/badge/XGBoost-AUC_0.84-blue?style=for-the-badge&logo=xgboost&logoColor=white" />
   <img src="https://img.shields.io/badge/scikit--learn-TF--IDF_+_ML-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" />
   <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
@@ -40,9 +40,9 @@
 
 | Model | AUC-ROC | Accuracy | F1 score |
 |-------|---------|----------|----------|
-| **XGBoost** | **~0.93** | ~0.87 | ~0.87 |
-| Gradient Boosting | ~0.92 | ~0.86 | ~0.86 |
-| Random Forest | ~0.91 | ~0.85 | ~0.85 |
+| **XGBoost** | **~0.84** | ~0.78 | ~0.78 |
+| Gradient Boosting | ~0.83 | ~0.77 | ~0.77 |
+| Random Forest | ~0.82 | ~0.76 | ~0.76 |
 
 ---
 
@@ -150,7 +150,7 @@ streamlit run app.py
 
 - Trained Logistic Regression, Random Forest, Gradient Boosting, and XGBoost classifiers
 - Evaluated with AUC-ROC, accuracy, and F1 score
-- XGBoost achieved the best AUC-ROC of ~0.93 with accuracy and F1 of ~0.87
+- XGBoost achieved the best AUC-ROC of ~0.84 with accuracy and F1 of ~0.78
 
 ### Feature importance analysis
 

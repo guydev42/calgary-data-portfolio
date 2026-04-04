@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:1e3a5f,100:2d8cf0&height=220&section=header&text=River%20Flow%20Forecasting&fontSize=36&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Multi-model%20Bow%20River%20forecasting%20on%209.5M%2B%20observations&descSize=16&descAlignY=55&descColor=c8e0ff" width="100%" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:1e3a5f,100:2d8cf0&height=220&section=header&text=River%20Flow%20Forecasting&fontSize=36&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Multi-model%20Bow%20River%20forecasting%20from%205-minute%20sensor%20readings&descSize=16&descAlignY=55&descColor=c8e0ff" width="100%" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/XGBoost-0.89_R²-blue?style=for-the-badge&logo=xgboost&logoColor=white" />
+  <img src="https://img.shields.io/badge/XGBoost-Negative_R²-red?style=for-the-badge&logo=xgboost&logoColor=white" />
   <img src="https://img.shields.io/badge/TensorFlow-LSTM-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" />
   <img src="https://img.shields.io/badge/Prophet-Forecasting-3b5998?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
@@ -31,7 +31,7 @@
 
 > **Problem** -- The 2013 Calgary floods caused over $6 billion in damage and displaced 100,000+ residents. Accurate river-flow forecasting is critical for early-warning systems that protect lives and infrastructure.
 >
-> **Solution** -- This project builds a multi-model forecasting tool using 9.5M+ five-minute Bow River observations from Calgary Open Data, comparing ARIMA/SARIMA, Random Forest, XGBoost, LSTM, and Prophet approaches.
+> **Solution** -- This project builds a multi-model forecasting tool using Bow River 5-minute sensor readings from Calgary Open Data (~32 days of daily data after resampling), comparing ARIMA/SARIMA, Random Forest, XGBoost, LSTM, and Prophet approaches.
 >
 > **Impact** -- Supports flood early-warning systems with accurate short-term river flow predictions, giving emergency services and residents advance notice of dangerous water levels.
 
@@ -39,11 +39,13 @@
 
 ## Results
 
-| Model | R-squared | MAE (m3/s) | RMSE (m3/s) |
-|-------|-----------|------------|-------------|
-| **XGBoost** | **~0.89** | ~10 | ~17 |
-| Random Forest | ~0.85 | ~12 | ~20 |
-| ARIMA/SARIMA | ~0.72 | ~18 | ~28 |
+| Model | R-squared | Notes |
+|-------|-----------|-------|
+| XGBoost | Negative | Poor generalization on ~32 daily samples |
+| Random Forest | Negative | Insufficient data for reliable lag features |
+| ARIMA/SARIMA | N/A | Limited by short time series length |
+
+> **Note:** All models performed poorly due to the very small dataset (~32 days of daily data after resampling from 5-minute readings). The lag and rolling-average features require more historical data to be effective. This project demonstrates the full forecasting pipeline; results would improve significantly with a longer observation period.
 
 ---
 
@@ -51,7 +53,7 @@
 
 ```
 ┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐     ┌────────────────┐     ┌─────────────────┐
-│  Calgary Open   │────>│  9.5M+ 5-min     │────>│  Daily resample  │────>│  Model suite   │────>│  Streamlit      │
+│  Calgary Open   │────>│  5-min sensor     │────>│  Daily resample  │────>│  Model suite   │────>│  Streamlit      │
 │  Data (Socrata) │     │  observations    │     │  Rolling avgs    │     │  ARIMA/SARIMA  │     │  dashboard      │
 │  Bow River      │     │  Level & flow    │     │  7d / 30d lags   │     │  XGBoost / RF  │     │  Flow viz       │
 │  sensors        │     │  cleaning        │     │  Calendar feats  │     │  LSTM/Prophet  │     │  Forecasting    │
@@ -110,7 +112,7 @@ streamlit run app.py
 | Property | Value |
 |----------|-------|
 | Source | [Calgary Open Data -- River Flow Observations](https://data.calgary.ca/) |
-| Records | 9,500,000+ five-minute observations |
+| Records | ~9,200 five-minute readings (~32 days), resampled to daily |
 | Access method | Socrata API (sodapy) |
 | Key fields | Timestamp, water level (m), flow rate (m3/s), station ID |
 | Target variable | Daily mean flow rate (m3/s) |
@@ -138,8 +140,8 @@ streamlit run app.py
 
 ### Data ingestion and resampling
 
-- Fetched 9.5M+ five-minute river level and flow observations via the Socrata API
-- Resampled to daily means to reduce noise and create a tractable time series
+- Fetched five-minute river level and flow observations via the Socrata API (~9,200 readings spanning ~32 days)
+- Resampled to daily means, resulting in a small time series (~32 data points)
 - Handled missing values with forward-fill and interpolation
 
 ### Feature engineering
@@ -152,13 +154,13 @@ streamlit run app.py
 
 - Trained ARIMA/SARIMA for classical time-series modeling with confidence intervals
 - Used auto-ARIMA for automated order selection
-- SARIMA achieved R-squared of ~0.72 with interpretable seasonal decomposition
+- SARIMA provided interpretable seasonal decomposition but was limited by the short time series
 
 ### Machine learning models
 
 - Trained Random Forest and XGBoost regressors on engineered lag and calendar features
-- XGBoost achieved the best performance with R-squared of ~0.89
-- Feature importance analysis revealed 7-day lag and rolling averages as top predictors
+- All ML models produced negative R-squared values due to the very limited dataset (~32 daily observations)
+- Feature importance analysis identified lag features as relevant, but insufficient data prevented reliable generalization
 
 ### Interactive dashboard
 

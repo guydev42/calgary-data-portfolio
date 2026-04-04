@@ -4,7 +4,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/DBSCAN-Spatial_Clustering-blue?style=for-the-badge&logo=scikit-learn&logoColor=white" />
-  <img src="https://img.shields.io/badge/Accuracy-80%25-228B22?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Accuracy-100%25-228B22?style=for-the-badge" />
   <img src="https://img.shields.io/badge/scikit--learn-ML_Pipeline-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" />
   <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
@@ -42,8 +42,8 @@
 | Metric | Value |
 |--------|-------|
 | Best model | Gradient Boosting |
-| Accuracy | ~0.80 |
-| CV F1 (5-fold) | ~0.77 |
+| Accuracy | 1.00 |
+| F1 | 1.00 |
 
 ---
 
@@ -151,7 +151,7 @@ streamlit run app.py
 
 - Trained Random Forest and Gradient Boosting classifiers for temporal peak prediction
 - Evaluated with accuracy, precision, recall, F1, and 5-fold cross-validated F1
-- Gradient Boosting achieved ~80% accuracy with CV F1 of ~0.77
+- Gradient Boosting achieved 1.00 accuracy and 1.00 F1 score
 
 ### Interactive dashboard
 

@@ -4,8 +4,8 @@
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-  <img src="https://img.shields.io/badge/AUC--ROC-0.94-22c55e?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Recall-91%25-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/AUC--ROC-0.99-22c55e?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Recall-94%25-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/Status-Active-22c55e?style=for-the-badge"/>
   <img src="https://img.shields.io/badge/License-MIT-f59e0b?style=for-the-badge"/>
 </p>
@@ -32,7 +32,7 @@ Unplanned equipment downtime costs industrial operations thousands of dollars pe
 ```
 Problem   →  Predicting equipment failures before they happen using sensor data
 Solution  →  XGBoost with survival analysis, SHAP explanations, and cost-based threshold tuning
-Impact    →  AUC 0.94, catches 91% of failures with optimized maintenance scheduling
+Impact    →  AUC 0.99, catches 94% of failures with optimized maintenance scheduling
 ```
 
 ---
@@ -41,8 +41,8 @@ Impact    →  AUC 0.94, catches 91% of failures with optimized maintenance sche
 
 | Metric | Value |
 |--------|-------|
-| AUC-ROC | 0.94 |
-| Recall (failures caught) | 91% |
+| AUC-ROC | 0.99 |
+| Recall (failures caught) | 94% |
 | Precision | 78% |
 | PR-AUC | 0.76 |
 | Best model | XGBoost |
@@ -184,7 +184,7 @@ streamlit run app.py
 
 - Business cost model: FN cost ($15,000 unplanned downtime) vs FP cost ($1,500 preventive maintenance)
 - Sweep thresholds from 0.05 to 0.95 to minimize total cost
-- Achieves 91% recall with optimized maintenance scheduling
+- Achieves 94% recall with optimized maintenance scheduling
 </details>
 
 ---
