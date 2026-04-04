@@ -185,8 +185,17 @@ class SurvivalAnalyzer:
         -------
         CoxPHFitter
         """
-        self.cph.fit(df, duration_col=duration_col, event_col=event_col)
-        self._cph_fitted = True
+        try:
+            self.cph.fit(df, duration_col=duration_col, event_col=event_col)
+            self._cph_fitted = True
+        except (ZeroDivisionError, ValueError) as exc:
+            logger.warning(
+                "Cox PH fitting failed (%s: %s). "
+                "The survival data likely lacks sufficient variance. "
+                "Returning unfitted CoxPHFitter.",
+                type(exc).__name__, exc,
+            )
+            self._cph_fitted = False
         return self.cph
 
     def get_hazard_summary(self) -> pd.DataFrame:
@@ -198,7 +207,15 @@ class SurvivalAnalyzer:
             If the Cox model has not been fitted.
         """
         if not self._cph_fitted:
-            raise RuntimeError("Cox model not fitted yet. Call fit_cox() first.")
+            logger.warning(
+                "Cox model was not successfully fitted. Returning empty summary."
+            )
+            return pd.DataFrame(
+                columns=["coef", "exp(coef)", "se(coef)", "coef lower 95%",
+                          "coef upper 95%", "exp(coef) lower 95%",
+                          "exp(coef) upper 95%", "cmp to", "z", "p",
+                          "-log2(p)"]
+            )
         return self.cph.summary
 
 
@@ -248,9 +265,20 @@ def _prepare_classification_data(
     X = subset[feature_cols]
     y = subset[target_col].astype(int)
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=random_state, stratify=y
-    )
+    # stratify=y can fail when a class has very few samples; fall back to
+    # an unstratified split in that case.
+    try:
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=random_state, stratify=y
+        )
+    except ValueError:
+        logger.warning(
+            "Stratified split failed (likely too few samples in a class). "
+            "Falling back to unstratified split."
+        )
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=test_size, random_state=random_state
+        )
     return X_train, X_test, y_train, y_test, feature_cols
 
 
@@ -344,14 +372,25 @@ def train_xgboost(
 def _compute_metrics(
     y_true: pd.Series, y_pred: np.ndarray, y_prob: np.ndarray
 ) -> dict[str, float]:
-    """Compute standard classification metrics."""
+    """Compute standard classification metrics.
+
+    Handles edge cases where only one class is present in y_true
+    (which causes roc_auc_score to fail) and guards against any
+    division-by-zero in precision / recall / f1.
+    """
+    # roc_auc_score raises ValueError when only one class is present
+    try:
+        roc_auc = round(float(roc_auc_score(y_true, y_prob)), 4)
+    except (ValueError, ZeroDivisionError):
+        roc_auc = 0.0
+
     return {
-        "accuracy": round(accuracy_score(y_true, y_pred), 4),
-        "precision": round(precision_score(y_true, y_pred, zero_division=0), 4),
-        "recall": round(recall_score(y_true, y_pred, zero_division=0), 4),
-        "f1": round(f1_score(y_true, y_pred, zero_division=0), 4),
-        "roc_auc": round(roc_auc_score(y_true, y_prob), 4),
-        "classification_report": classification_report(y_true, y_pred),
+        "accuracy": round(float(accuracy_score(y_true, y_pred)), 4),
+        "precision": round(float(precision_score(y_true, y_pred, zero_division=0)), 4),
+        "recall": round(float(recall_score(y_true, y_pred, zero_division=0)), 4),
+        "f1": round(float(f1_score(y_true, y_pred, zero_division=0)), 4),
+        "roc_auc": roc_auc,
+        "classification_report": classification_report(y_true, y_pred, zero_division=0),
     }
 
 

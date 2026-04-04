@@ -14,7 +14,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import joblib
 import numpy as np
 import pandas as pd
-from scipy.sparse import hstack, issparse
+from scipy.sparse import csr_matrix, hstack, issparse
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -100,8 +100,8 @@ class FeatureBuilder:
         self._is_fitted = True
         return self
 
-    def transform(self, df: pd.DataFrame) -> np.ndarray:
-        """Transform *df* into a combined feature matrix (dense array)."""
+    def transform(self, df: pd.DataFrame) -> csr_matrix:
+        """Transform *df* into a combined sparse feature matrix."""
         if not self._is_fitted:
             raise RuntimeError("FeatureBuilder has not been fitted yet.")
 
@@ -109,22 +109,18 @@ class FeatureBuilder:
         corpus = df["description_clean"].fillna("").astype(str)
         tfidf_matrix = self.tfidf.transform(corpus)
 
-        # Categorical (dense)
+        # Categorical -- vectorised label encoding
         cat_parts: List[np.ndarray] = []
         for col in CATEGORICAL_COLS:
             if col in df.columns and col in self.label_encoders:
                 le = self.label_encoders[col]
                 vals = df[col].astype(str).fillna("Unknown")
-                # Handle unseen labels gracefully
-                encoded = np.array(
-                    [
-                        le.transform([v])[0] if v in le.classes_ else -1
-                        for v in vals
-                    ]
-                ).reshape(-1, 1)
+                # Build a lookup dict for O(1) per-element encoding
+                class_to_idx = {c: i for i, c in enumerate(le.classes_)}
+                encoded = vals.map(class_to_idx).fillna(-1).astype(int).values.reshape(-1, 1)
                 cat_parts.append(encoded)
 
-        # Numerical (dense)
+        # Numerical
         num_parts: List[np.ndarray] = []
         for col in NUMERICAL_COLS:
             if col in df.columns:
@@ -134,21 +130,20 @@ class FeatureBuilder:
                     .values.reshape(-1, 1)
                 )
 
-        # Combine
+        # Combine -- keep everything sparse to avoid memory blow-up
         dense_parts = cat_parts + num_parts
         if dense_parts:
-            dense_matrix = np.hstack(dense_parts)
+            dense_matrix = csr_matrix(np.hstack(dense_parts))
         else:
-            dense_matrix = np.empty((len(df), 0))
+            dense_matrix = csr_matrix((len(df), 0))
 
-        if issparse(tfidf_matrix):
-            combined = hstack([tfidf_matrix, dense_matrix]).toarray()
-        else:
-            combined = np.hstack([tfidf_matrix, dense_matrix])
+        if not issparse(tfidf_matrix):
+            tfidf_matrix = csr_matrix(tfidf_matrix)
 
+        combined = hstack([tfidf_matrix, dense_matrix], format="csr")
         return combined
 
-    def fit_transform(self, df: pd.DataFrame) -> np.ndarray:
+    def fit_transform(self, df: pd.DataFrame) -> csr_matrix:
         """Convenience: fit then transform."""
         return self.fit(df).transform(df)
 

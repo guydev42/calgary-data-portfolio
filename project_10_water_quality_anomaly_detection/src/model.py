@@ -55,6 +55,7 @@ class IsolationForestDetector:
             Binary labels where 1 indicates an anomaly.
         """
         X_scaled = self.scaler.fit_transform(X)
+        np.nan_to_num(X_scaled, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
         preds = self.model.fit_predict(X_scaled)
         # sklearn returns -1 for anomalies, 1 for inliers
         return (preds == -1).astype(int)
@@ -62,6 +63,7 @@ class IsolationForestDetector:
     def decision_scores(self, X: np.ndarray) -> np.ndarray:
         """Return anomaly scores (lower = more anomalous)."""
         X_scaled = self.scaler.transform(X)
+        np.nan_to_num(X_scaled, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
         return self.model.decision_function(X_scaled)
 
 
@@ -81,6 +83,7 @@ class LOFDetector:
     def fit_predict(self, X: np.ndarray) -> np.ndarray:
         """Fit and return binary anomaly labels (1 = anomaly, 0 = normal)."""
         X_scaled = self.scaler.fit_transform(X)
+        np.nan_to_num(X_scaled, copy=False, nan=0.0, posinf=0.0, neginf=0.0)
         preds = self.model.fit_predict(X_scaled)
         return (preds == -1).astype(int)
 
@@ -190,10 +193,19 @@ class WaterQualityAnomalyDetector:
         X = np.array(X, dtype=np.float64)
         # Replace inf
         X[~np.isfinite(X)] = np.nan
+        # Drop columns that are entirely NaN
+        col_all_nan = np.isnan(X).all(axis=0)
+        if col_all_nan.any():
+            X = X[:, ~col_all_nan]
         # Impute NaN with column median
         col_median = np.nanmedian(X, axis=0)
         inds = np.where(np.isnan(X))
-        X[inds] = np.take(col_median, inds[1])
+        if len(inds[0]) > 0:
+            X[inds] = np.take(col_median, inds[1])
+        # Safety net: zero out any residual NaN
+        remaining = np.isnan(X)
+        if remaining.any():
+            X[remaining] = 0.0
         return X
 
     # ----- core API --------------------------------------------------

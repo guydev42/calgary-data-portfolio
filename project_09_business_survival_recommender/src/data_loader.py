@@ -46,8 +46,26 @@ LICENCE_COLUMNS = [
 ]
 
 # Statuses that indicate a business is still "alive"
-ACTIVE_STATUSES = {"issued", "renewed", "active"}
-INACTIVE_STATUSES = {"cancelled", "expired", "closed"}
+# Real values from the Calgary Open Data portal (case-insensitive comparison):
+#   Renewal Licensed, Licensed, Pending Renewal, Renewal Invoiced,
+#   Renewal Notification Sent, Move in Progress, Close in Progress
+ACTIVE_STATUSES = {
+    "renewal licensed",
+    "licensed",
+    "pending renewal",
+    "renewal invoiced",
+    "renewal notification sent",
+    "issued",
+    "renewed",
+    "active",
+}
+INACTIVE_STATUSES = {
+    "close in progress",
+    "move in progress",
+    "cancelled",
+    "expired",
+    "closed",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -314,8 +332,8 @@ def get_community_summary(df: pd.DataFrame) -> pd.DataFrame:
         .reset_index()
     )
     summary["survival_rate"] = (
-        summary["active_businesses"] / summary["total_businesses"]
-    ).round(4)
+        summary["active_businesses"] / summary["total_businesses"].replace(0, np.nan)
+    ).fillna(0.0).round(4)
     summary["avg_business_age_days"] = summary["avg_business_age_days"].round(1)
     summary["home_occupation_pct"] = (summary["home_occupation_pct"] * 100).round(1)
 
