@@ -1,0 +1,12 @@
+[flake8]
+max-line-length = 120
+ignore = E501,W503,E203,E402
+exclude =
+    .git,
+    __pycache__,
+    notebooks,
+    site,
+    .hugo_build.lock,
+    *.ipynb
+per-file-ignores =
+    tests/*:E711,E712

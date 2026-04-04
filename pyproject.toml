@@ -1,0 +1,23 @@
+[project]
+name = "calgary-data-portfolio"
+version = "1.0.0"
+description = "26 end-to-end ML projects built on Calgary Open Data and synthetic datasets"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["project_*/tests"]
+addopts = "-v --tb=short"
+filterwarnings = ["ignore::DeprecationWarning", "ignore::FutureWarning"]
+
+[tool.flake8]
+max-line-length = 120
+ignore = ["E501", "W503", "E203"]
+exclude = [".git", "__pycache__", "notebooks", "site", ".hugo_build.lock"]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.black]
+line-length = 120
+target-version = ["py311"]

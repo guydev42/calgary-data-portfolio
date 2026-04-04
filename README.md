@@ -1,5 +1,10 @@
 # Calgary data science and machine learning portfolio
 
+![Tests](https://github.com/guydev42/calgary-data-portfolio/actions/workflows/test.yml/badge.svg)
+![Python](https://img.shields.io/badge/python-3.11-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Projects](https://img.shields.io/badge/projects-26-orange)
+
 26 end-to-end machine learning projects spanning urban analytics, customer analytics, NLP, fintech, MLOps, and more. Built on Calgary Open Data, synthetic datasets, and real-world industry patterns.
 
 **Portfolio site:** [guydev42.github.io/calgary-data-portfolio](https://guydev42.github.io/calgary-data-portfolio/)
