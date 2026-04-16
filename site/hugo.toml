@@ -1,0 +1,22 @@
+baseURL = "https://guydev42.github.io/calgary-data-portfolio/"
+languageCode = "en-us"
+title = "Calgary Data Portfolio"
+disableKinds = ["taxonomy", "term"]
+
+[params]
+  author = "Guy Dev"
+  githubUser = "guydev42"
+  githubRepo = "calgary-data-portfolio"
+  githubBase = "https://github.com/guydev42/calgary-data-portfolio"
+  email = "guydev42@gmail.com"
+  linkedin = "ola-g"
+  description = "32 machine-learning & data-science projects built on Calgary Open Data and Alberta ODAA"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[build]
+  [build.buildStats]
+    enable = true

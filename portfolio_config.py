@@ -1,5 +1,5 @@
 """
-Portfolio configuration — metadata for all 13 Calgary Open Data ML/DS projects.
+Portfolio configuration — metadata for all 32 ML/DS projects.
 """
 
 # ── GitHub ───────────────────────────────────────────────────────────────────

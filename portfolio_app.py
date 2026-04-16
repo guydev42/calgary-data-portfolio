@@ -1,6 +1,6 @@
 """
 Calgary Open Data — ML / DS Portfolio Index
-Streamlit app that serves as a landing page for all 16 projects.
+Streamlit app that serves as a landing page for all 32 projects.
 """
 
 import os
@@ -99,10 +99,10 @@ def page_home() -> None:
         <div class="hero-section">
             <h1>Calgary Open Data ML/DS Portfolio</h1>
             <p>
-                16 end-to-end machine learning and data science projects
-                built entirely on City of Calgary Open Data, covering
+                32 end-to-end machine learning and data science projects
+                built on Calgary Open Data and Alberta ODAA, covering
                 regression, classification, clustering, time series,
-                NLP, anomaly detection &amp; more.
+                NLP, anomaly detection, deep learning, geospatial &amp; more.
             </p>
         </div>
         """,
@@ -111,10 +111,10 @@ def page_home() -> None:
 
     # KPI row
     kpis = [
-        ("16", "Projects"),
-        ("1M+", "Data Records"),
-        ("7", "ML Technique Areas"),
-        ("16", "Interactive Apps"),
+        ("32", "Projects"),
+        ("2M+", "Data Records"),
+        ("15", "ML Technique Areas"),
+        ("32", "Interactive Apps"),
     ]
     cols = st.columns(4)
     for col, (val, label) in zip(cols, kpis):
@@ -188,7 +188,7 @@ def page_home() -> None:
 def page_gallery() -> None:
     st.markdown('<p class="section-header">Projects Gallery</p>', unsafe_allow_html=True)
     st.markdown(
-        '<p class="section-sub">Browse, filter, and explore all 16 projects</p>',
+        '<p class="section-sub">Browse, filter, and explore all 32 projects</p>',
         unsafe_allow_html=True,
     )
 
@@ -495,9 +495,9 @@ def page_about() -> None:
 
     st.markdown(
         """
-        This portfolio contains **16 end-to-end machine learning and data
-        science projects** built entirely on
-        [Calgary Open Data](https://data.calgary.ca/). Each project includes
+        This portfolio contains **32 end-to-end machine learning and data
+        science projects** built on
+        [Calgary Open Data](https://data.calgary.ca/) and [Alberta ODAA](https://www.opendataareas.ca/). Each project includes
         a fully interactive Streamlit application, reproducible Jupyter
         notebooks, trained models, and documentation.
 
