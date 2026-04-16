@@ -1,0 +1,29 @@
+project:
+  number: 31
+  title: "Economic Impact Dashboard"
+  version: "1.0.0"
+
+data:
+  source: "Open Data Areas Alberta (ODAA) + Alberta Government"
+  environmental:
+    - "ndvi"
+    - "land_surface_temperature"
+    - "fire_frequency"
+    - "precipitation"
+    - "deforestation_rate"
+  economic:
+    - "regional_gdp"
+    - "property_values"
+    - "employment_rate"
+    - "business_registrations"
+    - "agricultural_output"
+    - "tourism_revenue"
+    - "insurance_claims"
+
+model:
+  type: "panel_regression"
+  random_state: 42
+
+app:
+  title: "Economic Impact Dashboard"
+  port: 8505

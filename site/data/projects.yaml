@@ -1,0 +1,459 @@
+- number: 1
+  title: "Building Permit Cost Predictor"
+  tagline: "Predict construction costs from permit features"
+  description: >
+    Predicts construction project costs using Calgary's 484K+ building
+    permit records dating back to 1999. Features interactive cost
+    estimation, community-level benchmarks, and construction trend
+    analysis. Demonstrates regression techniques with extensive feature
+    engineering.
+  categories:
+    - Regression
+  tech_stack:
+    - XGBoost
+    - Random Forest
+    - Ridge Regression
+    - Plotly
+    - Streamlit
+  dataset: "Building Permits"
+  dataset_size: "484K+ records"
+  folder: "project_01_building_permit_cost_predictor"
+  streamlit_url: "https://calgary-building-permit-cost-predictor.streamlit.app/"
+  launcher_label: "Estimate Costs"
+  launcher_type: "regression"
+
+- number: 2
+  title: "Community Crime Classifier"
+  tagline: "Classify and analyze crime patterns across communities"
+  description: >
+    Analyzes 77K+ crime records across Calgary communities, integrating
+    demographic data to identify patterns and risk factors. Interactive
+    community risk dashboard with temporal trend analysis and crime
+    category prediction.
+  categories:
+    - Classification
+  tech_stack:
+    - Gradient Boosting
+    - Logistic Regression
+    - Plotly
+    - Streamlit
+  dataset: "Community Crime Statistics"
+  dataset_size: "77K+ records"
+  folder: "project_02_community_crime_classifier"
+  streamlit_url: "https://calgary-community-crime-classifier.streamlit.app/"
+  launcher_label: "Classify Crime"
+  launcher_type: "classification"
+
+- number: 3
+  title: "Traffic Incident Hotspot Analyzer"
+  tagline: "Spatial clustering and temporal analysis of traffic incidents"
+  description: >
+    Combines spatial clustering with temporal analysis on 60K+ traffic
+    incidents. Identifies dangerous intersections, peak incident times,
+    and predicts incident likelihood. Features animated heatmaps and
+    risk scoring.
+  categories:
+    - Clustering
+    - Classification
+    - Spatial Analysis
+  tech_stack:
+    - DBSCAN
+    - K-Means
+    - Classification
+    - Plotly
+    - Streamlit
+  dataset: "Traffic Incidents"
+  dataset_size: "60K+ records"
+  folder: "project_03_traffic_incident_hotspots"
+  streamlit_url: "https://calgary-traffic-incident-hotspots.streamlit.app/"
+  launcher_label: "Map Hotspots"
+  launcher_type: "clustering"
+
+- number: 4
+  title: "River Flow Forecasting"
+  tagline: "Forecast Bow River levels for flood risk monitoring"
+  description: >
+    Processes 9.5M+ river flow measurements at 5-minute intervals to
+    forecast water levels. Implements LSTM, Prophet, and ARIMA models
+    with flood threshold alerts. Critical application given Calgary's
+    2013 flood history.
+  categories:
+    - Time Series
+  tech_stack:
+    - LSTM
+    - Prophet
+    - ARIMA
+    - TensorFlow
+    - Plotly
+    - Streamlit
+  dataset: "River Flow Rates"
+  dataset_size: "9.5M+ records"
+  folder: "project_04_river_flow_forecasting"
+  streamlit_url: "https://calgary-river-flow-forecasting.streamlit.app/"
+  launcher_label: "Forecast Flow"
+  launcher_type: "timeseries"
+
+- number: 5
+  title: "Shelter Occupancy Predictor"
+  tagline: "Predict emergency shelter demand"
+  description: >
+    Forecasts shelter demand using 83K+ daily occupancy records across
+    Calgary's shelter network. Enables proactive resource allocation
+    with seasonal pattern analysis and capacity utilization tracking.
+  categories:
+    - Time Series
+    - Regression
+  tech_stack:
+    - Prophet
+    - XGBoost
+    - Time Series
+    - Plotly
+    - Streamlit
+  dataset: "Shelter Occupancy"
+  dataset_size: "83K+ records"
+  folder: "project_05_shelter_occupancy_predictor"
+  streamlit_url: "https://calgary-shelter-occupancy-predictor.streamlit.app/"
+  launcher_label: "Predict Demand"
+  launcher_type: "timeseries"
+
+- number: 6
+  title: "Neighborhood Segmentation"
+  tagline: "Cluster Calgary communities into livability profiles"
+  description: >
+    Integrates census, crime, business, and housing data to segment
+    200+ communities into livability clusters. Interactive community
+    comparison tool with radar charts and PCA-based cluster
+    visualization.
+  categories:
+    - Clustering
+    - Dimensionality Reduction
+  tech_stack:
+    - K-Means
+    - PCA
+    - Hierarchical Clustering
+    - Plotly
+    - Streamlit
+  dataset: "Census & Community Data"
+  dataset_size: "200+ communities"
+  folder: "project_06_neighborhood_segmentation"
+  streamlit_url: "https://calgary-neighborhood-segmentation.streamlit.app/"
+  launcher_label: "Explore Clusters"
+  launcher_type: "clustering"
+
+- number: 7
+  title: "Dev Permit Approval Predictor"
+  tagline: "Predict development permit approval likelihood"
+  description: >
+    Leverages 189K+ development permit records with NLP on project
+    descriptions to predict approval probability. Helps developers
+    assess feasibility before investing in detailed applications.
+  categories:
+    - Classification
+    - NLP
+  tech_stack:
+    - TF-IDF
+    - Gradient Boosting
+    - NLP
+    - Plotly
+    - Streamlit
+  dataset: "Development Permits"
+  dataset_size: "189K+ records"
+  folder: "project_07_dev_permit_approval_predictor"
+  streamlit_url: "https://calgary-dev-permit-approval-predictor.streamlit.app/"
+  launcher_label: "Check Approval"
+  launcher_type: "nlp"
+
+- number: 8
+  title: "Solar Energy Forecaster"
+  tagline: "Forecast solar PV production across city facilities"
+  description: >
+    Forecasts monthly solar PV output across city facilities. Features
+    site-by-site performance benchmarking, seasonal production patterns,
+    and ROI analysis to support Calgary's renewable energy strategy.
+  categories:
+    - Time Series
+    - Regression
+  tech_stack:
+    - Seasonal Decomposition
+    - Regression
+    - Plotly
+    - Streamlit
+  dataset: "Solar Energy Production"
+  dataset_size: "City facility records"
+  folder: "project_08_solar_energy_forecaster"
+  streamlit_url: "https://calgary-solar-energy-forecaster.streamlit.app/"
+  launcher_label: "Forecast Solar"
+  launcher_type: "timeseries"
+
+- number: 9
+  title: "Business Survival Recommender"
+  tagline: "Analyze business longevity and recommend locations"
+  description: >
+    Applies survival analysis to 22K+ business licenses to identify
+    factors driving business longevity. Recommends optimal community
+    locations based on business type, demographics, and competitive
+    landscape.
+  categories:
+    - Survival Analysis
+    - Recommendation
+  tech_stack:
+    - Kaplan-Meier
+    - Cox PH
+    - lifelines
+    - Plotly
+    - Streamlit
+  dataset: "Business Licenses"
+  dataset_size: "22K+ records"
+  folder: "project_09_business_survival_recommender"
+  streamlit_url: "https://calgary-business-survival-recommender.streamlit.app/"
+  launcher_label: "Find Locations"
+  launcher_type: "survival"
+
+- number: 10
+  title: "Water Quality Anomaly Detection"
+  tagline: "Detect anomalies in watershed water quality data"
+  description: >
+    Monitors multi-parameter water quality across Calgary's watershed
+    using anomaly detection. Features real-time alerts, parameter
+    correlation analysis, and historical anomaly tracking for
+    environmental protection.
+  categories:
+    - Anomaly Detection
+  tech_stack:
+    - Isolation Forest
+    - LOF
+    - Statistical Methods
+    - Plotly
+    - Streamlit
+  dataset: "Water Quality Data"
+  dataset_size: "Multi-site records"
+  folder: "project_10_water_quality_anomaly_detection"
+  streamlit_url: "https://calgary-water-quality-anomaly-detection.streamlit.app/"
+  launcher_label: "Detect Anomalies"
+  launcher_type: "anomaly"
+
+- number: 11
+  title: "311 Service Request Router"
+  tagline: "Auto-route citizen requests to the right city department"
+  description: >
+    Applies NLP text classification to Calgary's 311 service requests
+    to automatically predict department routing and estimate resolution
+    times. Features multi-label classification on request descriptions,
+    category trend analysis, and response-time benchmarking across
+    city departments.
+  categories:
+    - NLP
+    - Classification
+  tech_stack:
+    - TF-IDF
+    - BERT Embeddings
+    - Multi-label Classification
+    - scikit-learn
+    - Plotly
+    - Streamlit
+  dataset: "311 Service Requests"
+  dataset_size: "500K+ records"
+  folder: "project_11_311_service_request_router"
+  streamlit_url: "https://calgary-311-service-request-router.streamlit.app/"
+  launcher_label: "Route Requests"
+  launcher_type: "nlp"
+
+- number: 12
+  title: "Property Assessment Valuator"
+  tagline: "Estimate property values with explainable ML"
+  description: >
+    Predicts property assessment values across Calgary using geospatial
+    features, neighborhood characteristics, and property attributes.
+    Features SHAP-based model explainability showing exactly which
+    factors drive each valuation, community comparison tools, and
+    historical assessment trend analysis.
+  categories:
+    - Regression
+    - Explainability
+  tech_stack:
+    - XGBoost
+    - SHAP
+    - Geospatial Features
+    - Plotly
+    - Streamlit
+  dataset: "Property Assessments"
+  dataset_size: "500K+ properties"
+  folder: "project_12_property_assessment_valuator"
+  streamlit_url: "https://calgary-property-assessment-valuator.streamlit.app/"
+  launcher_label: "Value Property"
+  launcher_type: "regression"
+
+- number: 13
+  title: "Transit Ridership Optimizer"
+  tagline: "Forecast ridership and optimize transit schedules"
+  description: >
+    Analyzes Calgary Transit ridership data across routes and stops
+    using graph network analysis and demand forecasting. Models the
+    transit network as a graph to identify bottlenecks, predict
+    ridership by route and time of day, and simulate schedule
+    optimization scenarios for improved service coverage.
+  categories:
+    - Time Series
+    - Network Analysis
+  tech_stack:
+    - NetworkX
+    - Prophet
+    - Graph Analysis
+    - Optimization
+    - Plotly
+    - Streamlit
+  dataset: "Transit Ridership"
+  dataset_size: "Route & stop records"
+  folder: "project_13_transit_ridership_optimizer"
+  streamlit_url: "https://calgary-transit-ridership-optimizer.streamlit.app/"
+  launcher_label: "Optimize Routes"
+  launcher_type: "clustering"
+
+- number: 27
+  title: "Wildfire Risk Forecaster"
+  tagline: "Predict wildfire probability from remote sensing and weather data"
+  description: >
+    Combines satellite imagery, vegetation indices (NDVI/EVI), and weather
+    data from ODAA to build spatial risk models predicting wildfire probability
+    across Alberta's six monitored regions. Features Prophet time-series
+    forecasting and SHAP explainability.
+  categories:
+    - Time Series
+    - Classification
+    - Spatial Analysis
+  tech_stack:
+    - XGBoost
+    - Prophet
+    - GeoPandas
+    - Rasterio
+    - SHAP
+    - Streamlit
+  dataset: "ODAA Remote Sensing + Weather"
+  dataset_size: "6 regions, GeoTIFF + CSV"
+  folder: "project_27_wildfire_risk_forecaster"
+  streamlit_url: ""
+  launcher_label: "Assess Risk"
+  launcher_type: "classification"
+
+- number: 28
+  title: "Environmental Anomaly Detector"
+  tagline: "Unsupervised detection of pollution and deforestation events"
+  description: >
+    Builds an ensemble anomaly detection system on ODAA environmental
+    sensor data using Isolation Forest, LOF, and LSTM Autoencoders.
+    Flags pollution spikes, deforestation, and abnormal land surface
+    temperature patterns across 109 datasets in six regions.
+  categories:
+    - Anomaly Detection
+  tech_stack:
+    - Isolation Forest
+    - LSTM Autoencoder
+    - LOF
+    - GeoPandas
+    - Rasterio
+    - Streamlit
+  dataset: "ODAA Environmental Sensors"
+  dataset_size: "109 datasets, 6 regions"
+  folder: "project_28_environmental_anomaly_detector"
+  streamlit_url: ""
+  launcher_label: "Detect Anomalies"
+  launcher_type: "anomaly"
+
+- number: 29
+  title: "Land Use Segmentation & Clustering"
+  tagline: "Unsupervised clustering of Alberta land into use profiles"
+  description: >
+    Applies K-Means, DBSCAN, and hierarchical clustering to geospatial
+    and environmental features from six ODAA regions, segmenting the
+    landscape into seven distinct land-use profiles. Includes PCA
+    dimensionality reduction and silhouette analysis.
+  categories:
+    - Clustering
+    - Dimensionality Reduction
+    - Spatial Analysis
+  tech_stack:
+    - K-Means
+    - DBSCAN
+    - PCA
+    - GeoPandas
+    - Plotly
+    - Streamlit
+  dataset: "ODAA Shapefiles + Rasters"
+  dataset_size: "48 shapefiles, 6 regions"
+  folder: "project_29_land_use_segmentation"
+  streamlit_url: ""
+  launcher_label: "Explore Segments"
+  launcher_type: "clustering"
+
+- number: 30
+  title: "Satellite Image Classifier"
+  tagline: "CNN land cover classification from Maxar satellite imagery"
+  description: >
+    Fine-tunes a ResNet-50 CNN on Maxar/DigitalGlobe GeoTIFF tiles
+    from ODAA to classify image patches into six land cover categories.
+    Includes transfer learning, data augmentation, and Grad-CAM
+    attention maps for model interpretability.
+  categories:
+    - Classification
+  tech_stack:
+    - PyTorch
+    - ResNet-50
+    - Rasterio
+    - Grad-CAM
+    - Plotly
+    - Streamlit
+  dataset: "ODAA Maxar GeoTIFF"
+  dataset_size: "Satellite tiles, 6 regions"
+  folder: "project_30_satellite_image_classifier"
+  streamlit_url: ""
+  launcher_label: "Classify Images"
+  launcher_type: "classification"
+
+- number: 31
+  title: "Economic Impact Dashboard"
+  tagline: "Quantify how environmental changes affect regional economies"
+  description: >
+    Merges ODAA environmental datasets with Alberta socioeconomic
+    indicators to model how land degradation, wildfire, and vegetation
+    loss correlate with GDP, property values, and employment. Features
+    what-if simulation and auto-generated executive summaries.
+  categories:
+    - Regression
+    - Spatial Analysis
+  tech_stack:
+    - Ridge Regression
+    - Panel Models
+    - GeoPandas
+    - Plotly
+    - Streamlit
+  dataset: "ODAA + Alberta Economic Data"
+  dataset_size: "Environmental + economic, 6 regions"
+  folder: "project_31_economic_impact_dashboard"
+  streamlit_url: ""
+  launcher_label: "Explore Impact"
+  launcher_type: "regression"
+
+- number: 32
+  title: "Site Suitability Recommender"
+  tagline: "Multi-criteria recommender for optimal land-use allocation"
+  description: >
+    Builds a multi-criteria decision analysis (MCDA) recommender on
+    ODAA geospatial data, scoring grid cells for development,
+    agriculture, or conservation suitability based on user-defined
+    weights for terrain, water, soil, fire risk, and infrastructure.
+  categories:
+    - Recommendation
+    - Spatial Analysis
+  tech_stack:
+    - MCDA / AHP
+    - GeoPandas
+    - scikit-learn
+    - Folium
+    - Plotly
+    - Streamlit
+  dataset: "ODAA Multi-layer Geospatial"
+  dataset_size: "8 criteria layers, 6 regions"
+  folder: "project_32_site_suitability_recommender"
+  streamlit_url: ""
+  launcher_label: "Find Sites"
+  launcher_type: "recommendation"

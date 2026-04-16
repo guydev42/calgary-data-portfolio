@@ -1,0 +1,31 @@
+project:
+  number: 28
+  title: "Environmental Anomaly Detector"
+  version: "1.0.0"
+
+data:
+  source: "Open Data Areas Alberta (ODAA)"
+  provider: "Altalis Ltd."
+  total_datasets: 109
+  regions:
+    - "Beaver Hills"
+    - "Fort McMurray"
+    - "Fox Creek"
+    - "RMH Sylvan"
+    - "Taber"
+    - "Utikuma Lake"
+
+model:
+  methods:
+    - "isolation_forest"
+    - "local_outlier_factor"
+    - "lstm_autoencoder"
+  contamination: 0.05
+  sequence_length: 30
+  lstm_hidden_dim: 64
+  reconstruction_threshold: 2.0
+  random_state: 42
+
+app:
+  title: "Environmental Anomaly Detector"
+  port: 8502

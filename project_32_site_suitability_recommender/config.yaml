@@ -1,0 +1,26 @@
+project:
+  number: 32
+  title: "Site Suitability Recommender"
+  version: "1.0.0"
+
+data:
+  source: "Open Data Areas Alberta (ODAA)"
+  provider: "Altalis Ltd."
+  criteria:
+    - "elevation"
+    - "slope"
+    - "soil_classification"
+    - "water_proximity"
+    - "road_distance"
+    - "vegetation_health"
+    - "fire_risk"
+    - "land_cover_type"
+
+model:
+  method: "weighted_linear_combination"
+  weighting: "ahp"
+  random_state: 42
+
+app:
+  title: "Site Suitability Recommender"
+  port: 8506

@@ -1,0 +1,41 @@
+project:
+  number: 27
+  title: "Wildfire Risk Forecaster"
+  version: "1.0.0"
+
+data:
+  source: "Open Data Areas Alberta (ODAA)"
+  provider: "Altalis Ltd."
+  regions:
+    - "Beaver Hills"
+    - "Fort McMurray"
+    - "Fox Creek"
+    - "RMH Sylvan"
+    - "Taber"
+    - "Utikuma Lake"
+  formats:
+    - "GeoTIFF"
+    - "Shapefile"
+    - "CSV"
+
+model:
+  classifier: "XGBoost"
+  forecaster: "Prophet"
+  target: "fire_risk_binary"
+  features:
+    - "ndvi"
+    - "evi"
+    - "temperature_max"
+    - "humidity_min"
+    - "wind_speed"
+    - "precipitation"
+    - "elevation"
+    - "slope"
+    - "land_cover_type"
+    - "days_since_rain"
+  test_size: 0.2
+  random_state: 42
+
+app:
+  title: "Wildfire Risk Forecaster"
+  port: 8501

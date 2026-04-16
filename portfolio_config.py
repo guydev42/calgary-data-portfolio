@@ -440,6 +440,164 @@ PROJECTS = [
             "Schedule optimization simulation for coverage improvement",
         ],
     },
+    {
+        "number": 27,
+        "title": "Wildfire Risk Forecaster",
+        "tagline": "Predict wildfire probability from remote sensing and weather data",
+        "description": (
+            "Combines satellite imagery, vegetation indices (NDVI/EVI), and weather "
+            "data from ODAA to build spatial risk models predicting wildfire "
+            "probability across Alberta's six monitored regions. Features Prophet "
+            "time-series forecasting and SHAP explainability."
+        ),
+        "categories": ["Time Series", "Classification", "Spatial Analysis"],
+        "tech_stack": ["XGBoost", "Prophet", "GeoPandas", "Rasterio", "SHAP", "Streamlit"],
+        "dataset": "ODAA Remote Sensing + Weather",
+        "dataset_size": "6 regions, GeoTIFF + CSV",
+        "key_metric": "AUC-ROC with XGBoost",
+        "folder": "project_27_wildfire_risk_forecaster",
+        "streamlit_url": "",
+        "pages": ["Risk Heatmap", "Vegetation Analysis", "Forecast Engine", "Model Explainability"],
+        "methodology": [
+            "Ingest GeoTIFF and shapefiles from ODAA",
+            "Compute NDVI/EVI vegetation indices",
+            "Merge weather and fire history data",
+            "Train XGBoost spatial risk classifier",
+            "Forecast seasonal risk with Prophet",
+        ],
+    },
+    {
+        "number": 28,
+        "title": "Environmental Anomaly Detector",
+        "tagline": "Unsupervised detection of pollution and deforestation events",
+        "description": (
+            "Builds an ensemble anomaly detection system on ODAA environmental "
+            "sensor data using Isolation Forest, LOF, and LSTM Autoencoders. "
+            "Flags pollution spikes, deforestation, and abnormal land surface "
+            "temperature patterns across 109 datasets in six regions."
+        ),
+        "categories": ["Anomaly Detection"],
+        "tech_stack": ["Isolation Forest", "LSTM Autoencoder", "LOF", "GeoPandas", "Rasterio", "Streamlit"],
+        "dataset": "ODAA Environmental Sensors",
+        "dataset_size": "109 datasets, 6 regions",
+        "key_metric": "Precision at 5% contamination rate",
+        "folder": "project_28_environmental_anomaly_detector",
+        "streamlit_url": "",
+        "pages": ["Anomaly Timeline", "Spatial Alerts", "Sensor Deep-dive", "Model Comparison"],
+        "methodology": [
+            "Ingest raster and vector data from ODAA",
+            "Extract environmental time series per cell",
+            "Apply SPC charts as first-pass filter",
+            "Train Isolation Forest and LOF models",
+            "Build LSTM Autoencoder for sequences",
+            "Ensemble vote and deploy dashboard",
+        ],
+    },
+    {
+        "number": 29,
+        "title": "Land Use Segmentation & Clustering",
+        "tagline": "Unsupervised clustering of Alberta land into use profiles",
+        "description": (
+            "Applies K-Means, DBSCAN, and hierarchical clustering to geospatial "
+            "and environmental features from six ODAA regions, segmenting the "
+            "landscape into seven distinct land-use profiles. Includes PCA "
+            "dimensionality reduction and silhouette analysis."
+        ),
+        "categories": ["Clustering", "Dimensionality Reduction", "Spatial Analysis"],
+        "tech_stack": ["K-Means", "DBSCAN", "PCA", "GeoPandas", "Plotly", "Streamlit"],
+        "dataset": "ODAA Shapefiles + Rasters",
+        "dataset_size": "48 shapefiles, 6 regions",
+        "key_metric": "Silhouette score (K-Means, k=7)",
+        "folder": "project_29_land_use_segmentation",
+        "streamlit_url": "",
+        "pages": ["Cluster Map", "Feature Explorer", "Dimensionality Reduction", "Cluster Diagnostics"],
+        "methodology": [
+            "Load shapefiles and rasters from ODAA",
+            "Extract terrain and vegetation features",
+            "Standardize and reduce with PCA",
+            "Compare K-Means, DBSCAN, hierarchical",
+            "Select optimal k via silhouette analysis",
+        ],
+    },
+    {
+        "number": 30,
+        "title": "Satellite Image Classifier",
+        "tagline": "CNN land cover classification from Maxar satellite imagery",
+        "description": (
+            "Fine-tunes a ResNet-50 CNN on Maxar/DigitalGlobe GeoTIFF tiles "
+            "from ODAA to classify image patches into six land cover categories. "
+            "Includes transfer learning, data augmentation, and Grad-CAM "
+            "attention maps for model interpretability."
+        ),
+        "categories": ["Classification"],
+        "tech_stack": ["PyTorch", "ResNet-50", "Rasterio", "Grad-CAM", "Plotly", "Streamlit"],
+        "dataset": "ODAA Maxar GeoTIFF",
+        "dataset_size": "Satellite tiles, 6 regions",
+        "key_metric": "Top-1 accuracy (ResNet-50)",
+        "folder": "project_30_satellite_image_classifier",
+        "streamlit_url": "",
+        "pages": ["Image Explorer", "Classification Map", "Confusion Matrix", "Grad-CAM Attention"],
+        "methodology": [
+            "Extract tiles from Maxar GeoTIFFs",
+            "Band selection and normalization",
+            "Data augmentation (rotations, flips)",
+            "Fine-tune ResNet-50 with transfer learning",
+            "Evaluate with confusion matrix and F1",
+            "Generate Grad-CAM attention maps",
+        ],
+    },
+    {
+        "number": 31,
+        "title": "Economic Impact Dashboard",
+        "tagline": "Quantify how environmental changes affect regional economies",
+        "description": (
+            "Merges ODAA environmental datasets with Alberta socioeconomic "
+            "indicators to model how land degradation, wildfire, and vegetation "
+            "loss correlate with GDP, property values, and employment. Features "
+            "what-if simulation and auto-generated executive summaries."
+        ),
+        "categories": ["Regression", "Spatial Analysis"],
+        "tech_stack": ["Ridge Regression", "Panel Models", "GeoPandas", "Plotly", "Streamlit"],
+        "dataset": "ODAA + Alberta Economic Data",
+        "dataset_size": "Environmental + economic, 6 regions",
+        "key_metric": "R-squared (economic impact model)",
+        "folder": "project_31_economic_impact_dashboard",
+        "streamlit_url": "",
+        "pages": ["Regional Overview", "Correlation Explorer", "Impact Simulator", "Executive Summary"],
+        "methodology": [
+            "Merge environmental and economic datasets",
+            "Build regional panel regression models",
+            "Quantify environment-to-economy linkages",
+            "Create what-if impact simulator",
+            "Auto-generate executive narratives",
+        ],
+    },
+    {
+        "number": 32,
+        "title": "Site Suitability Recommender",
+        "tagline": "Multi-criteria recommender for optimal land-use allocation",
+        "description": (
+            "Builds a multi-criteria decision analysis (MCDA) recommender on "
+            "ODAA geospatial data, scoring grid cells for development, "
+            "agriculture, or conservation suitability based on user-defined "
+            "weights for terrain, water, soil, fire risk, and infrastructure."
+        ),
+        "categories": ["Recommendation", "Spatial Analysis"],
+        "tech_stack": ["MCDA / AHP", "GeoPandas", "scikit-learn", "Folium", "Plotly", "Streamlit"],
+        "dataset": "ODAA Multi-layer Geospatial",
+        "dataset_size": "8 criteria layers, 6 regions",
+        "key_metric": "NDCG@10 (recommendation quality)",
+        "folder": "project_32_site_suitability_recommender",
+        "streamlit_url": "",
+        "pages": ["Criteria Builder", "Suitability Map", "Top-k Sites", "Scenario Comparison"],
+        "methodology": [
+            "Assemble multi-layer geospatial features",
+            "Normalize criteria to 0-1 scale",
+            "Implement AHP pairwise weighting",
+            "Score cells via weighted linear combination",
+            "Validate with NDCG ranking metrics",
+        ],
+    },
 ]
 
 # ── Skills matrix: technique → list of project numbers that use it ──────────

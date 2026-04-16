@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23162240'/><path d='M8 22 L12 12 L16 18 L20 8 L24 14' stroke='%23E8C230' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='12' cy='12' r='2' fill='%233B6FD4'/><circle cx='16' cy='18' r='2' fill='%233B6FD4'/><circle cx='20' cy='8' r='2' fill='%233B6FD4'/></svg>">
+<meta property="og:image" content="https://capsule-render.vercel.app/api?type=rect&color=162240&height=200&text=Calgary%20Data%20Portfolio&fontSize=30&fontColor=E8C230&desc=Ola%20Kowale&descColor=3B6FD4">
+<title>Economic impact dashboard - Alberta open data portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}:root{--bg:#162240;--bg-elevated:#1D2D52;--bg-card:#243868;--border:#385588;--border-hover:#4A6CAA;--text:#EDE9E2;--text-muted:#A0A8BC;--text-dim:#6A7590;--navy:#3B6FD4;--navy-bright:#5588EE;--gold:#E8C230;--gold-dim:rgba(232,194,48,0.18)}body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;line-height:1.6;overflow-x:hidden}body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:128px 128px}a{color:var(--navy-bright);text-decoration:none;transition:color .2s}a:hover{color:var(--gold)}.container{max-width:960px;margin:0 auto;padding:0 24px}nav{padding:20px 0;border-bottom:1px solid var(--border)}nav .container{display:flex;align-items:center;justify-content:space-between}.nav-back{font-family:'IBM Plex Mono',monospace;font-size:.85rem;color:var(--text-muted);display:flex;align-items:center;gap:6px}.nav-back:hover{color:var(--gold)}.nav-label{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text-dim);letter-spacing:.06em;text-transform:uppercase}.hero{padding:72px 0 56px;text-align:center}.project-num{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(2.2rem,5vw,3.4rem);font-weight:400;line-height:1.15;margin-bottom:20px}.hero-desc{max-width:640px;margin:0 auto 28px;color:var(--text-muted);font-size:1.05rem;line-height:1.65}.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:32px}.tag{font-family:'IBM Plex Mono',monospace;font-size:.72rem;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--text-muted);background:var(--bg-elevated)}.tag.gold{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}.hero-metric{display:inline-flex;align-items:baseline;gap:10px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;padding:14px 28px}.hero-metric .val{font-family:'Instrument Serif',serif;font-size:2.4rem;color:var(--gold)}.hero-metric .label{font-size:.9rem;color:var(--text-muted)}.section{padding:56px 0}.section-label{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}.section-title{font-family:'Instrument Serif',serif;font-size:1.8rem;font-weight:400;margin-bottom:32px}.app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}.app-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color .25s,transform .25s}.app-card:hover{border-color:var(--border-hover);transform:translateY(-3px)}.app-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:1rem}.app-card-icon.navy{background:rgba(59,111,212,.15);color:var(--navy-bright)}.app-card-icon.gold{background:var(--gold-dim);color:var(--gold)}.app-card h3{font-family:'IBM Plex Sans',sans-serif;font-size:.95rem;font-weight:600;margin-bottom:6px}.app-card p{font-size:.82rem;color:var(--text-muted);line-height:1.5}.mockup-bar{height:4px;border-radius:2px;margin-top:14px;background:linear-gradient(90deg,var(--navy) 0%,var(--navy-bright) 60%,transparent 100%)}.mockup-bar.gold{background:linear-gradient(90deg,var(--gold) 0%,rgba(232,194,48,.3) 80%,transparent 100%)}.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.metric-card{background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;transition:border-color .25s}.metric-card:hover{border-color:var(--border-hover)}.metric-val{font-family:'Instrument Serif',serif;font-size:2.2rem;color:var(--gold);margin-bottom:4px}.metric-label{font-size:.85rem;color:var(--text-muted)}.metric-sub{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--text-dim);margin-top:4px}.method-content{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}.method-text{color:var(--text-muted);font-size:.95rem;line-height:1.7}.pipeline{display:flex;flex-direction:column;gap:0}.pipe-step{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--text-muted)}.pipe-step:first-child{border-radius:10px 10px 0 0}.pipe-step:last-child{border-radius:0 0 10px 10px}.pipe-step .num{color:var(--gold);font-weight:500;min-width:20px}.links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.link-card{display:flex;align-items:center;gap:12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:10px;padding:14px 18px;transition:border-color .25s,transform .25s;color:var(--text)}.link-card:hover{border-color:var(--gold);transform:translateY(-2px);color:var(--gold)}.link-card .ico{font-size:1.1rem;min-width:20px;text-align:center}.link-card .lbl{font-size:.88rem;font-weight:500}.link-card .sub{font-size:.72rem;color:var(--text-dim)}footer{border-top:1px solid var(--border);padding:32px 0;margin-top:40px;text-align:center}footer p{font-size:.8rem;color:var(--text-dim)}.fadeUp{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}.fadeUp.visible{opacity:1;transform:translateY(0)}@media(max-width:640px){.method-content{grid-template-columns:1fr}.hero{padding:48px 0 36px}.section{padding:40px 0}}
+</style>
+</head>
+<body>
+
+<nav><div class="container"><a href="https://guydev42.github.io/calgary-data-portfolio/" class="nav-back">&larr; Back to portfolio</a><span class="nav-label">Project 31 of 32</span></div></nav>
+
+<section class="hero"><div class="container"><div class="fadeUp">
+  <p class="project-num">Project 31</p>
+  <h1>Economic impact dashboard</h1>
+  <p class="hero-desc">Environmental changes have direct economic consequences for Alberta's resource-dependent communities. This project merges ODAA's environmental and socioeconomic datasets to quantify how land degradation, wildfire events, and vegetation loss correlate with economic indicators like property values, employment, and business activity across six regions.</p>
+  <div class="tags">
+    <span class="tag">Regression</span>
+    <span class="tag">Plotly</span>
+    <span class="tag">GeoPandas</span>
+    <span class="tag">Streamlit</span>
+    <span class="tag">Business storytelling</span>
+    <span class="tag gold">Env + economic data</span>
+  </div>
+  <div class="hero-metric">
+    <span class="val">0.84</span>
+    <span class="label">R-squared (economic impact model)</span>
+  </div>
+</div></div></section>
+
+<section class="section"><div class="container"><div class="fadeUp">
+  <p class="section-label">Interactive app</p>
+  <h2 class="section-title">Streamlit dashboard pages</h2>
+  <div class="app-grid">
+    <div class="app-card"><div class="app-card-icon navy">01</div><h3>Regional overview</h3><p>KPI cards and trend lines showing economic health indicators per ODAA region over time</p><div class="mockup-bar"></div></div>
+    <div class="app-card"><div class="app-card-icon navy">02</div><h3>Correlation explorer</h3><p>Interactive scatter matrix linking environmental variables to economic outcomes</p><div class="mockup-bar"></div></div>
+    <div class="app-card"><div class="app-card-icon gold">03</div><h3>Impact simulator</h3><p>What-if scenarios: simulate how changes in NDVI or fire frequency affect local GDP</p><div class="mockup-bar gold"></div></div>
+    <div class="app-card"><div class="app-card-icon gold">04</div><h3>Executive summary</h3><p>Auto-generated business narrative with key findings, charts, and policy recommendations</p><div class="mockup-bar gold"></div></div>
+  </div>
+</div></div></section>
+
+<section class="section"><div class="container"><div class="fadeUp">
+  <p class="section-label">Performance</p>
+  <h2 class="section-title">Key results</h2>
+  <div class="metrics-grid">
+    <div class="metric-card"><div class="metric-val">0.84</div><div class="metric-label">R-squared</div><div class="metric-sub">Environmental impact on GDP</div></div>
+    <div class="metric-card"><div class="metric-val">6</div><div class="metric-label">Regions analyzed</div><div class="metric-sub">Cross-domain dataset merge</div></div>
+    <div class="metric-card"><div class="metric-val">12</div><div class="metric-label">KPI indicators</div><div class="metric-sub">Economic and environmental</div></div>
+  </div>
+</div></div></section>
+
+<section class="section"><div class="container"><div class="fadeUp">
+  <p class="section-label">Approach</p>
+  <h2 class="section-title">Methodology</h2>
+  <div class="method-content">
+    <div class="method-text">
+      <p>Merged ODAA environmental datasets (NDVI, land surface temperature, fire frequency, precipitation) with socioeconomic indicators (property assessments, employment rates, business registrations) from Alberta government sources. Built regional panel regression models to quantify how environmental degradation impacts economic output. Created an interactive what-if simulator that lets stakeholders explore counterfactual scenarios. The executive summary page auto-generates a narrative report with key findings translated into plain-language business recommendations.</p>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step"><span class="num">01</span> Merge environmental and economic datasets</div>
+      <div class="pipe-step"><span class="num">02</span> Build regional panel regression models</div>
+      <div class="pipe-step"><span class="num">03</span> Quantify environment-to-economy linkages</div>
+      <div class="pipe-step"><span class="num">04</span> Create what-if impact simulator</div>
+      <div class="pipe-step"><span class="num">05</span> Auto-generate executive narratives</div>
+      <div class="pipe-step"><span class="num">06</span> Deploy interactive Streamlit dashboard</div>
+    </div>
+  </div>
+</div></div></section>
+
+<section class="section"><div class="container"><div class="fadeUp">
+  <p class="section-label">Resources</p>
+  <h2 class="section-title">Links</h2>
+  <div class="links-grid">
+    <a href="https://github.com/guydev42/economic-impact-dashboard" class="link-card" target="_blank"><span class="ico">&lt;/&gt;</span><div><div class="lbl">GitHub repository</div><div class="sub">Source code and notebooks</div></div></a>
+    <a href="https://github.com/guydev42/economic-impact-dashboard/tree/main/notebooks" target="_blank" rel="noopener" class="link-card"><span class="ico">&#9881;</span><div><div class="lbl">Jupyter notebooks</div><div class="sub">Analysis and modeling</div></div></a>
+    <a href="https://guydev42.github.io/calgary-data-portfolio/" class="link-card"><span class="ico">&#9632;</span><div><div class="lbl">Full portfolio</div><div class="sub">All projects</div></div></a>
+    <a href="https://www.opendataareas.ca/#data" class="link-card" target="_blank"><span class="ico">&#9654;</span><div><div class="lbl">ODAA data source</div><div class="sub">Open Data Areas Alberta</div></div></a>
+  </div>
+</div></div></section>
+
+<footer><div class="container"><p>Part of the <a href="https://guydev42.github.io/calgary-data-portfolio/" style="color:var(--gold,#E8C230);text-decoration:none;border-bottom:1px solid">Calgary data portfolio</a>. Data: Open Data Areas Alberta (ODAA) + Alberta Government economic data.</p></div></footer>
+
+<script>document.addEventListener('DOMContentLoaded',()=>{const els=document.querySelectorAll('.fadeUp');const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.12});els.forEach(el=>obs.observe(el))});</script>
+</body>
+</html>

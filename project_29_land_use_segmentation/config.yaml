@@ -1,0 +1,37 @@
+project:
+  number: 29
+  title: "Land Use Segmentation & Clustering"
+  version: "1.0.0"
+
+data:
+  source: "Open Data Areas Alberta (ODAA)"
+  provider: "Altalis Ltd."
+  shapefiles: 48
+  regions:
+    - "Beaver Hills"
+    - "Fort McMurray"
+    - "Fox Creek"
+    - "RMH Sylvan"
+    - "Taber"
+    - "Utikuma Lake"
+
+model:
+  methods:
+    - "kmeans"
+    - "dbscan"
+    - "hierarchical"
+  optimal_k: 7
+  pca_components: 10
+  random_state: 42
+  features:
+    - "elevation"
+    - "slope"
+    - "ndvi"
+    - "land_cover_class"
+    - "soil_type"
+    - "water_proximity"
+    - "road_density"
+
+app:
+  title: "Land Use Segmentation"
+  port: 8503
